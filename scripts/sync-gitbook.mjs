@@ -78,24 +78,6 @@ const oldPlaceholderFiles = [
 	'wheels/silicone-wheel.md',
 ];
 
-const iconEmojiMap = {
-	'hand-wave': '👋',
-	gear: '⚙️',
-	link: '🔗',
-	gem: '💎',
-	'screwdriver-wrench': '🛠️',
-	futbol: '⚙️',
-	seal: '🔘',
-	'circle-0': '⭕',
-	'square-quarters': '◫',
-	chimney: '🏗️',
-	car: '🚗',
-	'truck-monster': '🛞',
-	rotate: '🔄',
-	circle: '⭕',
-	'sushi-roll': '🔘',
-};
-
 function run(command, args, cwd = root) {
 	const result = spawnSync(command, args, { cwd, encoding: 'utf8', stdio: 'pipe' });
 	if (result.status !== 0) {
@@ -314,6 +296,19 @@ function convertHtmlForMdx(markdown) {
 		.replace(/&(?!(?:[a-zA-Z]+|#\d+|#x[0-9a-fA-F]+);)/g, '&amp;');
 }
 
+function convertGlobeIcons(markdown) {
+	const globeIconPattern = '(?:\\u{1F310}|&#x1F310;|&#127760;)';
+	return markdown
+		.replace(
+			new RegExp(`<a([^>]*)>${globeIconPattern}</a>`, 'gu'),
+			'<a$1 className="nice-onshape-link" aria-label="Onshape"><span className="nice-onshape-icon" aria-hidden="true"></span></a>'
+		)
+		.replace(
+			new RegExp(`<td([^>]*)>${globeIconPattern}</td>`, 'gu'),
+			'<td$1><span className="nice-onshape-icon" aria-label="Onshape"></span></td>'
+		);
+}
+
 function escapeMdxTextExpressions(markdown) {
 	return markdown.replace(/[{}]/g, (char) => (char === '{' ? '&#123;' : '&#125;'));
 }
@@ -330,7 +325,7 @@ function buildFrontmatter(page, body) {
 		`title: ${escapeYaml(title)}`,
 		`description: ${escapeYaml(firstParagraph(body))}`,
 	];
-	if (page.emoji) lines.push(`emoji: ${escapeYaml(page.emoji)}`);
+	if (page.gitbookIcon) lines.push(`gitbookIcon: ${escapeYaml(page.gitbookIcon)}`);
 	if (page.template) lines.push(`template: ${escapeYaml(page.template)}`);
 	if (page.toc === false) lines.push('tableOfContents: false');
 	lines.push('---');
@@ -341,7 +336,7 @@ function transformMarkdown(source, page, assetMap) {
 	const icon = getFrontmatterValue(source, 'icon');
 	const normalizedPage = {
 		...page,
-		emoji: page.emoji ?? iconEmojiMap[icon] ?? undefined,
+		gitbookIcon: page.gitbookIcon ?? icon ?? undefined,
 	};
 	let body = stripFrontmatter(source);
 	body = removeFirstH1(body);
@@ -351,6 +346,7 @@ function transformMarkdown(source, page, assetMap) {
 	body = convertOldUrls(body);
 	body = convertCards(body);
 	body = convertHtmlForMdx(body);
+	body = convertGlobeIcons(body);
 	body = escapeMdxTextExpressions(body);
 	const imports = hasStarlightTabs(body) ? "import { Tabs, TabItem } from '@astrojs/starlight/components';\n\n" : '';
 	return `${buildFrontmatter(normalizedPage, body)}\n\n${imports}${body.trim()}\n`;

@@ -1,10 +1,12 @@
 ---
-const { title, emoji } = Astro.locals.starlightRoute.entry.data;
+import NiceIcon from './NiceIcon.astro';
+
+const { title, gitbookIcon } = Astro.locals.starlightRoute.entry.data;
 const pageTitleId = '_top';
 ---
 
 <h1 id={pageTitleId}>
-	{emoji && <span class="nice-title-emoji" aria-hidden="true">{emoji}</span>}
+	{gitbookIcon && <NiceIcon class="nice-title-icon" name={gitbookIcon} size="2.25rem" strokeWidth="1.75" />}
 	<span>{title}</span>
 </h1>
 
@@ -21,14 +23,8 @@ const pageTitleId = '_top';
 			color: var(--sl-color-white);
 		}
 
-		.nice-title-emoji {
-			display: inline-flex;
-			align-items: center;
-			justify-content: center;
-			width: 1.15em;
-			height: 1.15em;
-			font-size: 0.9em;
-			line-height: 1;
+		.nice-title-icon {
+			color: #9d7c72;
 		}
 	}
 </style>

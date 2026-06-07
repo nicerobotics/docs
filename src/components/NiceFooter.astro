@@ -1,7 +1,18 @@
+---
+import niceBoxLogo from '../assets/logos/nice-box.svg';
+---
+
 <footer class="nice-footer">
-	<div>
+	<div class="nice-footer-brand">
+		<img src={niceBoxLogo.src} alt="" width="34" height="34" loading="lazy" />
+		<div>
+			<strong>NICE Robotics</strong>
+			<span>官方产品文档</span>
+		</div>
+	</div>
+	<div class="nice-footer-contact">
 		<h2>联系我们</h2>
-		<a href="mailto:contact@nicerobotics.hk">Email: contact@nicerobotics.hk</a>
+		<a href="mailto:contact@nicerobotics.hk">contact@nicerobotics.hk</a>
 	</div>
 	<p>Copyright © 2026 NICE Robotics Limited. All rights reserved.</p>
 </footer>
@@ -10,18 +21,54 @@
 	@layer starlight.core {
 		.nice-footer {
 			display: grid;
-			gap: 0.875rem;
-			margin-block-start: 3rem;
-			padding-block: 2rem 0.5rem;
+			grid-template-columns: minmax(0, 1fr) auto;
+			align-items: start;
+			gap: 1.25rem 2rem;
+			margin-block-start: 3.5rem;
+			padding-block: 1.5rem 0.75rem;
 			border-block-start: 1px solid var(--sl-color-hairline);
 			color: var(--sl-color-gray-3);
 			font-size: var(--sl-text-sm);
 		}
 
+		.nice-footer-brand {
+			display: flex;
+			align-items: center;
+			gap: 0.75rem;
+			min-width: 0;
+		}
+
+		.nice-footer-brand img {
+			width: 2.125rem;
+			height: 2.125rem;
+			flex: 0 0 auto;
+		}
+
+		.nice-footer-brand div {
+			display: grid;
+			gap: 0.15rem;
+			min-width: 0;
+		}
+
+		.nice-footer-brand strong {
+			color: var(--sl-color-white);
+			font-size: var(--sl-text-base);
+			line-height: 1.2;
+		}
+
+		.nice-footer-brand span {
+			color: var(--sl-color-gray-3);
+			line-height: 1.35;
+		}
+
+		.nice-footer-contact {
+			text-align: end;
+		}
+
 		.nice-footer h2 {
 			margin: 0 0 0.375rem;
 			color: var(--sl-color-white);
-			font-size: var(--sl-text-base);
+			font-size: var(--sl-text-sm);
 			font-weight: 650;
 			line-height: 1.35;
 		}
@@ -37,7 +84,18 @@
 		}
 
 		.nice-footer p {
+			grid-column: 1 / -1;
 			margin: 0;
+		}
+
+		@media (max-width: 42rem) {
+			.nice-footer {
+				grid-template-columns: 1fr;
+			}
+
+			.nice-footer-contact {
+				text-align: start;
+			}
 		}
 	}
 </style>

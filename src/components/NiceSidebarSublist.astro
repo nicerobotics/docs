@@ -1,0 +1,175 @@
+---
+import SidebarRestorePoint from '@astrojs/starlight/components/SidebarRestorePoint.astro';
+import NiceIcon from './NiceIcon.astro';
+
+interface SidebarEntry {
+	type: 'link' | 'group';
+	label: string;
+	href?: string;
+	isCurrent?: boolean;
+	attrs?: Record<string, unknown>;
+	entries?: SidebarEntry[];
+	collapsed?: boolean;
+}
+
+interface Props {
+	sublist: SidebarEntry[];
+	nested?: boolean;
+}
+
+const { sublist, nested = false } = Astro.props;
+
+function hasCurrent(entries: SidebarEntry[] = []): boolean {
+	return entries.some((entry) => entry.isCurrent || (entry.entries && hasCurrent(entry.entries)));
+}
+
+function iconForHref(href = '') {
+	const normalized = href.replace(/^\/|\/$/g, '');
+	const map: Record<string, string> = {
+		'transmission/gear': 'gear',
+		'transmission/sprocket_chain': 'link',
+		'hardware/tube_plugs': 'gem',
+		'hardware/nut_strips': 'screwdriver-wrench',
+		'hardware/bearing_shaft': 'futbol',
+		'hardware/insert': 'seal',
+		'hardware/adapter': 'circle-0',
+		'hardware/shim': 'square-quarters',
+		'structure/tube': 'chimney',
+		'structure/bumper': 'car',
+		'wheels/silicone-wheel': 'truck-monster',
+		'wheels/flywheel': 'rotate',
+		'wheels/silicone-tube': 'circle',
+		'wheels/roller-system': 'sushi-roll',
+	};
+	return map[normalized] ?? 'circle';
+}
+---
+
+<ul class:list={{ 'top-level': !nested }}>
+	{
+		sublist.map((entry) => (
+			<li>
+				{entry.type === 'link' ? (
+					<a
+						href={entry.href}
+						aria-current={entry.isCurrent ? 'page' : undefined}
+						class:list={[{ large: !nested }, entry.attrs?.class]}
+						{...entry.attrs}
+					>
+						<NiceIcon name={iconForHref(entry.href)} size={nested ? '0.9rem' : '1rem'} />
+						<span>{entry.label}</span>
+					</a>
+				) : (
+					<details open={hasCurrent(entry.entries) || !entry.collapsed}>
+						<summary>
+							<span class="group-label">
+								<NiceIcon name="list" size="1rem" />
+								<span class="large">{entry.label}</span>
+							</span>
+							<NiceIcon class="caret" name="link" size="1rem" />
+						</summary>
+						<SidebarRestorePoint />
+						<Astro.self sublist={entry.entries ?? []} nested />
+					</details>
+				)}
+			</li>
+		))
+	}
+</ul>
+
+<style>
+	@layer starlight.core {
+		ul {
+			--sl-sidebar-item-padding-inline: 0.5rem;
+			list-style: none;
+			padding: 0;
+		}
+
+		li {
+			overflow-wrap: anywhere;
+		}
+
+		ul ul li {
+			margin-inline-start: var(--sl-sidebar-item-padding-inline);
+			border-inline-start: 1px solid var(--sl-color-hairline-light);
+			padding-inline-start: var(--sl-sidebar-item-padding-inline);
+		}
+
+		.large {
+			font-size: var(--sl-text-lg);
+			font-weight: 650;
+			color: var(--sl-color-white);
+		}
+
+		.top-level > li + li {
+			margin-top: 0.35rem;
+		}
+
+		summary {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 0.3em var(--sl-sidebar-item-padding-inline);
+			line-height: 1.4;
+			cursor: pointer;
+			user-select: none;
+		}
+
+		summary::marker,
+		summary::-webkit-details-marker {
+			display: none;
+		}
+
+		.group-label,
+		a {
+			display: flex;
+			align-items: center;
+			gap: 0.55rem;
+			min-width: 0;
+		}
+
+		.caret {
+			transition: transform 0.2s ease-in-out;
+			flex-shrink: 0;
+		}
+
+		:global([dir='rtl']) .caret {
+			transform: rotateZ(180deg);
+		}
+
+		[open] > summary .caret {
+			transform: rotateZ(90deg);
+		}
+
+		a {
+			border-radius: 0.35rem;
+			padding: 0.45em var(--sl-sidebar-item-padding-inline);
+			color: var(--sl-color-gray-2);
+			line-height: 1.4;
+			text-decoration: none;
+		}
+
+		a:hover,
+		a:focus {
+			color: var(--sl-color-white);
+		}
+
+		[aria-current='page'],
+		[aria-current='page']:hover,
+		[aria-current='page']:focus {
+			background-color: transparent;
+			color: var(--sl-color-text-accent);
+			font-weight: 700;
+		}
+
+		@media (min-width: 50rem) {
+			.large {
+				font-size: var(--sl-text-base);
+			}
+
+			a {
+				font-size: var(--sl-text-sm);
+			}
+		}
+	}
+</style>

@@ -4,6 +4,8 @@ import config from 'virtual:starlight/user-config';
 import Search from '@astrojs/starlight/components/Search.astro';
 import SiteTitle from '@astrojs/starlight/components/SiteTitle.astro';
 import SocialIcons from '@astrojs/starlight/components/SocialIcons.astro';
+import niceBoxLogo from '../assets/logos/nice-box.svg';
+import NiceIcon from './NiceIcon.astro';
 import NiceThemeToggle from './NiceThemeToggle.astro';
 
 const shouldRenderSearch =
@@ -13,32 +15,32 @@ const pathname = Astro.url.pathname;
 const navItems: Array<{
 	label: string;
 	href: string;
-	emoji: string;
+	icon: string;
 	match: (path: string) => boolean;
 }> = [
-	{ label: '首页', href: '/', emoji: '👋', match: (path: string) => path === '/' },
+	{ label: '首页', href: '/', icon: 'home', match: (path: string) => path === '/' },
 	{
 		label: '传动',
 		href: '/transmission/gear/',
-		emoji: '⚙️',
+		icon: 'gear',
 		match: (path: string) => path.startsWith('/transmission/'),
 	},
 	{
 		label: '硬件',
 		href: '/hardware/tube_plugs/',
-		emoji: '💎',
+		icon: 'gem',
 		match: (path: string) => path.startsWith('/hardware/'),
 	},
 	{
 		label: '结构',
 		href: '/structure/tube/',
-		emoji: '🏗️',
+		icon: 'chimney',
 		match: (path: string) => path.startsWith('/structure/'),
 	},
 	{
 		label: '轮子',
 		href: '/wheels/silicone-wheel/',
-		emoji: '🛞',
+		icon: 'truck-monster',
 		match: (path: string) => path.startsWith('/wheels/'),
 	},
 ];
@@ -51,7 +53,12 @@ const navItems: Array<{
 				<SiteTitle />
 			</div>
 			<div class="nice-actions print:hidden">
-				{shouldRenderSearch && <Search />}
+				<div class="nice-header-controls">
+					<div class="nice-social-icons">
+						<SocialIcons />
+					</div>
+					<NiceThemeToggle />
+				</div>
 				<a
 					class="nice-shop-link"
 					href="https://nicerobotics.taobao.com/shop/view_shop.htm?appUid=RAzN8HWJdjiTsH6vMYrM9m1KNMFvi4PetiJdDkWp83MRuUBb3Jb&spm=a21n57.1.hoverItem.1"
@@ -59,24 +66,22 @@ const navItems: Array<{
 					rel="noreferrer"
 					aria-label="淘宝店铺"
 				>
-					<img src="/assets/ui/taobao.svg" alt="" width="16" height="16" loading="eager" />
+					<span class="nice-shop-icon" aria-hidden="true"></span>
 					淘宝店铺
 				</a>
-				<div class="sl-hidden md:sl-flex nice-header-controls">
-					<div class="nice-social-icons">
-						<SocialIcons />
-					</div>
-					<NiceThemeToggle />
-				</div>
+				{shouldRenderSearch && <Search />}
 			</div>
 		</div>
 	</div>
 	<nav class="nice-section-nav print:hidden" aria-label="产品分类">
 		<div class="nice-section-inner">
+			<a class="nice-section-mark" href="/" aria-label="NICE Robotics 首页">
+				<img src={niceBoxLogo.src} alt="" width="24" height="24" loading="eager" />
+			</a>
 			{
 				navItems.map((item) => (
 					<a class:list={{ 'nice-section-link': true, active: item.match(pathname) }} href={item.href}>
-						<span class="nice-section-emoji" aria-hidden="true">{item.emoji}</span>
+						<NiceIcon name={item.icon} size="1rem" />
 						<span>{item.label}</span>
 					</a>
 				))
@@ -129,6 +134,8 @@ const navItems: Array<{
 			gap: 0.75rem;
 			justify-self: end;
 			min-width: 0;
+			flex: 1;
+			justify-content: flex-end;
 		}
 
 		.nice-header-controls {
@@ -143,28 +150,32 @@ const navItems: Array<{
 			display: inline-flex;
 			align-items: center;
 			justify-content: center;
+			gap: 0.4rem;
 			height: 2.25rem;
 			padding-inline: 0.875rem;
-			border: 1px solid rgba(255, 255, 255, 0.55);
+			border: 1px solid rgba(255, 255, 255, 0.9);
 			border-radius: 0.5rem;
-			color: white;
+			color: var(--nice-header-bg, #fc5000);
 			font-size: 0.875rem;
 			font-weight: 700;
 			line-height: 1;
 			text-decoration: none;
 			white-space: nowrap;
-			background: rgba(255, 255, 255, 0.14);
+			background: white;
 		}
 
-		.nice-shop-link img {
-			width: 1rem;
-			height: 1rem;
-			margin-inline-end: 0.4rem;
+		.nice-shop-icon {
+			width: 0.95rem;
+			height: 0.95rem;
 			border-radius: 0.1875rem;
+			background: currentColor;
+			-webkit-mask: url('/assets/ui/taobao.svg') center / contain no-repeat;
+			mask: url('/assets/ui/taobao.svg') center / contain no-repeat;
 		}
 
 		.nice-shop-link:hover {
-			background: white;
+			border-color: white;
+			background: rgba(255, 255, 255, 0.88);
 			color: var(--nice-header-bg, #fc5000);
 			text-decoration: none;
 		}
@@ -178,7 +189,7 @@ const navItems: Array<{
 		.nice-section-inner {
 			display: flex;
 			align-items: center;
-			gap: 0.25rem;
+			gap: 0.35rem;
 			max-width: 82rem;
 			margin-inline: auto;
 			padding-inline: clamp(0.75rem, 4vw, 2rem);
@@ -188,6 +199,23 @@ const navItems: Array<{
 
 		.nice-section-inner::-webkit-scrollbar {
 			display: none;
+		}
+
+		.nice-section-mark {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			width: 2.625rem;
+			min-width: 2.625rem;
+			height: 3rem;
+			margin-inline-end: 0.25rem;
+			color: var(--sl-color-gray-2);
+			text-decoration: none;
+		}
+
+		.nice-section-mark img {
+			width: 1.35rem;
+			height: 1.35rem;
 		}
 
 		.nice-section-link {
@@ -202,16 +230,6 @@ const navItems: Array<{
 			font-weight: 650;
 			text-decoration: none;
 			white-space: nowrap;
-		}
-
-		.nice-section-emoji {
-			display: inline-flex;
-			align-items: center;
-			justify-content: center;
-			width: 1rem;
-			height: 1rem;
-			font-size: 1rem;
-			line-height: 1;
 		}
 
 		.nice-section-link:hover,
@@ -248,8 +266,15 @@ const navItems: Array<{
 
 			.nice-section-inner {
 				gap: 0.125rem;
-				justify-content: center;
+				justify-content: flex-start;
 				padding-inline: 0.5rem;
+			}
+
+			.nice-section-mark {
+				width: 2.25rem;
+				min-width: 2.25rem;
+				height: 2.75rem;
+				margin-inline-end: 0.125rem;
 			}
 		}
 	}

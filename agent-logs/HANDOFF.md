@@ -1,11 +1,12 @@
 # Handoff
 
-更新时间：2026-06-08 01:23:31 +08:00
+更新时间：2026-06-08 01:51:42 +08:00
 
 ## 当前状态
 
 - 仓库 `C:\Personal\nice\code\docs` 已从空仓库推进为 Astro + Starlight 静态文档站。
 - 本地分支 `main` 跟踪 `origin/main`；当前实现已提交并推送到远端。
+- 第二轮视觉复刻实现已完成并通过本地验证，待提交并推送到远端触发 Vercel 自动部署。
 - `nice-github-repo` 已安装在仓库内 `.agent/skills/nice-github-repo`，没有安装到全局。
 - Vercel 项目已创建并绑定：NI Corporate / `docs`，Project ID `prj_Y5hrSGAEBBI9098IzW2wcVKNsgwD`。
 - Vercel 项目已连接 GitHub 仓库 `nicerobotics/docs`，production branch 为 `main`。
@@ -15,6 +16,13 @@
 
 ## 已完成变更
 
+- 本轮完成第二轮视觉复刻：新增 `NiceIcon` 单色 SVG 图标系统，顶部 section nav、正文 H1、左侧目录均改为线条/单色 SVG，不再使用 emoji frontmatter。
+- 本轮新增 `NiceSidebar`、`NiceSidebarSublist`、`NiceTwoColumnContent` Starlight override，用官方组件覆盖点处理左侧目录图标和正文/右侧目录宽度比例。
+- 本轮调整 header：搜索栏位于最右侧，桌面宽度为 240px；主题按钮位于淘宝店铺按钮左侧，移动端也显示；淘宝店铺按钮改为与购买按钮一致的 mask icon + 文本风格。
+- 本轮调整 header 下方 section nav：补 NICE box logo，分类图标改为单色 SVG，移动端不居中挤压且无横向溢出。
+- 本轮调整正文布局：正文主列宽度调整为 680px 级别，右侧目录收窄为约 231px，正文页居中更稳定；移除 H1 下方 Starlight content panel 大横线。
+- 本轮重做 footer：加入 NICE box logo、品牌说明、联系邮箱和版权的两列布局，移动端自动单列。
+- 本轮更新 `scripts/sync-gitbook.mjs` 和 `src/content.config.ts`：GitBook frontmatter `icon:` 现在生成 `gitbookIcon:`，并将表格里的 Onshape `🌐` 转成单色 `nice-onshape-icon`，避免同步后重新生成 emoji。
 - 本轮完成 GitHub ↔ Vercel 项目连接：`link.type=github`、`org=nicerobotics`、`repo=docs`、`productionBranch=main`。
 - 本轮完成视觉还原改造：搜索移到右侧并隐藏快捷键显示、顶部淘宝按钮加入 icon、主题切换改为小灯泡按钮、favicon 改为用户提供的 PNG、首页改为 splash 无侧边栏/TOC。
 - 本轮新增 Starlight route middleware，产品页左侧 sidebar 只显示当前栏目，右侧 TOC 删除 Overview，移动端禁用固定 TOC。
@@ -35,6 +43,14 @@
 
 ## 验证结果
 
+- 本轮 `npm run sync:content` 通过，生成 15 个页面，内容 frontmatter 已从 `emoji` 切换为 `gitbookIcon`。
+- 本轮 `rg "🌐|emoji:" src/content/docs -n` 无匹配，确认内容页无 `🌐` 和 `emoji:` 残留。
+- 本轮 `npm run check` 通过：0 errors，0 warnings，0 hints。
+- 本轮 `npm run build` 通过，生成 16 个内容页面、4 个 section redirect HTML、Pagefind 索引和 sitemap；仍有既有非阻塞提示：Astro markdown deprecation 和 `Entry docs → 404 was not found.`。
+- 本轮 Playwright 本地 preview 验证覆盖 `/`、`/transmission/gear/`、`/hardware/tube_plugs/`、`/structure/tube/`、`/wheels/silicone-wheel/`：桌面正文宽度 680px，右侧目录宽度约 231px，H1 下方 border 为 `0px`，section nav 无 emoji 且含 box logo，footer 含 box logo。
+- 本轮 Playwright 验证 header：桌面主题按钮、淘宝店铺、搜索栏 x 坐标依次为 897、947、1067，搜索栏宽度 240px；移动端主题按钮、淘宝店铺、搜索、菜单不重叠，页面横向 overflow 为 0。
+- 本轮 Playwright 验证深色模式：`/transmission/gear/` 正文颜色为 `rgb(255, 255, 255)`。
+- 本轮本地 preview 进程已停止，临时截图与 preview 日志已清理。
 - 本轮 `vercel git connect https://github.com/nicerobotics/docs.git --scope ni-corporate` 成功；Vercel API 确认项目 `link` 指向 `nicerobotics/docs`。
 - 本轮 `npm run sync:content` 通过，生成 15 个页面，并为首页/产品页写入 `emoji` frontmatter。
 - 本轮 `npm run check` 通过：0 errors，0 warnings，0 hints。
@@ -63,7 +79,7 @@
 
 ## 待处理事项
 
-- 本轮视觉还原清单已实现并通过本地验证；后续如用户指出新的旧站差异，再继续按截图/DOM 对齐。
+- 第二轮视觉反馈已实现并通过本地验证；下一步等待用户对线上效果继续指出差异。
 - 可后续优化：定位构建中的 `Entry docs → 404 was not found.` 提示来源。
 - 可后续优化：跟进 `@astrojs/check` 依赖链的 `npm audit` moderate vulnerabilities，不要直接 `npm audit fix --force`。
 

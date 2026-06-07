@@ -1,6 +1,10 @@
+---
+import NiceIcon from './NiceIcon.astro';
+---
+
 <nice-theme-toggle>
 	<button type="button" aria-label="切换主题" title="切换主题">
-		<span aria-hidden="true">💡</span>
+		<NiceIcon name="bulb" size="1.45rem" strokeWidth="2.25" />
 	</button>
 </nice-theme-toggle>
 
@@ -42,23 +46,18 @@
 			display: inline-flex;
 			align-items: center;
 			justify-content: center;
-			width: 2.25rem;
+			width: 2.35rem;
 			height: 2.25rem;
-			border: 1px solid rgba(255, 255, 255, 0.48);
-			border-radius: 999px;
-			background: rgba(255, 255, 255, 0.14);
+			border: 0;
+			border-radius: 0.375rem;
+			background: transparent;
 			color: white;
 			cursor: pointer;
 		}
 
 		nice-theme-toggle button:hover {
-			background: white;
-			color: var(--nice-header-bg, #fc5000);
-		}
-
-		nice-theme-toggle span {
-			font-size: 1rem;
-			line-height: 1;
+			background: rgba(255, 255, 255, 0.14);
+			color: white;
 		}
 	}
 </style>

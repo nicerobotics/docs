@@ -44,6 +44,8 @@ export default defineConfig({
 				Header: './src/components/NiceHeader.astro',
 				Footer: './src/components/NiceFooter.astro',
 				PageTitle: './src/components/NicePageTitle.astro',
+				Sidebar: './src/components/NiceSidebar.astro',
+				TwoColumnContent: './src/components/NiceTwoColumnContent.astro',
 				MobileTableOfContents: './src/components/EmptyMobileTableOfContents.astro',
 				MobileMenuFooter: './src/components/NiceMobileMenuFooter.astro',
 			},

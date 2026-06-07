@@ -8,7 +8,7 @@ export const collections = {
 		loader: docsLoader(),
 		schema: docsSchema({
 			extend: z.object({
-				emoji: z.string().optional(),
+				gitbookIcon: z.string().optional(),
 			}),
 		}),
 	}),
