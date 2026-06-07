@@ -1,0 +1,24 @@
+{
+  "redirects": [
+    {
+      "source": "/transmission",
+      "destination": "/transmission/gear/",
+      "permanent": false
+    },
+    {
+      "source": "/hardware",
+      "destination": "/hardware/tube_plugs/",
+      "permanent": false
+    },
+    {
+      "source": "/structure",
+      "destination": "/structure/tube/",
+      "permanent": false
+    },
+    {
+      "source": "/wheels",
+      "destination": "/wheels/silicone-wheel/",
+      "permanent": false
+    }
+  ]
+}

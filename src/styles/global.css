@@ -1,0 +1,260 @@
+@layer base, starlight, theme, components, utilities;
+
+@import '@astrojs/starlight-tailwind';
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/utilities.css' layer(utilities);
+
+@theme {
+	--font-sans: Inter, "Inter Fallback", system-ui, Arial, sans-serif;
+	--color-accent-50: #fff4ed;
+	--color-accent-100: #ffe4d7;
+	--color-accent-200: #ffc5aa;
+	--color-accent-300: #ff9b72;
+	--color-accent-400: #ff7440;
+	--color-accent-500: #fc5000;
+	--color-accent-600: #f9612b;
+	--color-accent-700: #c93e00;
+	--color-accent-800: #9f3304;
+	--color-accent-900: #802f09;
+	--color-accent-950: #451503;
+	--color-gray-50: #fbf9f9;
+	--color-gray-100: #f6f1ef;
+	--color-gray-200: #ede3e0;
+	--color-gray-300: #e1d6d3;
+	--color-gray-400: #c6beba;
+	--color-gray-500: #786b67;
+	--color-gray-600: #5f5450;
+	--color-gray-700: #474241;
+	--color-gray-800: #312f2e;
+	--color-gray-900: #1d1d1d;
+	--color-gray-950: #121111;
+}
+
+:root {
+	--nice-header-bg: #fc5000;
+	--nice-section-bg: #ffffff;
+	--nice-content-bg: #ffffff;
+	--sl-nav-height: 6.875rem;
+	--sl-nav-pad-y: 0rem;
+	--sl-color-accent-low: var(--color-accent-100);
+	--sl-color-accent: var(--color-accent-500);
+	--sl-color-accent-high: var(--color-accent-700);
+	--sl-font: var(--font-sans);
+}
+
+:root[data-theme='dark'] {
+	--nice-section-bg: #1d1d1d;
+	--nice-content-bg: #1d1d1d;
+	--sl-color-accent-low: var(--color-accent-950);
+	--sl-color-accent: var(--color-accent-400);
+	--sl-color-accent-high: var(--color-accent-200);
+	--sl-color-bg: #1d1d1d;
+	--sl-color-bg-nav: #1d1d1d;
+	--sl-color-bg-sidebar: #1d1d1d;
+	--sl-color-black: #1d1d1d;
+}
+
+@media (max-width: 50rem) {
+	:root {
+		--sl-nav-height: 9.3125rem;
+	}
+}
+
+@layer starlight {
+	.page > .header {
+		padding: 0 !important;
+		border-bottom: 0 !important;
+		background: transparent !important;
+	}
+
+	[data-has-sidebar] .page > .header {
+		padding-inline-end: 0 !important;
+	}
+
+	starlight-menu-button button {
+		inset-inline-end: 1rem;
+		top: 0.75rem;
+	}
+
+	.nice-brand-row .site-title {
+		color: white;
+	}
+
+	.nice-brand-row .site-title img {
+		height: 2.05rem;
+		filter: brightness(0) invert(1);
+	}
+
+	.nice-brand-row button[data-open-modal] {
+		width: min(100%, 27rem);
+		border-color: rgba(255, 255, 255, 0.48);
+		background: rgba(255, 255, 255, 0.16);
+		color: white;
+	}
+
+	.nice-brand-row button[data-open-modal]:hover {
+		border-color: white;
+		color: white;
+		background: rgba(255, 255, 255, 0.24);
+	}
+
+	.nice-brand-row button[data-open-modal] kbd {
+		background: rgba(0, 0, 0, 0.18);
+		color: white;
+	}
+
+	.nice-brand-row starlight-theme-select select,
+	.nice-brand-row starlight-lang-select select {
+		border-color: rgba(255, 255, 255, 0.48);
+		background-color: rgba(255, 255, 255, 0.14);
+		color: white;
+	}
+
+	.nice-brand-row starlight-theme-select svg,
+	.nice-brand-row starlight-lang-select svg,
+	.nice-brand-row .nice-social-icons svg {
+		color: white;
+	}
+
+	.sl-markdown-content :is(h1, h2, h3) {
+		letter-spacing: 0;
+	}
+
+	.sl-markdown-content figure {
+		margin-block: 1.25rem;
+	}
+
+	.sl-markdown-content figure img,
+	.sl-markdown-content > img {
+		max-width: min(100%, 28rem);
+		border: 1px solid var(--sl-color-gray-5);
+		border-radius: 0.5rem;
+		background: var(--nice-content-bg);
+	}
+
+	.sl-markdown-content table {
+		display: block;
+		max-width: 100%;
+		overflow-x: auto;
+		border-collapse: collapse;
+		white-space: nowrap;
+	}
+
+	.sl-markdown-content table a[href$='.pdf'],
+	.sl-markdown-content table a[href$='.step'] {
+		font-weight: 650;
+	}
+
+	.sl-markdown-content a.button.primary {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-height: 2rem;
+		margin-inline-start: 0.5rem;
+		padding: 0.35rem 0.75rem;
+		border: 1px solid var(--nice-header-bg);
+		border-radius: 0.5rem;
+		background: var(--nice-header-bg);
+		color: white;
+		font-size: 0.8125rem;
+		font-weight: 750;
+		line-height: 1;
+		text-decoration: none;
+		vertical-align: middle;
+		white-space: nowrap;
+	}
+
+	.sl-markdown-content a.button.primary:hover {
+		background: var(--sl-color-accent-high);
+		border-color: var(--sl-color-accent-high);
+		color: white;
+		text-decoration: none;
+	}
+
+	.nice-card-grid {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 1rem;
+		margin-block-start: 1rem;
+	}
+
+	.nice-card {
+		display: flex;
+		flex-direction: column;
+		min-width: 0;
+		border: 1px solid var(--sl-color-gray-5);
+		border-radius: 0.5rem;
+		overflow: hidden;
+		background: var(--nice-content-bg);
+		color: var(--sl-color-text);
+		text-decoration: none;
+		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+	}
+
+	.nice-card:hover {
+		border-color: var(--nice-header-bg);
+		box-shadow: 0 8px 24px rgba(252, 80, 0, 0.14);
+		text-decoration: none;
+		transform: translateY(-1px);
+	}
+
+	.nice-card img {
+		width: 100%;
+		aspect-ratio: 16 / 10;
+		object-fit: contain;
+		padding: 0.75rem;
+		background: #f8f8f8;
+	}
+
+	:root[data-theme='dark'] .nice-card img {
+		background: #252525;
+	}
+
+	.nice-card img[data-fit='cover'] {
+		object-fit: cover;
+		padding: 0;
+	}
+
+	.nice-card span {
+		display: grid;
+		gap: 0.25rem;
+		padding: 0.875rem 1rem 1rem;
+	}
+
+	.nice-card strong,
+	.nice-card small {
+		overflow-wrap: anywhere;
+	}
+
+	.nice-card strong {
+		font-size: 1rem;
+		line-height: 1.35;
+	}
+
+	.nice-card small {
+		color: var(--sl-color-gray-3);
+		font-size: 0.8125rem;
+		font-weight: 650;
+	}
+
+	@media (max-width: 62rem) {
+		.nice-card-grid {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+
+	@media (max-width: 42rem) {
+		.nice-brand-row .site-title img {
+			height: 1.65rem;
+		}
+
+		.nice-card-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.sl-markdown-content figure img,
+		.sl-markdown-content > img {
+			max-width: 100%;
+		}
+	}
+}
