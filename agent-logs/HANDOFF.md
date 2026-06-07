@@ -1,6 +1,6 @@
 # Handoff
 
-更新时间：2026-06-08 01:20:50 +08:00
+更新时间：2026-06-08 01:23:31 +08:00
 
 ## 当前状态
 
@@ -9,7 +9,7 @@
 - `nice-github-repo` 已安装在仓库内 `.agent/skills/nice-github-repo`，没有安装到全局。
 - Vercel 项目已创建并绑定：NI Corporate / `docs`，Project ID `prj_Y5hrSGAEBBI9098IzW2wcVKNsgwD`。
 - Vercel 项目已连接 GitHub 仓库 `nicerobotics/docs`，production branch 为 `main`。
-- 当前生产部署已 READY：`https://doc.nicerobotics.hk` 和 `https://docs-lyart-iota.vercel.app`，最近一次 deployment ID `dpl_A1orVtUAqTFCj91zX3MCwjFuWaWy`。
+- 当前生产部署已 READY：`https://doc.nicerobotics.hk` 和 `https://docs-csvmtkfb9-ni-corporate.vercel.app`，最近一次 deployment ID `dpl_HLrjgLrr5MTj2hMhDbUQHQLt52mK`。
 - `doc.nicerobotics.hk` 已添加到 Vercel 项目并验证通过，当前通过 CNAME 指向 `1af47c2c9938dd40.vercel-dns-016.com.`。
 - 本地 dev/preview 服务已停止，浏览器测试视口已重置。
 
@@ -42,6 +42,8 @@
 - 本轮本地 preview 验证：`/` 无 sidebar/TOC；`/transmission/gear/` 左侧只显示“齿轮 / 链轮 & 链条”；`/wheels/silicone-wheel/` 左侧只显示轮子栏目；右侧标题为“在本页”且无 Overview；footer 无 prev/next。
 - 本轮本地 preview 验证：顶部淘宝按钮和购买按钮都有淘宝 icon；正文图片 border 为 0 且背景透明；首页卡片图片 padding 为 0；favicon link 指向 `/favicon.png`；移动端顶部导航不溢出。
 - 本轮本地 preview 验证：深色模式正文颜色为 `rgb(255, 255, 255)`，背景为 `rgb(29, 29, 29)`；Note 标题隐藏，深色 Note 背景为 `rgb(43, 43, 43)`。
+- 本轮生产部署验证：Vercel 自动部署 `dpl_HLrjgLrr5MTj2hMhDbUQHQLt52mK` READY，并 alias 到 `https://doc.nicerobotics.hk`。
+- 本轮生产域名验证：`https://doc.nicerobotics.hk/`、`/favicon.png`、`/transmission/gear/` 均返回 200。
 - `npm run sync:content` 通过，生成 15 个页面。
 - `npm run check` 通过：0 errors，0 warnings，0 hints。
 - `npm run build` 通过，生成 16 个内容页面、4 个 section redirect HTML、Pagefind 索引和 sitemap。
@@ -62,7 +64,6 @@
 ## 待处理事项
 
 - 本轮视觉还原清单已实现并通过本地验证；后续如用户指出新的旧站差异，再继续按截图/DOM 对齐。
-- 推送后需要确认 Vercel Git 集成自动生产部署完成，并更新生产 deployment ID。
 - 可后续优化：定位构建中的 `Entry docs → 404 was not found.` 提示来源。
 - 可后续优化：跟进 `@astrojs/check` 依赖链的 `npm audit` moderate vulnerabilities，不要直接 `npm audit fix --force`。
 
