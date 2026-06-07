@@ -1,0 +1,64 @@
+<nice-theme-toggle>
+	<button type="button" aria-label="切换主题" title="切换主题">
+		<span aria-hidden="true">💡</span>
+	</button>
+</nice-theme-toggle>
+
+<script>
+	type Theme = 'dark' | 'light';
+
+	const storageKey = 'starlight-theme';
+	const themes: Theme[] = ['dark', 'light'];
+
+	function getCurrentTheme(): Theme {
+		return document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
+	}
+
+	function setTheme(theme: Theme) {
+		document.documentElement.dataset.theme = theme;
+		localStorage.setItem(storageKey, theme);
+	}
+
+	class NiceThemeToggle extends HTMLElement {
+		constructor() {
+			super();
+			this.querySelector('button')?.addEventListener('click', () => {
+				const currentIndex = themes.indexOf(getCurrentTheme());
+				setTheme(themes[(currentIndex + 1) % themes.length]);
+			});
+		}
+	}
+
+	customElements.define('nice-theme-toggle', NiceThemeToggle);
+</script>
+
+<style>
+	@layer starlight.core {
+		nice-theme-toggle {
+			display: inline-flex;
+		}
+
+		nice-theme-toggle button {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			width: 2.25rem;
+			height: 2.25rem;
+			border: 1px solid rgba(255, 255, 255, 0.48);
+			border-radius: 999px;
+			background: rgba(255, 255, 255, 0.14);
+			color: white;
+			cursor: pointer;
+		}
+
+		nice-theme-toggle button:hover {
+			background: white;
+			color: var(--nice-header-bg, #fc5000);
+		}
+
+		nice-theme-toggle span {
+			font-size: 1rem;
+			line-height: 1;
+		}
+	}
+</style>

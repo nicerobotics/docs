@@ -16,13 +16,36 @@ export default defineConfig({
 		starlight({
 			title: 'NICE Robotics',
 			description: 'NICE Robotics 官方产品文档',
+			favicon: '/favicon.png',
+			locales: {
+				root: {
+					label: '简体中文',
+					lang: 'zh-CN',
+				},
+			},
 			logo: {
 				src: './src/assets/logos/nice-text.svg',
 				replacesTitle: true,
 			},
+			head: [
+				{
+					tag: 'link',
+					attrs: {
+						rel: 'icon',
+						type: 'image/png',
+						href: '/favicon.png',
+					},
+				},
+			],
+			pagination: false,
 			customCss: ['./src/styles/global.css'],
+			routeMiddleware: './src/starlightRouteData.ts',
 			components: {
 				Header: './src/components/NiceHeader.astro',
+				Footer: './src/components/NiceFooter.astro',
+				PageTitle: './src/components/NicePageTitle.astro',
+				MobileTableOfContents: './src/components/EmptyMobileTableOfContents.astro',
+				MobileMenuFooter: './src/components/NiceMobileMenuFooter.astro',
 			},
 			sidebar: [
 				{ label: '首页', slug: '' },

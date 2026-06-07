@@ -15,7 +15,7 @@ const repositories = [
 		name: 'docs-home',
 		url: 'https://github.com/nicerobotics/docs-home.git',
 		assets: 'home',
-		pages: [{ source: 'README.md', target: 'index.mdx', title: '欢迎', toc: false }],
+		pages: [{ source: 'README.md', target: 'index.mdx', title: '欢迎', toc: false, template: 'splash' }],
 	},
 	{
 		name: 'docs-transmission',
@@ -78,6 +78,24 @@ const oldPlaceholderFiles = [
 	'wheels/silicone-wheel.md',
 ];
 
+const iconEmojiMap = {
+	'hand-wave': '👋',
+	gear: '⚙️',
+	link: '🔗',
+	gem: '💎',
+	'screwdriver-wrench': '🛠️',
+	futbol: '⚙️',
+	seal: '🔘',
+	'circle-0': '⭕',
+	'square-quarters': '◫',
+	chimney: '🏗️',
+	car: '🚗',
+	'truck-monster': '🛞',
+	rotate: '🔄',
+	circle: '⭕',
+	'sushi-roll': '🔘',
+};
+
 function run(command, args, cwd = root) {
 	const result = spawnSync(command, args, { cwd, encoding: 'utf8', stdio: 'pipe' });
 	if (result.status !== 0) {
@@ -139,6 +157,15 @@ function stripFrontmatter(markdown) {
 	if (end === -1) return markdown;
 	const after = markdown.indexOf('\n', end + 4);
 	return markdown.slice(after === -1 ? end + 4 : after + 1).trimStart();
+}
+
+function getFrontmatterValue(markdown, key) {
+	if (!markdown.startsWith('---')) return undefined;
+	const end = markdown.indexOf('\n---', 3);
+	if (end === -1) return undefined;
+	const frontmatter = markdown.slice(3, end);
+	const match = frontmatter.match(new RegExp(`^${key}:\\s*(.+)$`, 'm'));
+	return match?.[1]?.trim().replace(/^["']|["']$/g, '');
 }
 
 function htmlDecode(value) {
@@ -241,7 +268,11 @@ function convertOldUrls(markdown) {
 		.replace(/https:\/\/docs\.nicerobotics\.hk\/hardware\/insert/g, '/hardware/insert/')
 		.replace(/https:\/\/docs\.nicerobotics\.hk\/hardware\/adapter/g, '/hardware/adapter/')
 		.replace(/https:\/\/docs\.nicerobotics\.hk\/structure\/tube/g, '/structure/tube/')
-		.replace(/https:\/\/docs\.nicerobotics\.hk\/structure\/bumper/g, '/structure/bumper/');
+		.replace(/https:\/\/docs\.nicerobotics\.hk\/structure\/bumper/g, '/structure/bumper/')
+		.replace(/https:\/\/docs\.nicerobotics\.hk\/wheels\/silicone-wheel/g, '/wheels/silicone-wheel/')
+		.replace(/https:\/\/docs\.nicerobotics\.hk\/wheels\/flywheel/g, '/wheels/flywheel/')
+		.replace(/https:\/\/docs\.nicerobotics\.hk\/wheels\/silicone-tube/g, '/wheels/silicone-tube/')
+		.replace(/https:\/\/docs\.nicerobotics\.hk\/wheels\/roller-system/g, '/wheels/roller-system/');
 }
 
 function convertCards(markdown) {
@@ -299,12 +330,19 @@ function buildFrontmatter(page, body) {
 		`title: ${escapeYaml(title)}`,
 		`description: ${escapeYaml(firstParagraph(body))}`,
 	];
+	if (page.emoji) lines.push(`emoji: ${escapeYaml(page.emoji)}`);
+	if (page.template) lines.push(`template: ${escapeYaml(page.template)}`);
 	if (page.toc === false) lines.push('tableOfContents: false');
 	lines.push('---');
 	return lines.join('\n');
 }
 
 function transformMarkdown(source, page, assetMap) {
+	const icon = getFrontmatterValue(source, 'icon');
+	const normalizedPage = {
+		...page,
+		emoji: page.emoji ?? iconEmojiMap[icon] ?? undefined,
+	};
 	let body = stripFrontmatter(source);
 	body = removeFirstH1(body);
 	body = convertHints(body);
@@ -315,7 +353,7 @@ function transformMarkdown(source, page, assetMap) {
 	body = convertHtmlForMdx(body);
 	body = escapeMdxTextExpressions(body);
 	const imports = hasStarlightTabs(body) ? "import { Tabs, TabItem } from '@astrojs/starlight/components';\n\n" : '';
-	return `${buildFrontmatter(page, body)}\n\n${imports}${body.trim()}\n`;
+	return `${buildFrontmatter(normalizedPage, body)}\n\n${imports}${body.trim()}\n`;
 }
 
 function removeOldPlaceholders() {
