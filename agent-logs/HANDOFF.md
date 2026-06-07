@@ -1,15 +1,16 @@
 # Handoff
 
-更新时间：2026-06-08 00:30:52 +08:00
+更新时间：2026-06-08 00:33:59 +08:00
 
 ## 当前状态
 
 - 仓库 `C:\Personal\nice\code\docs` 已从空仓库推进为 Astro + Starlight 静态文档站。
-- 本地分支 `main` 跟踪 `origin/main`；当前实现尚未提交。
+- 本地分支 `main` 跟踪 `origin/main`；当前实现已提交并推送到远端。
 - `nice-github-repo` 已安装在仓库内 `.agent/skills/nice-github-repo`，没有安装到全局。
 - Vercel 项目已创建并绑定：NI Corporate / `docs`，Project ID `prj_Y5hrSGAEBBI9098IzW2wcVKNsgwD`。
 - 当前生产部署已 READY：`https://docs-lyart-iota.vercel.app`，最近一次 deployment ID `dpl_A1orVtUAqTFCj91zX3MCwjFuWaWy`。
 - `doc.nicerobotics.hk` 已添加到 Vercel 项目，但尚未验证，等待阿里云 DNS 记录生效。
+- 本地 dev/preview 服务已停止，浏览器测试视口已重置。
 
 ## 已完成变更
 
@@ -42,7 +43,6 @@
 
 ## 待处理事项
 
-- 提交并推送当前实现到 `origin/main`。
 - 用户需要在阿里云 DNS 为 `nicerobotics.hk` 添加 Vercel 验证记录：
   - 类型：TXT
   - 主机记录：`_vercel`
