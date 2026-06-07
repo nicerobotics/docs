@@ -1,6 +1,6 @@
 # Handoff
 
-更新时间：2026-06-08 00:33:59 +08:00
+更新时间：2026-06-08 00:35:25 +08:00
 
 ## 当前状态
 
@@ -8,8 +8,8 @@
 - 本地分支 `main` 跟踪 `origin/main`；当前实现已提交并推送到远端。
 - `nice-github-repo` 已安装在仓库内 `.agent/skills/nice-github-repo`，没有安装到全局。
 - Vercel 项目已创建并绑定：NI Corporate / `docs`，Project ID `prj_Y5hrSGAEBBI9098IzW2wcVKNsgwD`。
-- 当前生产部署已 READY：`https://docs-lyart-iota.vercel.app`，最近一次 deployment ID `dpl_A1orVtUAqTFCj91zX3MCwjFuWaWy`。
-- `doc.nicerobotics.hk` 已添加到 Vercel 项目，但尚未验证，等待阿里云 DNS 记录生效。
+- 当前生产部署已 READY：`https://doc.nicerobotics.hk` 和 `https://docs-lyart-iota.vercel.app`，最近一次 deployment ID `dpl_A1orVtUAqTFCj91zX3MCwjFuWaWy`。
+- `doc.nicerobotics.hk` 已添加到 Vercel 项目并验证通过，当前通过 CNAME 指向 `1af47c2c9938dd40.vercel-dns-016.com.`。
 - 本地 dev/preview 服务已停止，浏览器测试视口已重置。
 
 ## 已完成变更
@@ -35,27 +35,22 @@
 - 已扫描 `src/content/docs`，没有 `/assets/docs/missing`、`.gitbook/assets`、`{% ... %}`、`data-view=`、旧 `docs.nicerobotics.hk` 链接残留。
 - 已用浏览器检查本地桌面和移动端、浅色和深色模式；移动端淘宝按钮与菜单不再重叠。
 - 已在生产域名验证：
-  - `/`、`/transmission/gear/`、`/hardware/tube_plugs/`、`/structure/tube/`、`/wheels/silicone-wheel/` 返回 200。
+  - `https://doc.nicerobotics.hk/` 返回 200。
+  - `https://doc.nicerobotics.hk/transmission` 返回 307 到 `/transmission/gear/`。
+  - `https://doc.nicerobotics.hk/pagefind/pagefind.js` 返回 200。
+  - `https://docs-lyart-iota.vercel.app/`、`/transmission/gear/`、`/hardware/tube_plugs/`、`/structure/tube/`、`/wheels/silicone-wheel/` 返回 200。
   - `/pagefind/pagefind.js` 返回 200。
   - `/transmission`、`/hardware`、`/structure`、`/wheels` 返回 307 到对应首篇页面。
   - `/assets/docs/transmission/parameter%20%281%29.png` 返回 200。
   - `/transmission/sprocket_chain/` 页面内无 `/assets/docs/missing`，购买链接数量为 6。
+  - Vercel domain config 显示 `misconfigured: false`。
 
 ## 待处理事项
 
-- 用户需要在阿里云 DNS 为 `nicerobotics.hk` 添加 Vercel 验证记录：
-  - 类型：TXT
-  - 主机记录：`_vercel`
-  - 记录值：`vc-domain-verify=doc.nicerobotics.hk,e10e5bd8cc4e8bfa7182`
-- 验证 TXT 生效后，为访问域名添加 CNAME：
-  - 类型：CNAME
-  - 主机记录：`doc`
-  - 记录值：`1af47c2c9938dd40.vercel-dns-016.com.`
-  - 备选记录值：`cname.vercel-dns.com.`
-- DNS 生效后执行 `vercel api /v9/projects/docs/domains/doc.nicerobotics.hk/verify --scope ni-corporate -X POST` 或在 Vercel Dashboard 点击 verify。
+- 可后续优化：定位构建中的 `Entry docs → 404 was not found.` 提示来源。
+- 可后续优化：跟进 `@astrojs/check` 依赖链的 `npm audit` moderate vulnerabilities，不要直接 `npm audit fix --force`。
 
 ## 关键风险
 
-- 当前 `doc.nicerobotics.hk` 未验证，所以生产访问暂时使用 `https://docs-lyart-iota.vercel.app`。
 - `npm audit` 报 5 个 moderate vulnerabilities，来源在 `@astrojs/check` 的语言服务/YAML 依赖链；不要盲目执行 `npm audit fix --force`。
 - 构建提示 `Entry docs → 404 was not found.` 尚未定位根因，但目前不影响构建、部署或主要路由访问。
