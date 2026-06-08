@@ -1,10 +1,10 @@
 ---
-import niceBoxLogo from '../assets/logos/nice-box.svg';
+import niceBoxLogo from '../assets/logos/nice-box.svg?raw';
 ---
 
 <footer class="nice-footer">
-	<div class="nice-footer-brand">
-		<img src={niceBoxLogo.src} alt="" width="34" height="34" loading="lazy" />
+	<div class="nice-footer-brand" aria-hidden="true">
+		<span class="nice-footer-logo" set:html={niceBoxLogo} />
 	</div>
 	<div class="nice-footer-contact">
 		<h2>联系我们</h2>
@@ -17,14 +17,17 @@ import niceBoxLogo from '../assets/logos/nice-box.svg';
 	@layer starlight.core {
 		.nice-footer {
 			display: grid;
-			grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+			grid-template-columns:
+				minmax(0, 1fr)
+				minmax(0, var(--sl-content-width))
+				minmax(0, 1fr);
 			align-items: start;
-			gap: 1.25rem 2rem;
+			gap: 1rem 2rem;
 			box-sizing: border-box;
 			width: 100vw;
 			margin-block-start: 3.5rem;
 			margin-inline: calc(50% - 50vw);
-			padding-block: 1.5rem 0.75rem;
+			padding-block: 1.75rem 0.7rem;
 			padding-inline: max(1rem, calc((100vw - 82rem) / 2));
 			border-block-start: 1px solid var(--sl-color-hairline);
 			color: var(--sl-color-gray-3);
@@ -32,23 +35,33 @@ import niceBoxLogo from '../assets/logos/nice-box.svg';
 		}
 
 		.nice-footer-brand {
+			grid-column: 1;
 			display: flex;
 			align-items: center;
-			justify-self: start;
-			gap: 0.75rem;
+			justify-self: end;
 			min-width: 0;
+			padding-inline-end: 1.75rem;
 		}
 
-		.nice-footer-brand img {
-			width: 2.125rem;
-			height: 2.125rem;
+		.nice-footer-logo {
+			display: inline-flex;
+			width: 2.75rem;
+			height: 2.4rem;
 			flex: 0 0 auto;
+			color: var(--nice-header-bg, #fc5000);
+		}
+
+		.nice-footer-logo :global(svg) {
+			display: block;
+			width: 100%;
+			height: 100%;
+			overflow: visible;
 		}
 
 		.nice-footer-contact {
-			grid-column: 3;
-			justify-self: end;
-			text-align: end;
+			grid-column: 2;
+			justify-self: start;
+			text-align: start;
 		}
 
 		.nice-footer h2 {
@@ -70,10 +83,11 @@ import niceBoxLogo from '../assets/logos/nice-box.svg';
 		}
 
 		.nice-footer p {
-			grid-column: 2;
+			grid-column: 1 / -1;
 			grid-row: 2;
 			justify-self: center;
 			margin: 0;
+			font-size: 0.75rem;
 			text-align: center;
 		}
 
@@ -88,6 +102,7 @@ import niceBoxLogo from '../assets/logos/nice-box.svg';
 				grid-column: 1;
 				justify-self: center;
 				text-align: center;
+				padding-inline-end: 0;
 			}
 
 			.nice-footer-contact {

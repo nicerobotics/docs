@@ -2,6 +2,7 @@ import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync,
 import { dirname, join, relative, resolve, sep } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import katex from 'katex';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const sourceRoot = process.env.NICE_DOCS_SOURCE_ROOT
@@ -309,8 +310,46 @@ function convertGlobeIcons(markdown) {
 		);
 }
 
+function wrapHtmlTables(markdown) {
+	return markdown.replace(/(^|\n)(<table[\s\S]*?<\/table>)/g, (_, prefix, table) => {
+		return `${prefix}<div className="nice-table-scroll">\n${table}\n</div>`;
+	});
+}
+
+function renderMath(markdown) {
+	const render = (source, displayMode) => {
+		const expression = htmlDecode(source).trim();
+		if (!expression) return '';
+		return katex.renderToString(expression, {
+			displayMode,
+			throwOnError: false,
+			strict: 'ignore',
+			trust: false,
+		});
+	};
+
+	return markdown
+		.replace(/\$\$([\s\S]*?)\$\$/g, (_, expression) => {
+			return `<div className="nice-math-display not-content">${render(expression, true)}</div>`;
+		})
+		.replace(/(?<!\\)\$([^\n$]+)\$/g, (_, expression) => {
+			return `<span className="nice-math-inline">${render(expression, false)}</span>`;
+		});
+}
+
 function escapeMdxTextExpressions(markdown) {
-	return markdown.replace(/[{}]/g, (char) => (char === '{' ? '&#123;' : '&#125;'));
+	const protectedMath = [];
+	const protect = (value) => {
+		protectedMath.push(value);
+		return `@@NICE_MATH_${protectedMath.length - 1}@@`;
+	};
+
+	const escaped = markdown
+		.replace(/\$\$[\s\S]*?\$\$/g, protect)
+		.replace(/(?<!\\)\$[^\n$]+\$/g, protect)
+		.replace(/[{}]/g, (char) => (char === '{' ? '&#123;' : '&#125;'));
+
+	return escaped.replace(/@@NICE_MATH_(\d+)@@/g, (_, index) => protectedMath[Number(index)] ?? '');
 }
 
 function hasStarlightTabs(markdown) {
@@ -347,6 +386,8 @@ function transformMarkdown(source, page, assetMap) {
 	body = convertCards(body);
 	body = convertHtmlForMdx(body);
 	body = convertGlobeIcons(body);
+	body = wrapHtmlTables(body);
+	body = renderMath(body);
 	body = escapeMdxTextExpressions(body);
 	const imports = hasStarlightTabs(body) ? "import { Tabs, TabItem } from '@astrojs/starlight/components';\n\n" : '';
 	return `${buildFrontmatter(normalizedPage, body)}\n\n${imports}${body.trim()}\n`;

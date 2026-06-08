@@ -38,22 +38,52 @@ const { toc, depth = 0 } = Astro.props;
 
 		a {
 			--pad-inline: 0.5rem;
+			position: relative;
 			display: block;
-			padding-block: 0.25rem;
-			padding-inline: calc(1rem * var(--depth) + var(--pad-inline)) var(--pad-inline);
+			padding-block: 0.32rem;
+			padding-inline: calc(1rem * var(--depth) + var(--pad-inline) + 0.2rem) var(--pad-inline);
 			border-radius: 0.25rem;
-			color: var(--sl-color-gray-3);
+			color: #8a7c78;
 			line-height: 1.35;
 			text-decoration: none;
 			overflow-wrap: anywhere;
+			transition:
+				background-color 180ms ease,
+				color 180ms ease;
 		}
 
 		a:hover {
-			color: var(--sl-color-white);
+			background: rgba(120, 107, 103, 0.1);
+			color: #5f5450;
 			text-decoration: none;
 		}
 
 		a[aria-current='true'] {
+			background: rgba(252, 80, 0, 0.06);
+			color: var(--sl-color-text-accent);
+		}
+
+		a[aria-current='true']::before {
+			content: '';
+			position: absolute;
+			inset-block: 0.35rem;
+			inset-inline-start: -0.35rem;
+			width: 2px;
+			border-radius: 999px;
+			background: var(--nice-header-bg, #fc5000);
+		}
+
+		:global(:root[data-theme='dark']) a {
+			color: var(--sl-color-gray-3);
+		}
+
+		:global(:root[data-theme='dark']) a:hover {
+			background: rgba(255, 255, 255, 0.07);
+			color: var(--sl-color-white);
+		}
+
+		:global(:root[data-theme='dark']) a[aria-current='true'],
+		:global(:root[data-theme='dark']) a[aria-current='true']:hover {
 			color: var(--sl-color-text-accent);
 		}
 	}

@@ -1,6 +1,7 @@
 @layer base, starlight, theme, components, utilities;
 
 @import '@astrojs/starlight-tailwind';
+@import 'katex/dist/katex.min.css';
 @import 'tailwindcss/theme.css' layer(theme);
 @import 'tailwindcss/utilities.css' layer(utilities);
 
@@ -205,12 +206,17 @@
 		background: transparent;
 	}
 
-	.sl-markdown-content table {
-		display: block;
+	.sl-markdown-content .nice-table-scroll {
 		max-width: 100%;
 		overflow-x: auto;
+		margin-block: 1.25rem;
 		border: 1px solid var(--sl-color-gray-5);
 		border-radius: 0.5rem;
+		background: var(--nice-content-bg);
+	}
+
+	.sl-markdown-content table {
+		width: 100%;
 		border-collapse: separate;
 		border-spacing: 0;
 		white-space: nowrap;
@@ -218,9 +224,31 @@
 		background: var(--nice-content-bg);
 	}
 
+	.sl-markdown-content > table {
+		display: block;
+		max-width: 100%;
+		overflow-x: auto;
+		border: 1px solid var(--sl-color-gray-5);
+		border-radius: 0.5rem;
+	}
+
+	.sl-markdown-content .nice-table-scroll table {
+		display: table;
+		width: max-content;
+		min-width: 100%;
+		max-width: none;
+		margin: 0;
+		border: 0;
+		border-radius: 0;
+		background: transparent;
+		overflow: visible;
+	}
+
 	.sl-markdown-content th,
 	.sl-markdown-content td {
 		border-color: var(--sl-color-gray-5);
+		padding-block: 0.7rem;
+		padding-inline: 1rem;
 	}
 
 	.sl-markdown-content thead {
@@ -232,13 +260,37 @@
 	}
 
 	.sl-markdown-content th:first-child {
-		padding-inline-start: 1rem;
+		padding-inline-start: 1.25rem;
 		border-start-start-radius: 0.45rem;
 	}
 
 	.sl-markdown-content th:last-child {
-		padding-inline-end: 1rem;
+		padding-inline-end: 1.25rem;
 		border-start-end-radius: 0.45rem;
+	}
+
+	.sl-markdown-content td:first-child {
+		padding-inline-start: 1.25rem;
+	}
+
+	.sl-markdown-content td:last-child {
+		padding-inline-end: 1.25rem;
+	}
+
+	.sl-markdown-content tbody tr:last-child > * {
+		border-bottom: 0;
+	}
+
+	.sl-markdown-content .katex-display {
+		max-width: 100%;
+		overflow-x: auto;
+		overflow-y: hidden;
+		padding-block: 0.75rem;
+		font-size: 1.04em;
+	}
+
+	.sl-markdown-content .katex {
+		color: inherit;
 	}
 
 	.sl-markdown-content .starlight-aside {
@@ -329,6 +381,10 @@
 		text-decoration: none;
 		vertical-align: middle;
 		white-space: nowrap;
+		transition:
+			background-color 180ms ease,
+			border-color 180ms ease,
+			color 180ms ease;
 	}
 
 	.sl-markdown-content a.button.primary:not([data-icon='globe-pointer'])::before {
@@ -361,6 +417,7 @@
 		height: 1.5rem;
 		color: var(--sl-color-gray-2);
 		text-decoration: none;
+		transition: color 180ms ease;
 	}
 
 	.nice-onshape-link:hover {
@@ -393,13 +450,15 @@
 		color: var(--sl-color-text);
 		text-decoration: none;
 		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+		transition:
+			border-color 180ms ease,
+			background-color 180ms ease;
 	}
 
 	.nice-card:hover {
 		border-color: var(--nice-header-bg);
-		box-shadow: 0 8px 24px rgba(252, 80, 0, 0.14);
+		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
 		text-decoration: none;
-		transform: translateY(-1px);
 	}
 
 	.nice-card img {
@@ -416,6 +475,12 @@
 
 	.nice-card img[data-fit='cover'] {
 		object-fit: cover;
+	}
+
+	.nice-card img[src$='/tube.png'],
+	.nice-card img[src*='11373_160'] {
+		object-fit: cover;
+		object-position: left center;
 	}
 
 	.nice-card span {
@@ -438,9 +503,13 @@
 	}
 
 	.nice-card small {
-		color: var(--sl-color-gray-3);
+		color: #786b67;
 		font-size: 0.8125rem;
-		font-weight: 650;
+		font-weight: 500;
+	}
+
+	:root[data-theme='dark'] .nice-card small {
+		color: var(--sl-color-gray-3);
 	}
 
 	#starlight__sidebar .sidebar-content {
@@ -468,12 +537,18 @@
 		display: flex;
 		align-items: center;
 		gap: 0.45rem;
-		font-size: 0.875rem;
+		color: #8a7c78;
+		font-size: 0.8125rem;
+		font-weight: 600;
 	}
 
 	.right-sidebar-panel a {
-		font-size: 0.8125rem;
-		line-height: 1.45;
+		font-size: 0.875rem;
+		line-height: 1.55;
+	}
+
+	:root[data-theme='dark'] .right-sidebar-panel h2 {
+		color: #b8adaa;
 	}
 
 	.sl-markdown-content starlight-tabs {
