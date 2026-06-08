@@ -20,10 +20,7 @@ const hasToc = Boolean(Astro.locals.starlightRoute.toc);
 		.nice-two-column {
 			--nice-content-column-width: calc(var(--sl-content-width) + 2 * var(--sl-content-pad-x));
 			--nice-toc-width: 13.25rem;
-			--nice-toc-gap: clamp(1.4rem, 2.5vw, 2.3rem);
-			--nice-two-column-width: calc(
-				var(--nice-content-column-width) + var(--nice-toc-width) + var(--nice-toc-gap)
-			);
+			--nice-toc-gap: clamp(1.5rem, 2vw, 2.5rem);
 			min-width: 0;
 		}
 
@@ -38,19 +35,8 @@ const hasToc = Boolean(Astro.locals.starlightRoute.toc);
 				margin-inline: auto;
 			}
 
-			.nice-two-column.has-toc {
-				display: grid;
-				grid-template-columns: minmax(0, var(--nice-content-column-width)) var(--nice-toc-width);
-				align-items: start;
-				justify-content: center;
-				gap: var(--nice-toc-gap);
-				max-width: var(--nice-two-column-width);
-			}
-
 			.right-sidebar-container {
-				order: 2;
-				width: auto;
-				min-width: 0;
+				display: none;
 			}
 
 			.right-sidebar {
@@ -69,13 +55,15 @@ const hasToc = Boolean(Astro.locals.starlightRoute.toc);
 		}
 
 		@media (min-width: 88rem) {
+			.right-sidebar-container {
+				display: block;
+			}
+
 			.right-sidebar {
 				position: fixed;
 				inset-block-start: var(--sl-nav-height);
 				inset-inline-start: calc(
-					var(--sl-content-inline-start, 0rem) +
-						((100vw - var(--sl-content-inline-start, 0rem) - var(--nice-two-column-width)) / 2) +
-						var(--nice-content-column-width) + var(--nice-toc-gap)
+					(100vw + var(--nice-content-column-width)) / 2 + var(--nice-toc-gap)
 				);
 				width: var(--nice-toc-width);
 				max-height: calc(100vh - var(--sl-nav-height));

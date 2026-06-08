@@ -66,7 +66,7 @@ const navItems: Array<{
 					aria-label="淘宝店铺"
 				>
 					<span class="nice-shop-icon" aria-hidden="true"></span>
-					淘宝店铺
+					店铺
 				</a>
 				{shouldRenderSearch && <Search />}
 			</div>
@@ -204,9 +204,9 @@ const navItems: Array<{
 			min-height: 3rem;
 			padding-inline: 0.875rem;
 			border-block-end: 2px solid transparent;
-			color: var(--sl-color-gray-2);
-			font-size: 0.925rem;
-			font-weight: 650;
+			color: var(--sl-color-gray-3);
+			font-size: 0.9rem;
+			font-weight: 540;
 			text-decoration: none;
 			white-space: nowrap;
 		}
@@ -215,6 +215,7 @@ const navItems: Array<{
 		.nice-section-link.active {
 			color: var(--sl-color-text-accent);
 			border-block-end-color: var(--nice-header-bg, #fc5000);
+			font-weight: 600;
 			text-decoration: none;
 		}
 
