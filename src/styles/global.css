@@ -175,9 +175,9 @@
 	}
 
 	.sl-markdown-content .sl-heading-wrapper {
+		position: relative;
 		display: flex;
 		align-items: baseline;
-		gap: 0.35em;
 	}
 
 	.sl-markdown-content .sl-heading-wrapper > :first-child {
@@ -185,13 +185,16 @@
 	}
 
 	.sl-markdown-content .sl-anchor-link {
-		order: -1;
+		position: absolute;
+		inset-block-start: 50%;
+		inset-inline-start: 0;
+		transform: translate(calc(-100% - 0.35em), -50%);
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
 		width: 0.85em;
 		height: 1em;
-		margin-inline: 0 0.05em !important;
+		margin: 0 !important;
 		color: var(--sl-color-text-accent);
 		text-decoration: none;
 	}
@@ -352,8 +355,11 @@
 	.sl-markdown-content .starlight-aside__title {
 		grid-column: 1;
 		grid-row: 1;
+		display: flex;
+		align-items: center;
+		align-self: start;
 		margin: 0;
-		padding-block-start: 0.15rem;
+		padding-block-start: 0.18rem;
 		font-size: 0;
 		line-height: 1;
 	}
@@ -361,6 +367,7 @@
 	.sl-markdown-content .starlight-aside__icon {
 		width: 1.1rem;
 		height: 1.1rem;
+		flex: 0 0 auto;
 		font-size: 1.1rem;
 	}
 
@@ -384,10 +391,20 @@
 		color: #242424;
 	}
 
+	.sl-markdown-content .starlight-aside--note .starlight-aside__icon,
+	.sl-markdown-content .starlight-aside--tip .starlight-aside__icon {
+		color: #6f6a67;
+	}
+
 	.sl-markdown-content .starlight-aside--caution,
 	.sl-markdown-content .starlight-aside--danger {
 		background: #fff5ec;
 		color: #242424;
+	}
+
+	.sl-markdown-content .starlight-aside--caution .starlight-aside__icon,
+	.sl-markdown-content .starlight-aside--danger .starlight-aside__icon {
+		color: #f08a00;
 	}
 
 	:root[data-theme='dark'] .sl-markdown-content .starlight-aside--note,
@@ -636,14 +653,32 @@
 	}
 
 	.sl-markdown-content starlight-tabs .tab > [role='tab']:hover {
+		background: rgba(120, 107, 103, 0.1);
+		color: #5f5450;
+	}
+
+	:root[data-theme='dark'] .sl-markdown-content starlight-tabs .tab > [role='tab']:hover {
 		background: rgba(255, 255, 255, 0.07);
 		color: var(--sl-color-white);
 	}
 
 	.sl-markdown-content starlight-tabs .tab [role='tab'][aria-selected='true'] {
-		background: rgba(252, 80, 0, 0.1);
+		background: transparent;
 		box-shadow: inset 0 -2px 0 var(--sl-color-text-accent);
 		font-weight: 650;
+	}
+
+	.sl-markdown-content starlight-tabs .tab [role='tab'][aria-selected='true']:hover {
+		background: transparent;
+		color: var(--sl-color-text);
+	}
+
+	:root[data-theme='dark']
+		.sl-markdown-content
+		starlight-tabs
+		.tab
+		[role='tab'][aria-selected='true']:hover {
+		color: var(--sl-color-white);
 	}
 
 	.sl-markdown-content starlight-tabs .tablist-wrapper ~ [role='tabpanel'] {

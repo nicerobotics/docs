@@ -11,6 +11,8 @@ interface Props {
 }
 
 const { toc, depth = 0 } = Astro.props;
+
+const cleanTocText = (text: string) => text.replace(/\s*(购买链接|购买)\s*/g, ' ').trim();
 ---
 
 <ul>
@@ -18,7 +20,7 @@ const { toc, depth = 0 } = Astro.props;
 		toc.map((heading) => (
 			<li>
 				<a href={'#' + heading.slug}>
-					<span>{heading.text}</span>
+					<span>{cleanTocText(heading.text)}</span>
 				</a>
 				{Boolean(heading.children?.length) && (
 					<Astro.self toc={heading.children ?? []} depth={depth + 1} />
