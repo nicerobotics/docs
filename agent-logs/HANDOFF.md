@@ -1,6 +1,6 @@
 # Handoff
 
-更新时间：2026-06-08 17:22:39 +08:00
+更新时间：2026-06-08 17:26:44 +08:00
 
 ## 当前状态
 
@@ -8,7 +8,7 @@
 - 本地分支：`main` 跟踪 `origin/main`。
 - Vercel 项目：NI Corporate / `docs`，Project ID `prj_Y5hrSGAEBBI9098IzW2wcVKNsgwD`，production branch 为 `main`。
 - 生产域名：`https://doc.nicerobotics.hk`。
-- 本轮淘宝按钮尺寸和购买列宽修正已完成本地实现与验证，待提交、推送并确认 Vercel production。
+- 本轮淘宝按钮尺寸和购买列宽修正已完成本地实现、提交、推送和 Vercel production 验证。
 
 ## 本轮完成变更
 
@@ -27,10 +27,13 @@
 - `npm run check` 通过：0 errors，0 warnings，0 hints；仍有既有 Astro markdown deprecation 提示。
 - `npm run build` 通过：生成 16 个内容页、Pagefind 索引和 sitemap；仍有既有 `Entry docs → 404 was not found.` 提示。
 - `git diff --check` 通过；只有 Git 的 LF/CRLF 转换提示。
+- Vercel production 验证：
+  - 最新 production deployment Ready，alias 包含 `https://doc.nicerobotics.hk`。
+  - `https://doc.nicerobotics.hk/structure/tube/` 返回 200。
+  - 线上 Playwright 复测：购买列 `60px`，按钮约 `37.6px`，按钮 icon 约 `21.6px`，顶部店铺按钮约 `40px`，顶部淘宝 icon 约 `21.6px`，无 body 横向溢出，控制台错误数为 0。
 
 ## 待处理事项
 
-- 提交并推送本轮改动，然后确认 Vercel production Ready 且 `https://doc.nicerobotics.hk` 可访问。
 - 后续可单独处理既有构建提示：Astro markdown deprecation 和 `Entry docs → 404 was not found.`。
 - 后续可跟进 `npm audit` 的 moderate vulnerabilities；不要直接 `npm audit fix --force`。
 
