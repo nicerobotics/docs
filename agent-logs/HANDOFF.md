@@ -1,6 +1,6 @@
 # Handoff
 
-更新时间：2026-06-08 17:41:29 +08:00
+更新时间：2026-06-08 17:49:51 +08:00
 
 ## 当前状态
 
@@ -8,7 +8,7 @@
 - 本地分支：`main` 跟踪 `origin/main`。
 - Vercel 项目：NI Corporate / `docs`，Project ID `prj_Y5hrSGAEBBI9098IzW2wcVKNsgwD`，production branch 为 `main`。
 - 生产域名：`https://doc.nicerobotics.hk`。
-- 本轮移动端 header、搜索、左目录和标题锚点修正已完成本地实现与验证，待提交、推送并确认 Vercel production。
+- 本轮移动端 header、搜索、左目录和标题锚点修正已完成本地实现、提交、推送和 Vercel production 验证。
 
 ## 本轮完成变更
 
@@ -31,10 +31,13 @@
 - `npm run check` 通过：0 errors，0 warnings，0 hints；仍有既有 Astro markdown deprecation 提示。
 - `npm run build` 通过：生成 16 个内容页、Pagefind 索引和 sitemap；仍有既有 `Entry docs → 404 was not found.` 提示。
 - `git diff --check` 通过；只有 Git 的 LF/CRLF 转换提示。
+- Vercel production 验证：
+  - 最新 production deployment Ready，alias 包含 `https://doc.nicerobotics.hk`。
+  - `https://doc.nicerobotics.hk/` 和 `https://doc.nicerobotics.hk/transmission/gear/` 均返回 200。
+  - Playwright 线上 390×844 复测与本地一致：首页无目录按钮，传动页左上目录按钮无背景，搜索最右且有圆角，打开左目录后背景可读，移动端标题锚点隐藏，控制台错误数为 0。
 
 ## 待处理事项
 
-- 提交并推送本轮改动，然后确认 Vercel production Ready 且 `https://doc.nicerobotics.hk` 可访问。
 - 后续可单独处理既有构建提示：Astro markdown deprecation 和 `Entry docs → 404 was not found.`。
 - 后续可跟进 `npm audit` 的 moderate vulnerabilities；不要直接 `npm audit fix --force`。
 
