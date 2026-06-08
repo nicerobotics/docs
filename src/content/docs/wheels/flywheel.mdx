@@ -1,12 +1,19 @@
 ---
 title: "实心飞轮"
 description: "黄铜飞轮采用高惯量设计："
-gitbookIcon: "rotate"
+icon: "rotate"
+sidebar:
+  order: 20
 ---
 
-## 黄铜飞轮 <a href="https://item.taobao.com/item.htm?id=1056543990136&#x26;mi_id=0000t_zVy0vX97FBz8bRYxbnWJuJoREqO54f_6jj7AjyT3c&#x26;spm=a21xtw.29178619.0.0&#x26;xxc=shop&#x26;skuId=6099590285292" className="button primary">购买链接</a>
 
-<figure><img src="/assets/docs/wheels/NICE-07-06-001.png" alt="" /><figcaption></figcaption></figure>
+import { BuyButton, DocImage, ProductTable } from '~/components/mdx';
+
+## 黄铜飞轮
+
+<BuyButton href="https://item.taobao.com/item.htm?id=1056543990136&mi_id=0000t_zVy0vX97FBz8bRYxbnWJuJoREqO54f_6jj7AjyT3c&spm=a21xtw.29178619.0.0&xxc=shop&skuId=6099590285292" />
+
+<DocImage src="/assets/docs/wheels/NICE-07-06-001.png" alt="实心飞轮 1" />
 
 黄铜飞轮采用高惯量设计：
 
@@ -14,6 +21,56 @@ gitbookIcon: "rotate"
 * 1/2”六角轴安装孔
 * 提升连续射球转速稳定性
 
-<div className="nice-table-scroll">
-<table><thead><tr><th width="159.62890625">SKU</th><th width="81.12109375">外径</th><th width="76.0078125">重量</th><th width="101.4765625">转动惯量</th><th width="205.125" data-type="files">图纸</th><th width="196.6640625" data-type="files">模型</th><th width="116.39453125">Onshape</th></tr></thead><tbody><tr><td>NICE-07-06-001</td><td>100mm</td><td>500g</td><td>3lb·in^2</td><td><a href="/assets/docs/wheels/NICE-D-07-06-01.pdf">NICE-D-07-06-01.pdf</a></td><td><a href="/assets/docs/wheels/NICE-07-06-001.step">NICE-07-06-001.step</a></td><td></td></tr></tbody></table>
-</div>
+<ProductTable
+  columns={[
+  {
+    key: "c0",
+    label: "SKU"
+  },
+  {
+    key: "c1",
+    label: "外径"
+  },
+  {
+    key: "c2",
+    label: "重量"
+  },
+  {
+    key: "c3",
+    label: "转动惯量"
+  },
+  {
+    key: "c4",
+    label: "图纸",
+    type: "pdf"
+  },
+  {
+    key: "c5",
+    label: "模型",
+    type: "step"
+  },
+  {
+    key: "c6",
+    label: "Onshape",
+    type: "onshape",
+    align: "center"
+  }
+]}
+  rows={[
+  {
+    c0: "NICE-07-06-001",
+    c1: "100mm",
+    c2: "500g",
+    c3: "3lb·in^2",
+    c4: {
+      href: "/assets/docs/wheels/NICE-D-07-06-01.pdf",
+      label: "NICE-D-07-06-01.pdf"
+    },
+    c5: {
+      href: "/assets/docs/wheels/NICE-07-06-001.step",
+      label: "NICE-07-06-001.step"
+    },
+    c6: null
+  }
+]}
+/>

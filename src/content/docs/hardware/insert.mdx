@@ -1,8 +1,13 @@
 ---
 title: "3D 打印嵌入件"
 description: "使用3D打印制作动力传输部件（皮带轮、齿轮……）正在变得流行。但是3D打印件通常："
-gitbookIcon: "seal"
+icon: "seal"
+sidebar:
+  order: 40
 ---
+
+
+import { BuyButton, DocImage, OnshapeLink, ProductTable } from '~/components/mdx';
 
 使用3D打印制作动力传输部件（皮带轮、齿轮……）正在变得流行。但是3D打印件通常：
 
@@ -16,13 +21,15 @@ NICE 3D打印嵌入件孕育而生。采用高强度6061-T6铝合金制成，仅
 
 #### 皮带轮嵌入
 
-<figure><img src="/assets/docs/hardware/Insert_wPulley.png" alt="" width="375" /><figcaption></figcaption></figure>
+<DocImage src="/assets/docs/hardware/Insert_wPulley.png" alt="3D 打印嵌入件 1" width={375} />
 
 配合3D打印嵌入件，有效杜绝因应力集中而产生的打印件断裂变形问题，并大幅减少了所需的填充率。
 
-## NICE皮带轮生成器 <a href="https://cad.onshape.com/documents/7f060273e4bab729adead569/w/19d349784e7c91c00cdea39d/e/28ab6289faa784aaacb61227?configuration=Belt_Width%3D0.011%2Bmeter%3BBreaing_T%3D0.00553%2Bmeter%3BList_gjj2ZuSKOEpUZB%3DDefault%3BList_sAlfs7a70W4yCe%3DDead_Axle%3BPocket%3Dtrue%3BTeeth%3D36.0%3B____%3Dfalse%3Bbearing_OD%3D0.0247%2Bmeter&#x26;renderMode=0&#x26;uiState=696ba1bdfadd99dd2d4a66b1" className="button primary" data-icon="globe-pointer">Onshape链接</a>
+## NICE皮带轮生成器
 
-<figure><img src="/assets/docs/hardware/%E6%88%AA%E5%B1%8F2026-01-17%2022.57.42.png" alt="" /><figcaption></figcaption></figure>
+<OnshapeLink href="https://cad.onshape.com/documents/7f060273e4bab729adead569/w/19d349784e7c91c00cdea39d/e/28ab6289faa784aaacb61227?configuration=Belt_Width%3D0.011%2Bmeter%3BBreaing_T%3D0.00553%2Bmeter%3BList_gjj2ZuSKOEpUZB%3DDefault%3BList_sAlfs7a70W4yCe%3DDead_Axle%3BPocket%3Dtrue%3BTeeth%3D36.0%3B____%3Dfalse%3Bbearing_OD%3D0.0247%2Bmeter&renderMode=0&uiState=696ba1bdfadd99dd2d4a66b1" />
+
+<DocImage src="/assets/docs/hardware/%E6%88%AA%E5%B1%8F2026-01-17%2022.57.42.png" alt="3D 打印嵌入件 2" />
 
 * HTD5mm/3mm齿型
 * 齿宽、齿数可调
@@ -35,10 +42,59 @@ NICE 3D打印嵌入件孕育而生。采用高强度6061-T6铝合金制成，仅
 
 :::
 
-## NICE 1/2''轴用打印嵌入件 <a href="https://item.taobao.com/item.htm?id=1012638862342&#x26;mi_id=0000iTMzGn9Bda-E2gozCIBJMOiTfyOC428w1lgRQPEArEo&#x26;spm=a21xtw.29178619.0.0&#x26;xxc=shop&#x26;skuId=6015704508382" className="button primary" data-icon="bag-shopping">购买</a>
+## NICE 1/2''轴用打印嵌入件
 
-<figure><img src="/assets/docs/hardware/insert.png" alt="" width="375" /><figcaption></figcaption></figure>
+<BuyButton href="https://item.taobao.com/item.htm?id=1012638862342&mi_id=0000iTMzGn9Bda-E2gozCIBJMOiTfyOC428w1lgRQPEArEo&spm=a21xtw.29178619.0.0&xxc=shop&skuId=6015704508382" />
 
-<div className="nice-table-scroll">
-<table><thead><tr><th width="188">SKU</th><th width="115">重量</th><th width="152.5234375">适配六角轴</th><th width="208.6015625" data-type="files">图纸</th><th width="203.6875" data-type="files">模型</th><th width="108.9921875" align="center">Onshape</th></tr></thead><tbody><tr><td>NICE-04-03-001</td><td>3.4g</td><td>1/2inch</td><td><a href="/assets/docs/hardware/NICE-D-04-03-01.pdf">NICE-D-04-03-01.pdf</a></td><td><a href="/assets/docs/hardware/NICE-04-03-001.step">NICE-04-03-001.step</a></td><td align="center"><a href="https://cad.onshape.com/documents/ba7820e266bf07d2040335fc/w/3a4be06c69e78ddc646b65a4/e/f6b4f6cbeb32953ba733ca8b" className="nice-onshape-link" aria-label="Onshape"><span className="nice-onshape-icon" aria-hidden="true"></span></a></td></tr></tbody></table>
-</div>
+<DocImage src="/assets/docs/hardware/insert.png" alt="3D 打印嵌入件 3" width={375} />
+
+<ProductTable
+  columns={[
+  {
+    key: "c0",
+    label: "SKU"
+  },
+  {
+    key: "c1",
+    label: "重量"
+  },
+  {
+    key: "c2",
+    label: "适配六角轴"
+  },
+  {
+    key: "c3",
+    label: "图纸",
+    type: "pdf"
+  },
+  {
+    key: "c4",
+    label: "模型",
+    type: "step"
+  },
+  {
+    key: "c5",
+    label: "Onshape",
+    type: "onshape",
+    align: "center"
+  }
+]}
+  rows={[
+  {
+    c0: "NICE-04-03-001",
+    c1: "3.4g",
+    c2: "1/2inch",
+    c3: {
+      href: "/assets/docs/hardware/NICE-D-04-03-01.pdf",
+      label: "NICE-D-04-03-01.pdf"
+    },
+    c4: {
+      href: "/assets/docs/hardware/NICE-04-03-001.step",
+      label: "NICE-04-03-001.step"
+    },
+    c5: {
+      href: "https://cad.onshape.com/documents/ba7820e266bf07d2040335fc/w/3a4be06c69e78ddc646b65a4/e/f6b4f6cbeb32953ba733ca8b"
+    }
+  }
+]}
+/>

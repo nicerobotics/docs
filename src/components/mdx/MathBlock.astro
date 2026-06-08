@@ -1,0 +1,20 @@
+---
+import katex from 'katex';
+
+interface Props {
+	expression: string;
+}
+
+const { expression } = Astro.props;
+const html = katex.renderToString(expression, {
+	displayMode: true,
+	throwOnError: false,
+	strict: 'ignore',
+	trust: false,
+});
+---
+
+<div
+	class="not-content my-5 max-w-full overflow-x-auto overflow-y-hidden py-3 text-[1.04em] text-[var(--sl-color-text)]"
+	set:html={html}
+/>

@@ -23,25 +23,9 @@ function hasCurrent(entries: SidebarEntry[] = []): boolean {
 	return entries.some((entry) => entry.isCurrent || (entry.entries && hasCurrent(entry.entries)));
 }
 
-function iconForHref(href = '') {
-	const normalized = href.replace(/^\/|\/$/g, '');
-	const map: Record<string, string> = {
-		'transmission/gear': 'gear',
-		'transmission/sprocket_chain': 'link',
-		'hardware/tube_plugs': 'gem',
-		'hardware/nut_strips': 'screwdriver-wrench',
-		'hardware/bearing_shaft': 'futbol',
-		'hardware/insert': 'seal',
-		'hardware/adapter': 'circle-0',
-		'hardware/shim': 'square-quarters',
-		'structure/tube': 'chimney',
-		'structure/bumper': 'car',
-		'wheels/silicone-wheel': 'truck-monster',
-		'wheels/flywheel': 'rotate',
-		'wheels/silicone-tube': 'circle',
-		'wheels/roller-system': 'sushi-roll',
-	};
-	return map[normalized] ?? 'circle';
+function iconForEntry(entry: SidebarEntry) {
+	const icon = entry.attrs?.['data-icon'];
+	return typeof icon === 'string' ? icon : 'circle';
 }
 ---
 
@@ -56,7 +40,7 @@ function iconForHref(href = '') {
 						class:list={[{ large: !nested }, entry.attrs?.class]}
 						{...entry.attrs}
 					>
-						<NiceIcon name={iconForHref(entry.href)} size={nested ? '0.9rem' : '1rem'} />
+						<NiceIcon name={iconForEntry(entry)} size={nested ? '0.9rem' : '1rem'} />
 						<span>{entry.label}</span>
 					</a>
 				) : (

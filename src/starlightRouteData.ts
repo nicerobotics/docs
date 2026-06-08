@@ -1,6 +1,8 @@
 import { defineRouteMiddleware, type StarlightRouteData } from '@astrojs/starlight/route-data';
+import { getCollection } from 'astro:content';
 
 const sectionPrefixes = ['transmission', 'hardware', 'structure', 'wheels'] as const;
+let iconByHref: Map<string, string> | undefined;
 
 type SidebarGroup = StarlightRouteData['sidebar'][number] & {
 	type: 'group';
@@ -19,6 +21,27 @@ function isSidebarGroup(entry: StarlightRouteData['sidebar'][number] | undefined
 function filterOverview(route: StarlightRouteData) {
 	if (!route.toc) return;
 	route.toc.items = route.toc.items.filter((item) => item.slug !== '_top');
+}
+
+async function getIconByHref() {
+	if (iconByHref) return iconByHref;
+	const docs = await getCollection('docs');
+	iconByHref = new Map(
+		docs
+			.filter((entry) => entry.data.icon)
+			.map((entry) => [`/${entry.id ? `${entry.id}/` : ''}`, entry.data.icon as string])
+	);
+	return iconByHref;
+}
+
+function addSidebarIcons(entries: StarlightRouteData['sidebar'], icons: Map<string, string>) {
+	for (const entry of entries) {
+		if (entry.type === 'link') {
+			const icon = icons.get(entry.href);
+			if (icon) entry.attrs = { ...entry.attrs, 'data-icon': icon };
+		}
+		if (isSidebarGroup(entry)) addSidebarIcons(entry.entries, icons);
+	}
 }
 
 function filterSidebar(route: StarlightRouteData) {
@@ -44,6 +67,8 @@ function filterSidebar(route: StarlightRouteData) {
 
 export const onRequest = defineRouteMiddleware(async (context, next) => {
 	await next();
-	filterSidebar(context.locals.starlightRoute);
-	filterOverview(context.locals.starlightRoute);
+	const route = context.locals.starlightRoute;
+	addSidebarIcons(route.sidebar, await getIconByHref());
+	filterSidebar(route);
+	filterOverview(route);
 });

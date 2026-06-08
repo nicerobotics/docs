@@ -8,8 +8,8 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "lint:content": "node scripts/lint-content.mjs",
     "check": "astro check",
-    "sync:content": "node scripts/sync-gitbook.mjs",
     "sync:astro": "astro sync",
     "astro": "astro"
   },

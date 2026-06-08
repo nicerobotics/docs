@@ -1,0 +1,46 @@
+---
+interface SubpageItem {
+	href: string;
+	title: string;
+	subtitle?: string;
+	image?: string;
+	alt?: string;
+	fit?: 'contain' | 'cover';
+	align?: 'center' | 'left';
+}
+
+interface Props {
+	items: SubpageItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<div class="not-content mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+	{
+		items.map((item) => (
+			<a
+				class="group flex min-w-0 flex-col overflow-hidden rounded-lg border border-[#e1d6d3]/70 bg-[var(--nice-content-bg)] text-[var(--sl-color-text)] no-underline shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition-colors duration-200 hover:border-[#fc5000] hover:no-underline [html[data-theme='dark']_&]:border-white/15"
+				href={item.href}
+			>
+				{item.image && (
+					<img
+						class:list={[
+							'aspect-video w-full bg-[#fffdfb] object-contain [html[data-theme="dark"]_&]:bg-[#252321]',
+							item.fit === 'cover' && 'object-cover',
+							item.align === 'left' && 'object-left',
+						]}
+						src={item.image}
+						alt={item.alt ?? ''}
+						loading="lazy"
+						decoding="async"
+					/>
+				)}
+				<span class="grid justify-items-center gap-1 px-4 pb-4 pt-3 text-center">
+					<strong class="text-base leading-snug text-[var(--sl-color-text)]">{item.title}</strong>
+					{item.subtitle && <small class="text-[0.8125rem] font-medium leading-snug text-[#1d1d1d] [html[data-theme='dark']_&]:text-[#d8cecb]">{item.subtitle}</small>}
+				</span>
+			</a>
+		))
+	}
+</div>

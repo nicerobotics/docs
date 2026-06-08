@@ -1,0 +1,33 @@
+---
+interface Props {
+	src: string;
+	alt: string;
+	caption?: string;
+	width?: number | string;
+	variant?: 'default' | 'wide' | 'plain';
+}
+
+const { src, alt, caption, width, variant = 'default' } = Astro.props;
+const maxWidth = variant === 'wide' ? 'max-w-full' : 'max-w-[min(100%,23.4375rem)]';
+const background =
+	variant === 'plain'
+		? 'bg-transparent'
+		: 'bg-[#fbfaf8] [html[data-theme="dark"]_&]:bg-[#252321]';
+---
+
+<figure class="not-content my-5 grid justify-items-center">
+	<img
+		class:list={[
+			'block rounded border-0 object-contain',
+			maxWidth,
+			background,
+			variant === 'plain' ? 'p-0' : 'p-0',
+		]}
+		src={src}
+		alt={alt}
+		width={width}
+		loading="lazy"
+		decoding="async"
+	/>
+	{caption && <figcaption class="mt-2 text-center text-sm text-[#786b67] [html[data-theme='dark']_&]:text-[#c6beba]">{caption}</figcaption>}
+</figure>

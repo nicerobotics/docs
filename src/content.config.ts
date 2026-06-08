@@ -8,7 +8,7 @@ export const collections = {
 		loader: docsLoader(),
 		schema: docsSchema({
 			extend: z.object({
-				gitbookIcon: z.string().optional(),
+				icon: z.string().optional(),
 			}),
 		}),
 	}),
