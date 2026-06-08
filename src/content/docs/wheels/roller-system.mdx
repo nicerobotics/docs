@@ -1,8 +1,13 @@
 ---
 title: "滚轴系统"
 description: "滚筒系统是面向FRC机器人Intake、Index、Shooter等机构的模块化解决方案。覆盖滚筒结构本体与高摩擦表面处理需求，适用于比赛道具的抓取、导向与输送等场景。"
-gitbookIcon: "sushi-roll"
+icon: "sushi-roll"
+sidebar:
+  order: 40
 ---
+
+
+import { DocImage, ProductTable, SubpageGallery } from '~/components/mdx';
 
 import { Tabs, TabItem } from '@astrojs/starlight/components';
 
@@ -12,7 +17,7 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 **猫舌胶带可粘贴于滚筒表面，为滚筒提供耐磨、高摩擦的接触层**。其表面材料适合用于提升滚筒与比赛道具之间的摩擦力，改善抓取、导向和输送过程中的稳定性。相较于市面同类产品，猫舌胶带拥有相似的性能且更具性价比。
 
-## 滚轴系统 <a className="button primary">购买链接</a>
+## 滚轴系统
 
 ### 亮点
 
@@ -24,33 +29,32 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 ### 配置
 
-<figure><img src="/assets/docs/wheels/RollerSystem.png" alt="" /><figcaption></figcaption></figure>
+<DocImage src="/assets/docs/wheels/RollerSystem.png" alt="滚轴系统 13" />
 
 滚轴塞适配两种规格的滚筒，_**Φ35mm\*Φ31mm**_（NICE-07-05-001）、_**Φ50mm\*Φ46mm**_（NICE-07-05-002）。滚轴皮带轮统一为22T，并可根据设计需要选择堆叠数量。
 
-<div className="nice-card-grid not-content">
-<a className="nice-card" href="#">
-  <img src="/assets/docs/wheels/HUBonly.png" alt="" loading="lazy" data-fit="contain" />
-  <span>
-    <strong>单滚轴塞</strong>
-    <small>HUBonly.png</small>
-  </span>
-</a>
-<a className="nice-card" href="#">
-  <img src="/assets/docs/wheels/SinglePulley.png" alt="" loading="lazy" data-fit="contain" />
-  <span>
-    <strong>滚轴塞+滚轴同步带轮</strong>
-    <small>SinglePulley.png</small>
-  </span>
-</a>
-<a className="nice-card" href="#">
-  <img src="/assets/docs/wheels/DoublePulley.png" alt="" loading="lazy" data-fit="contain" />
-  <span>
-    <strong>滚轴塞+双滚轴同步带轮</strong>
-    <small>DoublePulley.png</small>
-  </span>
-</a>
-</div>
+<SubpageGallery
+  items={[
+  {
+    href: "#",
+    image: "/assets/docs/wheels/HUBonly.png",
+    title: "单滚轴塞",
+    subtitle: "HUBonly.png"
+  },
+  {
+    href: "#",
+    image: "/assets/docs/wheels/SinglePulley.png",
+    title: "滚轴塞+滚轴同步带轮",
+    subtitle: "SinglePulley.png"
+  },
+  {
+    href: "#",
+    image: "/assets/docs/wheels/DoublePulley.png",
+    title: "滚轴塞+双滚轴同步带轮",
+    subtitle: "DoublePulley.png"
+  }
+]}
+/>
 
 ### 组件清单
 
@@ -60,17 +64,87 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 <TabItem label="NICE-07-05-001">
 
-<div className="nice-table-scroll">
-<table><thead><tr><th>名称</th><th>备注</th><th>数量</th></tr></thead><tbody><tr><td>滚轴塞</td><td>外径31mm</td><td>1</td></tr><tr><td>轴承</td><td>6701zz</td><td>2</td></tr><tr><td>M3&#42;22 圆头内六角螺丝</td><td>单滚轴皮带轮用</td><td>4</td></tr><tr><td>M3&#42;35 圆头内六角螺丝</td><td>双滚轴皮带轮用</td><td>4</td></tr></tbody></table>
-</div>
+<ProductTable
+  columns={[
+  {
+    key: "c0",
+    label: "名称"
+  },
+  {
+    key: "c1",
+    label: "备注"
+  },
+  {
+    key: "c2",
+    label: "数量"
+  }
+]}
+  rows={[
+  {
+    c0: "滚轴塞",
+    c1: "外径31mm",
+    c2: "1"
+  },
+  {
+    c0: "轴承",
+    c1: "6701zz",
+    c2: "2"
+  },
+  {
+    c0: "M322 圆头内六角螺丝",
+    c1: "单滚轴皮带轮用",
+    c2: "4"
+  },
+  {
+    c0: "M335 圆头内六角螺丝",
+    c1: "双滚轴皮带轮用",
+    c2: "4"
+  }
+]}
+/>
 
 </TabItem>
 
 <TabItem label="NICE-07-05-002">
 
-<div className="nice-table-scroll">
-<table><thead><tr><th>名称</th><th>备注</th><th>数量</th></tr></thead><tbody><tr><td>滚轴塞</td><td>外径46mm</td><td>1</td></tr><tr><td>轴承</td><td>6701zz</td><td>2</td></tr><tr><td>M3&#42;22 圆头内六角螺丝</td><td>单滚轴皮带轮用</td><td>4</td></tr><tr><td>M3&#42;35 圆头内六角螺丝</td><td>双滚轴皮带轮用</td><td>4</td></tr></tbody></table>
-</div>
+<ProductTable
+  columns={[
+  {
+    key: "c0",
+    label: "名称"
+  },
+  {
+    key: "c1",
+    label: "备注"
+  },
+  {
+    key: "c2",
+    label: "数量"
+  }
+]}
+  rows={[
+  {
+    c0: "滚轴塞",
+    c1: "外径46mm",
+    c2: "1"
+  },
+  {
+    c0: "轴承",
+    c1: "6701zz",
+    c2: "2"
+  },
+  {
+    c0: "M322 圆头内六角螺丝",
+    c1: "单滚轴皮带轮用",
+    c2: "4"
+  },
+  {
+    c0: "M335 圆头内六角螺丝",
+    c1: "双滚轴皮带轮用",
+    c2: "4"
+  }
+]}
+/>
 
 </TabItem>
 
@@ -78,9 +152,29 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 #### 滚轴同步带轮 NICE-07-05-003
 
-<div className="nice-table-scroll">
-<table><thead><tr><th>名称</th><th>备注</th><th>数量</th></tr></thead><tbody><tr><td>滚轴同步带轮</td><td>HTD5M，22齿，齿面宽12 mm</td><td>1</td></tr></tbody></table>
-</div>
+<ProductTable
+  columns={[
+  {
+    key: "c0",
+    label: "名称"
+  },
+  {
+    key: "c1",
+    label: "备注"
+  },
+  {
+    key: "c2",
+    label: "数量"
+  }
+]}
+  rows={[
+  {
+    c0: "滚轴同步带轮",
+    c1: "HTD5M，22齿，齿面宽12 mm",
+    c2: "1"
+  }
+]}
+/>
 
 #### 滚轴转轴
 
@@ -88,25 +182,130 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 <TabItem label="NICE-07-05-004">
 
-<div className="nice-table-scroll">
-<table><thead><tr><th>名称</th><th>备注</th><th>数量</th></tr></thead><tbody><tr><td>滚轴转轴 - 短</td><td>适用单滚轴塞</td><td>1</td></tr><tr><td>M5&#42;45 圆头内六角螺丝</td><td>适用单滚轴塞</td><td>1</td></tr><tr><td>M5 防松螺母</td><td>-</td><td>1</td></tr><tr><td>Φ12 轴用挡圈</td><td>-</td><td>1</td></tr></tbody></table>
-</div>
+<ProductTable
+  columns={[
+  {
+    key: "c0",
+    label: "名称"
+  },
+  {
+    key: "c1",
+    label: "备注"
+  },
+  {
+    key: "c2",
+    label: "数量"
+  }
+]}
+  rows={[
+  {
+    c0: "滚轴转轴 - 短",
+    c1: "适用单滚轴塞",
+    c2: "1"
+  },
+  {
+    c0: "M545 圆头内六角螺丝",
+    c1: "适用单滚轴塞",
+    c2: "1"
+  },
+  {
+    c0: "M5 防松螺母",
+    c1: "-",
+    c2: "1"
+  },
+  {
+    c0: "Φ12 轴用挡圈",
+    c1: "-",
+    c2: "1"
+  }
+]}
+/>
 
 </TabItem>
 
 <TabItem label="NICE-07-05-005">
 
-<div className="nice-table-scroll">
-<table><thead><tr><th>名称</th><th width="244.0546875">备注</th><th>数量</th></tr></thead><tbody><tr><td>滚轴转轴 - 基础</td><td>适用 滚轴塞+单滚轴同步带轮</td><td>1</td></tr><tr><td>M5*60 杯头内六角螺丝</td><td>适用 滚轴塞+单滚轴同步带轮</td><td>1</td></tr><tr><td>M5 防松螺母</td><td>-</td><td>1</td></tr><tr><td>Φ12 轴用挡圈</td><td>-</td><td>1</td></tr></tbody></table>
-</div>
+<ProductTable
+  columns={[
+  {
+    key: "c0",
+    label: "名称"
+  },
+  {
+    key: "c1",
+    label: "备注"
+  },
+  {
+    key: "c2",
+    label: "数量"
+  }
+]}
+  rows={[
+  {
+    c0: "滚轴转轴 - 基础",
+    c1: "适用 滚轴塞+单滚轴同步带轮",
+    c2: "1"
+  },
+  {
+    c0: "M560 杯头内六角螺丝",
+    c1: "适用 滚轴塞+单滚轴同步带轮",
+    c2: "1"
+  },
+  {
+    c0: "M5 防松螺母",
+    c1: "-",
+    c2: "1"
+  },
+  {
+    c0: "Φ12 轴用挡圈",
+    c1: "-",
+    c2: "1"
+  }
+]}
+/>
 
 </TabItem>
 
 <TabItem label="NICE-07-05-006">
 
-<div className="nice-table-scroll">
-<table><thead><tr><th>名称</th><th width="244.0546875">备注</th><th>数量</th></tr></thead><tbody><tr><td>滚轴转轴- 长</td><td>适用 滚轴塞+双滚轴同步带轮</td><td>1</td></tr><tr><td>M5*80 杯头内六角螺丝</td><td>适用 滚轴塞+双滚轴同步带轮</td><td>1</td></tr><tr><td>M5 防松螺母</td><td>-</td><td>1</td></tr><tr><td>Φ12 轴用挡圈</td><td>-</td><td>1</td></tr></tbody></table>
-</div>
+<ProductTable
+  columns={[
+  {
+    key: "c0",
+    label: "名称"
+  },
+  {
+    key: "c1",
+    label: "备注"
+  },
+  {
+    key: "c2",
+    label: "数量"
+  }
+]}
+  rows={[
+  {
+    c0: "滚轴转轴- 长",
+    c1: "适用 滚轴塞+双滚轴同步带轮",
+    c2: "1"
+  },
+  {
+    c0: "M580 杯头内六角螺丝",
+    c1: "适用 滚轴塞+双滚轴同步带轮",
+    c2: "1"
+  },
+  {
+    c0: "M5 防松螺母",
+    c1: "-",
+    c2: "1"
+  },
+  {
+    c0: "Φ12 轴用挡圈",
+    c1: "-",
+    c2: "1"
+  }
+]}
+/>
 
 </TabItem>
 
@@ -133,7 +332,7 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 <TabItem label="步骤一">
 
-<div data-with-frame="true"><figure><img src="/assets/docs/wheels/SH1.png" alt="" /><figcaption></figcaption></figure></div>
+<DocImage src="/assets/docs/wheels/SH1.png" alt="滚轴系统 1" />
 
 <p align="center">使用专用工具压入两端轴承</p>
 
@@ -141,7 +340,7 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 <TabItem label="步骤二">
 
-<div data-with-frame="true"><figure><img src="/assets/docs/wheels/SH2.png" alt="" /><figcaption></figcaption></figure></div>
+<DocImage src="/assets/docs/wheels/SH2.png" alt="滚轴系统 2" />
 
 <p align="center">装入滚轴转轴（短轴），并将轴用挡圈装入轴槽</p>
 
@@ -149,7 +348,7 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 <TabItem label="步骤三">
 
-<div data-with-frame="true"><figure><img src="/assets/docs/wheels/SH3.png" alt="" /><figcaption></figcaption></figure></div>
+<DocImage src="/assets/docs/wheels/SH3.png" alt="滚轴系统 3" />
 
 <p align="center">将滚轴塞套入滚筒并锁紧螺丝</p>
 
@@ -163,7 +362,7 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 <TabItem label="步骤一">
 
-<div data-with-frame="true"><figure><img src="/assets/docs/wheels/SP1.png" alt="" /><figcaption></figcaption></figure></div>
+<DocImage src="/assets/docs/wheels/SP1.png" alt="滚轴系统 4" />
 
 <p align="center">使用专用工具分别压入两侧轴承</p>
 
@@ -171,7 +370,7 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 <TabItem label="步骤二">
 
-<div data-with-frame="true"><figure><img src="/assets/docs/wheels/SP2.png" alt="" /><figcaption></figcaption></figure></div>
+<DocImage src="/assets/docs/wheels/SP2.png" alt="滚轴系统 5" />
 
 <p align="center">对角紧固四颗M3螺丝</p>
 
@@ -179,7 +378,7 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 <TabItem label="步骤三">
 
-<div data-with-frame="true"><figure><img src="/assets/docs/wheels/SP3.png" alt="" /><figcaption></figcaption></figure></div>
+<DocImage src="/assets/docs/wheels/SP3.png" alt="滚轴系统 6" />
 
 <p align="center">装入滚轴转轴（基础轴），并将轴用挡圈装入轴槽</p>
 
@@ -187,7 +386,7 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 <TabItem label="步骤四">
 
-<div data-with-frame="true"><figure><img src="/assets/docs/wheels/SP4.png" alt="" /><figcaption></figcaption></figure></div>
+<DocImage src="/assets/docs/wheels/SP4.png" alt="滚轴系统 7" />
 
 <p align="center">将滚轴塞套入滚筒并锁紧螺丝</p>
 
@@ -201,7 +400,7 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 <TabItem label="步骤一">
 
-<div data-with-frame="true"><figure><img src="/assets/docs/wheels/DP1.png" alt="" /><figcaption></figcaption></figure></div>
+<DocImage src="/assets/docs/wheels/DP1.png" alt="滚轴系统 8" />
 
 <p align="center">使用专用工具分别压入两侧轴承</p>
 
@@ -209,7 +408,7 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 <TabItem label="步骤二">
 
-<div data-with-frame="true"><figure><img src="/assets/docs/wheels/DP2.png" alt="" /><figcaption></figcaption></figure></div>
+<DocImage src="/assets/docs/wheels/DP2.png" alt="滚轴系统 9" />
 
 <p align="center">对角紧固四颗M3螺丝</p>
 
@@ -217,7 +416,7 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 <TabItem label="步骤三">
 
-<div data-with-frame="true"><figure><img src="/assets/docs/wheels/DP3.png" alt="" /><figcaption></figcaption></figure></div>
+<DocImage src="/assets/docs/wheels/DP3.png" alt="滚轴系统 10" />
 
 <p align="center">装入滚轴转轴（长轴），并将轴用挡圈装入轴槽</p>
 
@@ -225,7 +424,7 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 <TabItem label="步骤四">
 
-<div data-with-frame="true"><figure><img src="/assets/docs/wheels/DP4.png" alt="" /><figcaption></figcaption></figure></div>
+<DocImage src="/assets/docs/wheels/DP4.png" alt="滚轴系统 11" />
 
 <p align="center">将滚轴塞套入滚筒并锁紧螺丝</p>
 
@@ -235,7 +434,7 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 ### 滚筒预加工
 
-<div data-with-frame="true"><figure><img src="/assets/docs/wheels/tube.png" alt="" /><figcaption></figcaption></figure></div>
+<DocImage src="/assets/docs/wheels/tube.png" alt="滚轴系统 12" />
 
 :::note
 
@@ -245,6 +444,74 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 ### 滚筒系统
 
-<div className="nice-table-scroll">
-<table><thead><tr><th width="157.46875">SKU</th><th width="129.53515625">名称</th><th width="246.91796875">规格</th><th data-type="files">图纸</th><th data-type="files">Onshape</th></tr></thead><tbody><tr><td>NICE-07-05-001</td><td>滚轴塞</td><td>外径31mm 含轴承<em>2 螺丝</em>8</td><td></td><td></td></tr><tr><td>NICE-07-05-002</td><td>滚轴塞</td><td>外径46mm 含轴承*<em>2 螺丝*</em>8</td><td></td><td></td></tr><tr><td>NICE-07-05-003</td><td>滚轴同步带轮</td><td>HTD5M 22T</td><td></td><td></td></tr><tr><td>NICE-07-05-004</td><td>滚轴转轴</td><td>短 38.5mm 含长螺丝*<em>1 轴用挡圈*</em>1</td><td></td><td></td></tr><tr><td>NICE-07-05-005</td><td>滚轴转轴</td><td>基础 52mm 含长螺丝*<em>1 轴用挡圈*</em>1</td><td></td><td></td></tr><tr><td>NICE-07-05-006</td><td>滚轴转轴</td><td>长 65.5mm 含长螺丝*<em>1 卡簧*</em>1</td><td></td><td></td></tr></tbody></table>
-</div>
+<ProductTable
+  columns={[
+  {
+    key: "c0",
+    label: "SKU"
+  },
+  {
+    key: "c1",
+    label: "名称"
+  },
+  {
+    key: "c2",
+    label: "规格"
+  },
+  {
+    key: "c3",
+    label: "图纸",
+    type: "pdf"
+  },
+  {
+    key: "c4",
+    label: "Onshape",
+    type: "onshape",
+    align: "center"
+  }
+]}
+  rows={[
+  {
+    c0: "NICE-07-05-001",
+    c1: "滚轴塞",
+    c2: "外径31mm 含轴承2 螺丝8",
+    c3: null,
+    c4: null
+  },
+  {
+    c0: "NICE-07-05-002",
+    c1: "滚轴塞",
+    c2: "外径46mm 含轴承2 螺丝8",
+    c3: null,
+    c4: null
+  },
+  {
+    c0: "NICE-07-05-003",
+    c1: "滚轴同步带轮",
+    c2: "HTD5M 22T",
+    c3: null,
+    c4: null
+  },
+  {
+    c0: "NICE-07-05-004",
+    c1: "滚轴转轴",
+    c2: "短 38.5mm 含长螺丝1 轴用挡圈1",
+    c3: null,
+    c4: null
+  },
+  {
+    c0: "NICE-07-05-005",
+    c1: "滚轴转轴",
+    c2: "基础 52mm 含长螺丝1 轴用挡圈1",
+    c3: null,
+    c4: null
+  },
+  {
+    c0: "NICE-07-05-006",
+    c1: "滚轴转轴",
+    c2: "长 65.5mm 含长螺丝1 卡簧1",
+    c3: null,
+    c4: null
+  }
+]}
+/>

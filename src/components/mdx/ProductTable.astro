@@ -1,0 +1,108 @@
+---
+import BuyButton from './BuyButton.astro';
+import OnshapeLink from './OnshapeLink.astro';
+import ResourceLink from './ResourceLink.astro';
+
+type ColumnType = 'text' | 'pdf' | 'step' | 'link' | 'onshape' | 'buy';
+type Align = 'start' | 'center' | 'end';
+
+interface Column {
+	key: string;
+	label: string;
+	type?: ColumnType;
+	align?: Align;
+}
+
+type CellValue =
+	| string
+	| number
+	| boolean
+	| null
+	| undefined
+	| {
+			href?: string;
+			label?: string;
+			value?: string | number;
+	  };
+
+interface NormalizedCell {
+	href?: string;
+	label?: string;
+	value?: string | number | boolean | null;
+}
+
+interface Props {
+	columns: Column[];
+	rows: Record<string, CellValue>[];
+}
+
+const { columns, rows } = Astro.props;
+
+function cellObject(value: CellValue): NormalizedCell {
+	return typeof value === 'object' && value !== null ? value : { value };
+}
+
+function alignClass(align?: Align) {
+	if (align === 'center') return 'text-center';
+	if (align === 'end') return 'text-right';
+	return 'text-left';
+}
+---
+
+<div class="not-content my-5 max-w-full overflow-x-auto rounded-lg border border-[var(--sl-color-gray-5)] bg-[var(--nice-content-bg)]">
+	<table class="m-0 w-max min-w-full border-0 bg-transparent text-sm whitespace-nowrap">
+		<thead class="bg-[#786b67]/[0.08]">
+			<tr>
+				{
+					columns.map((column, index) => (
+						<th
+							class:list={[
+								'border-b border-[var(--sl-color-gray-5)] bg-[#786b67]/[0.08] px-4 py-3 font-semibold text-[var(--sl-color-white)]',
+								index === 0 && 'pl-5 rounded-tl-md',
+								index === columns.length - 1 && 'pr-5 rounded-tr-md',
+								alignClass(column.align),
+							]}
+						>
+							{column.label}
+						</th>
+					))
+				}
+			</tr>
+		</thead>
+		<tbody>
+			{
+				rows.map((row, rowIndex) => (
+					<tr>
+						{columns.map((column, columnIndex) => {
+							const raw = row[column.key];
+							const value = cellObject(raw);
+							const type = column.type ?? 'text';
+							const isLastRow = rowIndex === rows.length - 1;
+							return (
+								<td
+									class:list={[
+										'border-b border-[var(--sl-color-gray-5)] px-4 py-3 text-[var(--sl-color-text)]',
+										isLastRow && 'border-b-0',
+										columnIndex === 0 && 'pl-5',
+										columnIndex === columns.length - 1 && 'pr-5',
+										alignClass(column.align),
+									]}
+								>
+									{type === 'buy' ? (
+										<BuyButton href={value.href} label={value.label ?? '购买'} />
+									) : type === 'onshape' ? (
+										<OnshapeLink href={value.href ?? String(value.value ?? '')} />
+									) : type === 'pdf' || type === 'step' || type === 'link' ? (
+										<ResourceLink href={value.href ?? String(value.value ?? '')} label={value.label} type={type} />
+									) : (
+										<span>{value.value ?? ''}</span>
+									)}
+								</td>
+							);
+						})}
+					</tr>
+				))
+			}
+		</tbody>
+	</table>
+</div>

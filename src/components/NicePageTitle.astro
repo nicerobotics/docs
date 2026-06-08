@@ -1,12 +1,12 @@
 ---
 import NiceIcon from './NiceIcon.astro';
 
-const { title, gitbookIcon } = Astro.locals.starlightRoute.entry.data;
+const { title, icon } = Astro.locals.starlightRoute.entry.data;
 const pageTitleId = '_top';
 ---
 
 <h1 id={pageTitleId}>
-	{gitbookIcon && <NiceIcon class="nice-title-icon" name={gitbookIcon} size="3rem" strokeWidth="1.6" />}
+	{icon && <NiceIcon class="nice-title-icon" name={icon} size="3rem" strokeWidth="1.6" />}
 	<span>{title}</span>
 </h1>
 

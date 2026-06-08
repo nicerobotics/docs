@@ -1,12 +1,17 @@
 ---
 title: "方管塞"
 description: "方管塞是一种安装在方形铝管内部的小零件，它能让你轻松连接两根铝管，或者把铝管固定到板材上。"
-gitbookIcon: "gem"
+icon: "gem"
+sidebar:
+  order: 10
 ---
+
+
+import { BuyButton, DocImage, ProductTable } from '~/components/mdx';
 
 import { Tabs, TabItem } from '@astrojs/starlight/components';
 
-<figure><img src="/assets/docs/hardware/usage.png" alt="" width="375" /><figcaption></figcaption></figure>
+<DocImage src="/assets/docs/hardware/usage.png" alt="方管塞 1" width={375} />
 
 方管塞是一种安装在方形铝管内部的小零件，它能让你轻松连接两根铝管，或者把铝管固定到板材上。
 
@@ -17,9 +22,9 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 **方管塞** - 简单、灵活、不需要特殊工具！
 
-## 如何使用 <a href="#id-3" id="id-3"></a>
+## 如何使用
 
-#### 场景1：连接两根铝管 <a href="#id-1" id="id-1"></a>
+#### 场景1：连接两根铝管
 
 方管塞可以在不用任何板材的情况下直接连接两根铝管。
 
@@ -29,7 +34,7 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 
 
-<figure><img src="/assets/docs/hardware/tube_and_tube_long_screw.png" alt="" width="375" /><figcaption></figcaption></figure>
+<DocImage src="/assets/docs/hardware/tube_and_tube_long_screw.png" alt="方管塞 2" width={375} />
 
 使用两根长M5螺丝穿过方管
 
@@ -40,7 +45,7 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 <TabItem label="短螺丝固定">
 
-<figure><img src="/assets/docs/hardware/tube_and_tube_short_screw.png" alt="" width="375" /><figcaption></figcaption></figure>
+<DocImage src="/assets/docs/hardware/tube_and_tube_short_screw.png" alt="方管塞 3" width={375} />
 
 将一侧孔扩大到10mm，使用两根短螺丝分别固定
 
@@ -51,13 +56,15 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 </Tabs>
 
-#### 场景2：把铝管固定到板材上 <a href="#id-2" id="id-2"></a>
+#### 场景2：把铝管固定到板材上
 
-<figure><img src="/assets/docs/hardware/board_and_tube.png" alt="" width="375" /><figcaption></figcaption></figure>
+<DocImage src="/assets/docs/hardware/board_and_tube.png" alt="方管塞 4" width={375} />
 
 方管塞也可以将铝管与板材连接起来。
 
-## NICE 方管塞 <a href="https://item.taobao.com/item.htm?id=1007971129305&#x26;mi_id=0000EtTHRabQ27uYUIHDc8j5Vg1w1kKGQM4xfVfUHTuilIM&#x26;spm=a21xtw.29178619.0.0" className="button primary" data-icon="bag-shopping">购买</a> <a href="#nice" id="nice"></a>
+## NICE 方管塞
+
+<BuyButton href="https://item.taobao.com/item.htm?id=1007971129305&mi_id=0000EtTHRabQ27uYUIHDc8j5Vg1w1kKGQM4xfVfUHTuilIM&spm=a21xtw.29178619.0.0" />
 
 * M5螺丝孔
 * 12.5mm孔间距
@@ -65,26 +72,199 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 这意味这你可以直接配合 NICE 铝方管使用，不需要额外打孔。
 
-### 2525方管塞 (用于25mm×25mm方管) <a href="#id-2525-25mm25mm" id="id-2525-25mm25mm"></a>
+### 2525方管塞 (用于25mm×25mm方管)
 
-<figure><img src="/assets/docs/hardware/2525.png" alt="" width="375" /><figcaption></figcaption></figure>
+<DocImage src="/assets/docs/hardware/2525.png" alt="方管塞 5" width={375} />
 
-<div className="nice-table-scroll">
-<table><thead><tr><th width="179.5">SKU</th><th>重量</th><th width="110.5">适配壁厚</th><th width="212.01171875" data-type="files">图纸</th><th width="198.16015625" data-type="files">模型</th><th align="center">Onshape</th></tr></thead><tbody><tr><td>NICE-04-08-002</td><td>17g</td><td>2mm</td><td><a href="/assets/docs/hardware/NICE-D-04-08-02.pdf">NICE-D-04-08-02.pdf</a></td><td><a href="/assets/docs/hardware/NICE-04-08-002.step">NICE-04-08-002.step</a></td><td align="center"><a href="https://cad.onshape.com/documents/ba7820e266bf07d2040335fc/w/3a4be06c69e78ddc646b65a4/e/76b7a5e38cb5a6339a0e0df8" className="nice-onshape-link" aria-label="Onshape"><span className="nice-onshape-icon" aria-hidden="true"></span></a></td></tr></tbody></table>
-</div>
+<ProductTable
+  columns={[
+  {
+    key: "c0",
+    label: "SKU"
+  },
+  {
+    key: "c1",
+    label: "重量"
+  },
+  {
+    key: "c2",
+    label: "适配壁厚"
+  },
+  {
+    key: "c3",
+    label: "图纸",
+    type: "pdf"
+  },
+  {
+    key: "c4",
+    label: "模型",
+    type: "step"
+  },
+  {
+    key: "c5",
+    label: "Onshape",
+    type: "onshape",
+    align: "center"
+  }
+]}
+  rows={[
+  {
+    c0: "NICE-04-08-002",
+    c1: "17g",
+    c2: "2mm",
+    c3: {
+      href: "/assets/docs/hardware/NICE-D-04-08-02.pdf",
+      label: "NICE-D-04-08-02.pdf"
+    },
+    c4: {
+      href: "/assets/docs/hardware/NICE-04-08-002.step",
+      label: "NICE-04-08-002.step"
+    },
+    c5: {
+      href: "https://cad.onshape.com/documents/ba7820e266bf07d2040335fc/w/3a4be06c69e78ddc646b65a4/e/76b7a5e38cb5a6339a0e0df8"
+    }
+  }
+]}
+/>
 
-### 2550方管塞 (用于25mm×50mm方管) <a href="#id-2550-25mm50mm" id="id-2550-25mm50mm"></a>
+### 2550方管塞 (用于25mm×50mm方管)
 
-<figure><img src="/assets/docs/hardware/2550.png" alt="" width="375" /><figcaption></figcaption></figure>
+<DocImage src="/assets/docs/hardware/2550.png" alt="方管塞 6" width={375} />
 
-<div className="nice-table-scroll">
-<table><thead><tr><th width="175">SKU</th><th>重量</th><th width="110.5">适配壁厚</th><th width="200.39453125" data-type="files">图纸</th><th width="196.5625" data-type="files">模型</th><th width="108.73828125" align="center">Onshape</th></tr></thead><tbody><tr><td>NICE-04-08-005</td><td>30g</td><td>1.5mm</td><td><a href="/assets/docs/hardware/NICE-D-04-08-03.pdf">NICE-D-04-08-03.pdf</a></td><td><a href="/assets/docs/hardware/NICE-04-08-005.step">NICE-04-08-005.step</a></td><td align="center"><a href="https://cad.onshape.com/documents/ba7820e266bf07d2040335fc/w/3a4be06c69e78ddc646b65a4/e/76b7a5e38cb5a6339a0e0df8" className="nice-onshape-link" aria-label="Onshape"><span className="nice-onshape-icon" aria-hidden="true"></span></a></td></tr><tr><td>NICE-04-08-003</td><td>28g</td><td>2mm</td><td><a href="/assets/docs/hardware/NICE-D-04-08-03.pdf">NICE-D-04-08-03.pdf</a></td><td><a href="/assets/docs/hardware/NICE-04-08-003.step">NICE-04-08-003.step</a></td><td align="center"><a href="https://cad.onshape.com/documents/ba7820e266bf07d2040335fc/w/3a4be06c69e78ddc646b65a4/e/76b7a5e38cb5a6339a0e0df8" className="nice-onshape-link" aria-label="Onshape"><span className="nice-onshape-icon" aria-hidden="true"></span></a></td></tr><tr><td>NICE-04-08-004</td><td>25g</td><td>3mm</td><td><a href="/assets/docs/hardware/NICE-D-04-08-03.pdf">NICE-D-04-08-03.pdf</a></td><td><a href="/assets/docs/hardware/NICE-04-08-004.step">NICE-04-08-004.step</a></td><td align="center"><a href="https://cad.onshape.com/documents/ba7820e266bf07d2040335fc/w/3a4be06c69e78ddc646b65a4/e/76b7a5e38cb5a6339a0e0df8" className="nice-onshape-link" aria-label="Onshape"><span className="nice-onshape-icon" aria-hidden="true"></span></a></td></tr></tbody></table>
-</div>
+<ProductTable
+  columns={[
+  {
+    key: "c0",
+    label: "SKU"
+  },
+  {
+    key: "c1",
+    label: "重量"
+  },
+  {
+    key: "c2",
+    label: "适配壁厚"
+  },
+  {
+    key: "c3",
+    label: "图纸",
+    type: "pdf"
+  },
+  {
+    key: "c4",
+    label: "模型",
+    type: "step"
+  },
+  {
+    key: "c5",
+    label: "Onshape",
+    type: "onshape",
+    align: "center"
+  }
+]}
+  rows={[
+  {
+    c0: "NICE-04-08-005",
+    c1: "30g",
+    c2: "1.5mm",
+    c3: {
+      href: "/assets/docs/hardware/NICE-D-04-08-03.pdf",
+      label: "NICE-D-04-08-03.pdf"
+    },
+    c4: {
+      href: "/assets/docs/hardware/NICE-04-08-005.step",
+      label: "NICE-04-08-005.step"
+    },
+    c5: {
+      href: "https://cad.onshape.com/documents/ba7820e266bf07d2040335fc/w/3a4be06c69e78ddc646b65a4/e/76b7a5e38cb5a6339a0e0df8"
+    }
+  },
+  {
+    c0: "NICE-04-08-003",
+    c1: "28g",
+    c2: "2mm",
+    c3: {
+      href: "/assets/docs/hardware/NICE-D-04-08-03.pdf",
+      label: "NICE-D-04-08-03.pdf"
+    },
+    c4: {
+      href: "/assets/docs/hardware/NICE-04-08-003.step",
+      label: "NICE-04-08-003.step"
+    },
+    c5: {
+      href: "https://cad.onshape.com/documents/ba7820e266bf07d2040335fc/w/3a4be06c69e78ddc646b65a4/e/76b7a5e38cb5a6339a0e0df8"
+    }
+  },
+  {
+    c0: "NICE-04-08-004",
+    c1: "25g",
+    c2: "3mm",
+    c3: {
+      href: "/assets/docs/hardware/NICE-D-04-08-03.pdf",
+      label: "NICE-D-04-08-03.pdf"
+    },
+    c4: {
+      href: "/assets/docs/hardware/NICE-04-08-004.step",
+      label: "NICE-04-08-004.step"
+    },
+    c5: {
+      href: "https://cad.onshape.com/documents/ba7820e266bf07d2040335fc/w/3a4be06c69e78ddc646b65a4/e/76b7a5e38cb5a6339a0e0df8"
+    }
+  }
+]}
+/>
 
-### 5050方管塞 (用于50mm×50mm方管) <a href="#id-2550-25mm50mm" id="id-2550-25mm50mm"></a>
+### 5050方管塞 (用于50mm×50mm方管)
 
-<figure><img src="/assets/docs/hardware/5050.png" alt="" width="375" /><figcaption></figcaption></figure>
+<DocImage src="/assets/docs/hardware/5050.png" alt="方管塞 7" width={375} />
 
-<div className="nice-table-scroll">
-<table><thead><tr><th width="166.5">SKU</th><th>重量</th><th width="110.5">适配壁厚</th><th width="206.5703125" data-type="files">图纸</th><th width="203" data-type="files">模型</th><th width="109.44921875" align="center">Onshape</th></tr></thead><tbody><tr><td>NICE-04-08-001</td><td>40g</td><td>2mm</td><td><a href="/assets/docs/hardware/NICE-D-04-08-01.pdf">NICE-D-04-08-01.pdf</a></td><td><a href="/assets/docs/hardware/NICE-04-08-001.step">NICE-04-08-001.step</a></td><td align="center"><a href="https://cad.onshape.com/documents/ba7820e266bf07d2040335fc/w/3a4be06c69e78ddc646b65a4/e/76b7a5e38cb5a6339a0e0df8" className="nice-onshape-link" aria-label="Onshape"><span className="nice-onshape-icon" aria-hidden="true"></span></a></td></tr></tbody></table>
-</div>
+<ProductTable
+  columns={[
+  {
+    key: "c0",
+    label: "SKU"
+  },
+  {
+    key: "c1",
+    label: "重量"
+  },
+  {
+    key: "c2",
+    label: "适配壁厚"
+  },
+  {
+    key: "c3",
+    label: "图纸",
+    type: "pdf"
+  },
+  {
+    key: "c4",
+    label: "模型",
+    type: "step"
+  },
+  {
+    key: "c5",
+    label: "Onshape",
+    type: "onshape",
+    align: "center"
+  }
+]}
+  rows={[
+  {
+    c0: "NICE-04-08-001",
+    c1: "40g",
+    c2: "2mm",
+    c3: {
+      href: "/assets/docs/hardware/NICE-D-04-08-01.pdf",
+      label: "NICE-D-04-08-01.pdf"
+    },
+    c4: {
+      href: "/assets/docs/hardware/NICE-04-08-001.step",
+      label: "NICE-04-08-001.step"
+    },
+    c5: {
+      href: "https://cad.onshape.com/documents/ba7820e266bf07d2040335fc/w/3a4be06c69e78ddc646b65a4/e/76b7a5e38cb5a6339a0e0df8"
+    }
+  }
+]}
+/>

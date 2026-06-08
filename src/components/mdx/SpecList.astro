@@ -1,0 +1,23 @@
+---
+interface SpecItem {
+	label: string;
+	value: string;
+}
+
+interface Props {
+	items: SpecItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<dl class="not-content my-5 grid gap-0 overflow-hidden rounded-lg border border-[var(--sl-color-gray-5)] bg-[var(--nice-content-bg)]">
+	{
+		items.map((item, index) => (
+			<div class:list={['grid grid-cols-[minmax(8rem,0.35fr)_1fr] gap-4 border-b border-[var(--sl-color-gray-5)] px-5 py-3 last:border-b-0', index % 2 === 0 && 'bg-[#786b67]/[0.04]']}>
+				<dt class="font-semibold text-[var(--sl-color-white)]">{item.label}</dt>
+				<dd class="m-0 text-[var(--sl-color-text)]">{item.value}</dd>
+			</div>
+		))
+	}
+</dl>

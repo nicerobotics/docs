@@ -1,0 +1,22 @@
+---
+interface Props {
+	tone?: 'note' | 'caution';
+}
+
+const { tone = 'note' } = Astro.props;
+const isCaution = tone === 'caution';
+---
+
+<aside
+	class:list={[
+		'not-content my-5 grid grid-cols-[auto_minmax(0,1fr)] items-start gap-3 rounded-md px-5 py-4 text-[#242424]',
+		isCaution ? 'bg-[#fff5ec] [html[data-theme="dark"]_&]:bg-[#3a2519] [html[data-theme="dark"]_&]:text-white' : 'bg-[#f7f7f7] [html[data-theme="dark"]_&]:bg-[#2b2b2b] [html[data-theme="dark"]_&]:text-white',
+	]}
+>
+	<span class:list={['mt-1 size-4 rounded-full border-2 text-center text-[0.7rem] font-bold leading-[0.8rem]', isCaution ? 'border-[#f08a00] text-[#f08a00]' : 'border-[#6f6a67] text-[#6f6a67]']}>
+		{isCaution ? '!' : 'i'}
+	</span>
+	<div class="min-w-0 [&>:first-child]:mt-0 [&>:last-child]:mb-0">
+		<slot />
+	</div>
+</aside>

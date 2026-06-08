@@ -1,8 +1,13 @@
 ---
 title: "六角内孔间隙片"
 description: "六角轴接口存在轻微松动并不是加工问题，而是机械公差带来的必然现象。长期运行中，这种背隙会导致结构晃动、控制精度下降，甚至加速轴与孔的磨损。六角内孔间隙垫片专为 FRC 机器人六角轴接口设计，通过补偿六角轴与六角孔之间的装配间隙，使传动..."
-gitbookIcon: "square-quarters"
+icon: "square-quarters"
+sidebar:
+  order: 60
 ---
+
+
+import { BuyButton, ProductTable } from '~/components/mdx';
 
 六角轴接口存在轻微松动并不是加工问题，而是机械公差带来的必然现象。长期运行中，这种背隙会导致结构晃动、控制精度下降，甚至加速轴与孔的磨损。**六角内孔间隙垫片**专为 FRC 机器人六角轴接口设计，通过补偿六角轴与六角孔之间的装配间隙，使传动部件贴合更紧密。从源头减少背隙，提高结构刚性与控制稳定性。
 
@@ -27,8 +32,40 @@ gitbookIcon: "square-quarters"
 
 :::
 
-## NICE 六角内孔间隙片 <a href="https://item.taobao.com/item.htm?id=1017034254906&#x26;mi_id=0000u0v32l4WRjicLQYbWvRGF8UOLOIHmB1HUs8jkzXMAo8&#x26;spm=a21xtw.29178619.0.0&#x26;xxc=shop" className="button primary" data-icon="bag-shopping">购买</a>
+## NICE 六角内孔间隙片
 
-<div className="nice-table-scroll">
-<table><thead><tr><th width="188">SKU</th><th width="115">厚度</th><th width="152.5234375">适配六角轴</th></tr></thead><tbody><tr><td>NICE-04-12-003</td><td>0.05</td><td>1/2inch</td></tr><tr><td>NICE-04-12-001</td><td>0.07mm</td><td>1/2inch</td></tr><tr><td>NICE-04-12-002</td><td>0.10mm</td><td>1/2inch</td></tr></tbody></table>
-</div>
+<BuyButton href="https://item.taobao.com/item.htm?id=1017034254906&mi_id=0000u0v32l4WRjicLQYbWvRGF8UOLOIHmB1HUs8jkzXMAo8&spm=a21xtw.29178619.0.0&xxc=shop" />
+
+<ProductTable
+  columns={[
+  {
+    key: "c0",
+    label: "SKU"
+  },
+  {
+    key: "c1",
+    label: "厚度"
+  },
+  {
+    key: "c2",
+    label: "适配六角轴"
+  }
+]}
+  rows={[
+  {
+    c0: "NICE-04-12-003",
+    c1: "0.05",
+    c2: "1/2inch"
+  },
+  {
+    c0: "NICE-04-12-001",
+    c1: "0.07mm",
+    c2: "1/2inch"
+  },
+  {
+    c0: "NICE-04-12-002",
+    c1: "0.10mm",
+    c2: "1/2inch"
+  }
+]}
+/>

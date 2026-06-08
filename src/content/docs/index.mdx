@@ -1,10 +1,13 @@
 ---
 title: "欢迎"
 description: "欢迎来到 NICE Robotics 官方产品文档，感谢您信任并选择我们的产品！"
-gitbookIcon: "hand-wave"
+icon: "hand-wave"
 template: "splash"
 tableOfContents: false
 ---
+
+
+import { SubpageGallery } from '~/components/mdx';
 
 欢迎来到 NICE Robotics 官方产品文档，感谢您信任并选择我们的产品！
 
@@ -12,68 +15,63 @@ NICE Robotics 由多名 FRC 校友创立于 2025 年，我们的团队成员拥�
 
 ## 快速索引
 
-<div className="nice-card-grid not-content">
-<a className="nice-card" href="/transmission/gear/">
-  <img src="/assets/docs/home/gear.png" alt="" loading="lazy" data-fit="contain" />
-  <span>
-    <strong>齿轮</strong>
-    <small>NICE-02-01</small>
-  </span>
-</a>
-<a className="nice-card" href="/transmission/sprocket_chain/">
-  <img src="/assets/docs/home/sprocket_chain.png" alt="" loading="lazy" data-fit="contain" />
-  <span>
-    <strong>链轮 &amp; 链条</strong>
-    <small>NICE-02-02</small>
-  </span>
-</a>
-<a className="nice-card" href="/hardware/bearing_shaft/">
-  <img src="/assets/docs/home/bearing_shaft.png" alt="" loading="lazy" data-fit="contain" />
-  <span>
-    <strong>轴承 &amp; 轴</strong>
-    <small>NICE-04-01 &amp; 02</small>
-  </span>
-</a>
-<a className="nice-card" href="/hardware/tube_plugs/">
-  <img src="/assets/docs/home/tube_plugs.png" alt="" loading="lazy" data-fit="contain" />
-  <span>
-    <strong>方管塞</strong>
-    <small>NICE-04-08</small>
-  </span>
-</a>
-<a className="nice-card" href="/hardware/nut_strips/">
-  <img src="/assets/docs/home/nut_strips.png" alt="" loading="lazy" data-fit="contain" />
-  <span>
-    <strong>螺母条</strong>
-    <small>NICE-04-07</small>
-  </span>
-</a>
-<a className="nice-card" href="/structure/tube/">
-  <img src="/assets/docs/home/tube.png" alt="" loading="lazy" data-fit="contain" />
-  <span>
-    <strong>管材</strong>
-    <small>NICE-06-01</small>
-  </span>
-</a>
-<a className="nice-card" href="/hardware/insert/">
-  <img src="/assets/docs/home/insert.png" alt="" loading="lazy" data-fit="contain" />
-  <span>
-    <strong>3D打印嵌入件</strong>
-    <small>NICE-04-03</small>
-  </span>
-</a>
-<a className="nice-card" href="/hardware/adapter/">
-  <img src="/assets/docs/home/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20260128230517_11372_160.png" alt="" loading="lazy" data-fit="contain" />
-  <span>
-    <strong>转换套</strong>
-    <small>NICE-04-13</small>
-  </span>
-</a>
-<a className="nice-card" href="/structure/bumper/">
-  <img src="/assets/docs/home/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20260128230518_11373_160.jpg" alt="" loading="lazy" data-fit="contain" />
-  <span>
-    <strong>防撞条</strong>
-    <small>NICE-06-01</small>
-  </span>
-</a>
-</div>
+<SubpageGallery
+  items={[
+  {
+    href: "/transmission/gear/",
+    image: "/assets/docs/home/gear.png",
+    title: "齿轮",
+    subtitle: "NICE-02-01"
+  },
+  {
+    href: "/transmission/sprocket_chain/",
+    image: "/assets/docs/home/sprocket_chain.png",
+    title: "链轮 & 链条",
+    subtitle: "NICE-02-02"
+  },
+  {
+    href: "/hardware/bearing_shaft/",
+    image: "/assets/docs/home/bearing_shaft.png",
+    title: "轴承 & 轴",
+    subtitle: "NICE-04-01 & 02"
+  },
+  {
+    href: "/hardware/tube_plugs/",
+    image: "/assets/docs/home/tube_plugs.png",
+    title: "方管塞",
+    subtitle: "NICE-04-08"
+  },
+  {
+    href: "/hardware/nut_strips/",
+    image: "/assets/docs/home/nut_strips.png",
+    title: "螺母条",
+    subtitle: "NICE-04-07"
+  },
+  {
+    href: "/structure/tube/",
+    image: "/assets/docs/home/tube.png",
+    title: "管材",
+    subtitle: "NICE-06-01",
+    align: "left"
+  },
+  {
+    href: "/hardware/insert/",
+    image: "/assets/docs/home/insert.png",
+    title: "3D打印嵌入件",
+    subtitle: "NICE-04-03"
+  },
+  {
+    href: "/hardware/adapter/",
+    image: "/assets/docs/home/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20260128230517_11372_160.png",
+    title: "转换套",
+    subtitle: "NICE-04-13"
+  },
+  {
+    href: "/structure/bumper/",
+    image: "/assets/docs/home/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20260128230518_11373_160.jpg",
+    title: "防撞条",
+    subtitle: "NICE-06-01",
+    align: "left"
+  }
+]}
+/>

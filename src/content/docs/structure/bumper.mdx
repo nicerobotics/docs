@@ -1,8 +1,13 @@
 ---
 title: "防撞条"
 description: "XPE防撞条填充物依据竞赛级机器人防护需求设计，采用高密度 XPE 发泡材料，兼具轻量化与高回弹缓冲性能，有效吸收高速碰撞冲击，降低底盘与结构件受损风险。背面高强度工业级背胶设计，大幅降低防撞条的制作难度。该产品能够适应 FRC 比赛..."
-gitbookIcon: "car"
+icon: "car"
+sidebar:
+  order: 20
 ---
+
+
+import { BuyButton, DocImage, ProductTable } from '~/components/mdx';
 
 **XPE防撞条填充物**依据竞赛级机器人防护需求设计，采用高密度 XPE 发泡材料，兼具轻量化与高回弹缓冲性能，有效吸收高速碰撞冲击，降低底盘与结构件受损风险。背面高强度工业级背胶设计，大幅降低防撞条的制作难度。该产品能够适应 FRC 比赛中频繁对抗与长时间运行环境，保持稳定的缓冲效果和外形完整度。无论用于底盘前端、侧边还是关键受力区域，**XPE 防撞条填充物**都能为机器人提供可靠防护，提升整体耐久性与比赛稳定性。
 
@@ -23,14 +28,55 @@ gitbookIcon: "car"
 * 碰撞瞬间的**缓冲效果更明显**
 * 有效降低机器人结构受力冲击
 
-## XPE 防撞条填充物<a href="https://item.taobao.com/item.htm?id=1017069330586&#x26;mi_id=00007cW45VQl8Fq23Umdx7SSBwa8cIN7dUrElkPHuxqqiCI&#x26;spm=a21xtw.29178619.0.0&#x26;xxc=shop&#x26;skuId=6191088974942" className="button primary" data-icon="bag-shopping">购买</a>
+## XPE 防撞条填充物
 
-<figure><img src="/assets/docs/structure/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20260128230518_11373_160.jpg" alt="" width="375" /><figcaption></figcaption></figure>
+<BuyButton href="https://item.taobao.com/item.htm?id=1017069330586&mi_id=00007cW45VQl8Fq23Umdx7SSBwa8cIN7dUrElkPHuxqqiCI&spm=a21xtw.29178619.0.0&xxc=shop&skuId=6191088974942" />
+
+<DocImage src="/assets/docs/structure/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20260128230518_11373_160.jpg" alt="防撞条 1" width={375} />
 
 * &#x20;交联聚乙烯 XPE
 * &#x20;3lb 高密度规格
 * 深灰色
 
-<div className="nice-table-scroll">
-<table><thead><tr><th width="166.5">SKU</th><th width="92.04296875">重量</th><th width="101.1171875">长度</th><th width="104.33984375">厚度</th><th width="106.625">高度</th><th width="108.4609375" align="center">Onshape</th></tr></thead><tbody><tr><td>NICE-06-01-001</td><td>380g</td><td>1000mm</td><td>60mm</td><td>120mm</td><td align="center"><a href="https://cad.onshape.com/documents/ba7820e266bf07d2040335fc/w/3a4be06c69e78ddc646b65a4/e/a9bebe56fb9aecfa3f2dbfa5" className="nice-onshape-link" aria-label="Onshape"><span className="nice-onshape-icon" aria-hidden="true"></span></a></td></tr></tbody></table>
-</div>
+<ProductTable
+  columns={[
+  {
+    key: "c0",
+    label: "SKU"
+  },
+  {
+    key: "c1",
+    label: "重量"
+  },
+  {
+    key: "c2",
+    label: "长度"
+  },
+  {
+    key: "c3",
+    label: "厚度"
+  },
+  {
+    key: "c4",
+    label: "高度"
+  },
+  {
+    key: "c5",
+    label: "Onshape",
+    type: "onshape",
+    align: "center"
+  }
+]}
+  rows={[
+  {
+    c0: "NICE-06-01-001",
+    c1: "380g",
+    c2: "1000mm",
+    c3: "60mm",
+    c4: "120mm",
+    c5: {
+      href: "https://cad.onshape.com/documents/ba7820e266bf07d2040335fc/w/3a4be06c69e78ddc646b65a4/e/a9bebe56fb9aecfa3f2dbfa5"
+    }
+  }
+]}
+/>

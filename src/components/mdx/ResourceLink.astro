@@ -1,0 +1,25 @@
+---
+interface Props {
+	href?: string;
+	label?: string;
+	type?: 'pdf' | 'step' | 'link';
+}
+
+const { href, label, type = 'link' } = Astro.props;
+const display = label ?? href?.split('/').pop() ?? '';
+const suffix = type === 'pdf' ? 'PDF' : type === 'step' ? 'STEP' : '';
+---
+
+{
+	href ? (
+		<a
+			class="inline-flex items-center gap-1.5 font-semibold text-[#fc5000] underline decoration-[#fc5000]/35 underline-offset-2 transition-colors duration-200 hover:text-[#c93e00]"
+			href={href}
+			target={href.startsWith('http') ? '_blank' : undefined}
+			rel={href.startsWith('http') ? 'noreferrer' : undefined}
+		>
+			{suffix && <span class="text-[0.62rem] font-bold uppercase leading-none text-[#fc5000]">{suffix}</span>}
+			<span>{display}</span>
+		</a>
+	) : null
+}

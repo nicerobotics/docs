@@ -3,146 +3,217 @@
 ![NICE Robotics](https://img.shields.io/badge/NICE-Robotics-F9612B?labelColor=555555&style=flat)
 ![Lang zh-CN](https://img.shields.io/badge/Lang-zh--CN-2DBA4E?labelColor=555555&style=flat)
 
-本仓库用于把 NICE Robotics 旧 GitBook 文档站重写为 Astro + Starlight 文档网站，并部署到 NI Corporate Vercel。
+本仓库是 NICE Robotics 官方产品文档网站，使用 Astro + Starlight 构建并部署到 NI Corporate Vercel。
 
-## 项目目标
+## 用途
 
-- 旧站曾使用 GitBook；由于 GitBook 原 premium 里的 Add section 功能调整到 ultimate，价格出现不可接受的跃迁，本项目目标是完全脱离付费 GitBook。
-- 新站要用 Astro 和 Starlight 复刻 `https://docs.nicerobotics.hk/` 的主要体验：整体配色、Logo 位置、导航布局、按钮布局、按钮功能、黑白模式和主题色。
-- 不复刻 GitBook 绑定功能中对本项目无价值的部分，例如 GitBook MCP 接入、GitBook AI 搜索和 GitBook trademark 区块。
-- 默认生产域名使用 `doc.nicerobotics.hk`；旧域名 `docs.nicerobotics.hk` 的跳转或兼容策略后续单独确认。
+- `src/content/docs` 是唯一文档事实源。
+- 后续新增或修改文档时，只修改 MDX、图片和下载资源。
+- 文档作者不需要修改导航组件、全局样式、构建脚本或页面框架。
+- 常见内容模式必须通过封装组件表达，不在 MDX 中手写脚手架 HTML。
+- 默认生产域名为 `doc.nicerobotics.hk`。
 
-## 推荐技术栈
+## 技术栈
 
-- 主框架：Astro + Starlight，优先使用 Starlight 官方文档站结构、Markdown/MDX 内容和内建导航/搜索/主题能力。
-- 渲染模式：首选静态输出。当前文档内容来自 Git 仓库和静态资源，默认不需要 SSR、数据库或运行时服务。
-- 交互：React 19 只用于确实需要客户端状态的局部 island，例如自定义主题切换、复杂筛选或未来交互控件；普通文档内容不要 React 化。
-- 构建：Vite 8 作为 Astro 的底层构建工具使用，不单独创建通用 Vite SPA。
-- 类型：TypeScript。
-- 样式：Tailwind CSS 4，优先使用 Starlight Tailwind 模板或 `astro add tailwind`，走 `@tailwindcss/vite`，不要使用旧的 `@astrojs/tailwind`。
-- 搜索：优先使用 Starlight 内建 Pagefind 搜索；不接 GitBook AI 搜索。
-- 数据与服务：默认不使用 Supabase。只有在能证明对性能、权限、持久缓存或维护效率有明显收益时，才考虑 NI Corporate Supabase。
-- 部署：NI Corporate Vercel，默认域名 `doc.nicerobotics.hk`。静态 Astro 站部署到 Vercel 不需要额外 adapter；只有引入 on-demand rendering、SSR、Edge Middleware 或 ISR 时才添加 `@astrojs/vercel`。
+- Astro + Starlight
+- TypeScript
+- Tailwind CSS 4
+- Starlight Pagefind 搜索
+- 静态输出
+- NI Corporate Vercel
 
-截至 2026-06-07，本地调研到的当前版本为：Node `22.16.0`、npm `11.15.0`、Astro `6.4.4`、Starlight `0.39.3`、Vite `8.0.16`、React `19.2.7`、Tailwind CSS `4.3.0`、TypeScript `6.0.3`、create-astro `5.0.6`、Vercel CLI `54.4.1`。Astro 6 要求 Node `>=22.12.0`，当前本机满足。实际初始化项目时以当时 `npm view` 和官方文档再次校验为准。
-
-## 内容来源
-
-GitBook 已通过 git sync 同步到以下私有仓库，迁移时以这些仓库为事实来源，不从网页手工复制正文：
-
-| 来源仓库 | 内容定位 | 现有页面 |
-| --- | --- | --- |
-| `nicerobotics/docs-home` | 首页 | 欢迎、快速索引 |
-| `nicerobotics/docs-transmission` | 传动 | 齿轮、链轮 & 链条 |
-| `nicerobotics/docs-hardware` | 硬件 | 方管塞、螺母条、轴承 & 轴、3D 打印嵌入件、转换套、六角内孔间隙片 |
-| `nicerobotics/docs-structure` | 结构 | 管材、防撞条 |
-| `nicerobotics/docs-wheel` | 轮子 | 塑芯硅胶轮、实心飞轮、硅胶软管、滚轴系统 |
-
-源仓库中存在 GitBook 专有语法和资源结构，包括 frontmatter layout、`{% hint %}`、`{% tabs %}`、`data-view="cards"`、HTML 表格、内联购买按钮、`.gitbook/assets` 图片、PDF 和 STEP 文件。迁移时需要转换为 Starlight/MDX 组件和本地静态资源。
-
-## 视觉基线
-
-从 `https://docs.nicerobotics.hk/` 采样到的当前基线：
-
-- 顶部品牌栏为橙色，主色接近 `rgb(252, 80, 0)`；NICE 白色文字 Logo 位于左上。
-- 桌面端顶部品牌栏下方有横向 section 导航：`首页`、`传动`、`硬件`、`结构`；新站还需要纳入 `docs-wheel` 对应的 `轮子` 内容。
-- 首页主体为居中的文档内容列，标题为 `欢迎`，二级标题为 `快速索引`。
-- 快速索引是产品卡片网格；桌面约 3 列，移动端单列；卡片包含产品图、名称和 SKU。
-- 右上保留 `淘宝店铺` 外链按钮和搜索入口。
-- 页面右下有浅色、跟随系统、深色三种主题切换按钮；浅色背景为白色，深色背景接近 `rgb(29, 29, 29)`。
-- 项目可使用 `C:\Personal\nice\code\agents\skills\nice-visual-design\assets\logos` 中的 `nice-3d.svg`、`nice-box.svg`、`nice-text.svg` 作为 Logo 来源。
+默认不引入 Supabase、SSR、Edge Runtime 或额外 Vercel adapter。只有存在明确性能、权限、缓存或服务端集成收益时，才重新评估。
 
 ## 目录
 
-- `.agent/skills/nice-github-repo/`：当前仓库内安装的 NICE Robotics GitHub 仓库规范 skill。
-- `AGENTS.md`：本仓库生效的 agent 指令。
-- `agent-logs/HANDOFF.md`：交接文档，记录当前状态、最近变更、验证结果和风险。
-- `README.md`：项目入口说明。
+- `src/content/docs/`：所有文档页面。
+- `src/components/`：站点布局组件。
+- `src/components/mdx/`：给 MDX 作者使用的语义组件。
+- `src/styles/`：主题变量、Starlight 覆盖和基础 Markdown 样式。
+- `public/assets/`：图片、图标和文档静态资源。
+- `public/downloads/`：用户可下载的 PDF、STEP 等资源。
+- `agent-logs/HANDOFF.md`：当前状态、最近变更、验证结果和风险。
+- `AGENTS.md`：agent 维护规则。
 
-项目尚未 scaffold Astro/Starlight。后续实现时再新增 `package.json`、`src/`、`public/`、`astro.config.*`、`tsconfig.json`、`tailwind` 相关配置和迁移脚本。默认起点应是 Starlight + Tailwind 模板，而不是从通用 Astro 或 Vite 模板再手工拼文档站。
+## MDX 写作规则
+
+允许：
+
+- 标准 Markdown。
+- 页面 frontmatter。
+- `src/components/mdx` 中导出的组件。
+- 相对清晰的图片、PDF、STEP、外部链接路径。
+
+禁止：
+
+- 手写 `<div>`、`<table>`、`<figure>`、`<img>`。
+- 手写 `className`、`style`、`data-*`。
+- 在标题里放按钮或链接。
+- 为了视觉效果在 MDX 中写临时 HTML。
+- 为了新增页面修改导航组件或全局 CSS。
+
+## 页面 Frontmatter
+
+每个文档页至少包含：
+
+```yaml
+---
+title: 方管塞
+description: NICE 方管塞产品文档
+icon: gem
+sidebar:
+  order: 10
+---
+```
+
+字段说明：
+
+- `title`：页面标题。
+- `description`：搜索和元信息描述。
+- `icon`：页面标题和侧栏使用的图标名。
+- `sidebar.order`：同一栏目内排序。
+- `tableOfContents: false`：仅在页面不需要右侧目录时使用。
+- `template: splash`：仅在首页等特殊宽版页面使用。
+
+## MDX 组件
+
+文档作者优先使用：
+
+```mdx
+import {
+  BuyButton,
+  DocImage,
+  OnshapeLink,
+  ProductTable,
+  ResourceLink,
+  SpecList,
+  SubpageGallery,
+} from '~/components/mdx';
+```
+
+常用组件：
+
+- `DocImage`：正文图片，自动处理背景、居中、深浅色可读性和 caption。
+- `SubpageGallery`：子页面或子产品入口卡片网格。
+- `ProductTable`：灵活列定义产品表格，不固定列结构。
+- `BuyButton`：淘宝购买按钮。
+- `OnshapeLink`：Onshape 图标链接。
+- `ResourceLink`：PDF、STEP 或外部资源链接。
+- `SpecList`：规格参数列表。
+
+## ProductTable 示例
+
+`ProductTable` 不固定列。不同产品可以定义不同字段：
+
+```mdx
+<ProductTable
+  columns={[
+    { key: 'sku', label: 'SKU' },
+    { key: 'weight', label: '重量' },
+    { key: 'drawing', label: '图纸', type: 'pdf' },
+    { key: 'model', label: '模型', type: 'step' },
+    { key: 'onshape', label: 'Onshape', type: 'onshape' },
+  ]}
+  rows={[
+    {
+      sku: 'NICE-04-08-001',
+      weight: '40g',
+      drawing: '/downloads/hardware/tube-plugs/NICE-D-04-08-01.pdf',
+      model: '/downloads/hardware/tube-plugs/NICE-04-08-001.step',
+      onshape: 'https://cad.onshape.com/...',
+    },
+  ]}
+/>
+```
+
+## 新增文档
+
+给人看的最短流程：
+
+1. 在 `src/content/docs/<section>/` 下新增 `.mdx`。
+2. 在 frontmatter 中填写 `title`、`description`、`icon`、`sidebar.order`。
+3. 把图片放到 `public/assets/docs/<section>/<page>/`。
+4. 把 PDF、STEP 等下载资源放到 `public/downloads/<section>/<page>/`。
+5. 正文使用 Markdown 和 `src/components/mdx` 组件。
+6. 运行检查：
+
+```powershell
+npm run lint:content
+npm run check
+npm run build
+```
 
 ## 给人看的工具
 
-- Git：克隆、查看和同步仓库。
-- GitHub：查看主仓库与五个 GitBook sync 源仓库。
-- Node.js 与 npm：初始化和运行 Astro/Starlight 项目。
-- Vercel：部署到 NI Corporate 组织并绑定 `doc.nicerobotics.hk`。
+- Node.js 和 npm
+- Git
+- Astro/Starlight
+- Vercel CLI
+- Playwright
 
 ## 给人看的使用方法
 
-克隆仓库：
+安装依赖：
 
 ```powershell
-git clone https://github.com/nicerobotics/docs.git
-cd docs
+npm install
 ```
 
-开始维护前先阅读：
-
-```text
-README.md
-AGENTS.md
-agent-logs/HANDOFF.md
-```
-
-正式搭建前先重新确认技术栈版本：
+本地开发：
 
 ```powershell
-npm view astro version
-npm view @astrojs/starlight version
-npm view vite version
-npm view react version
-npm view tailwindcss version
-npm view create-astro version
+npm run dev
+```
+
+构建检查：
+
+```powershell
+npm run lint:content
+npm run check
+npm run build
+```
+
+预览构建结果：
+
+```powershell
+npm run preview
 ```
 
 ## 给 AI 看的工具
 
-- Git：查看状态、提交和同步远端。
-- GitHub CLI：读取 `nicerobotics/docs-*` 私有源仓库。
-- ripgrep（`rg`）：搜索文档、路由和 GitBook 语法。
-- PowerShell：在 Windows 工作区执行验证命令。
-- Playwright：对旧站和新站做截图、DOM 与视觉回归检查。
-- `.agent/skills/nice-github-repo`：维护 README 和仓库基础文档时使用的本地 skill。
-- Astro MCP：当前 Codex 会话已可见 `mcp__astro_mcp.search_astro_docs`，查询 Astro/Starlight 官方文档时优先使用。
+- `rg`：搜索内容、组件、样式和禁用写法。
+- PowerShell：执行仓库命令。
+- Playwright：视觉回归和交互验证。
+- `.agent/skills/nice-github-repo`：维护 README 和仓库基础说明。
+- `agent-logs/HANDOFF.md`：交接状态。
 
-## 给 AI 看的使用方法
+## 给 AI 看的新增文档方法
 
-查看仓库状态：
-
-```powershell
-git status --short --branch
-```
-
-检查 README 一级标题数量：
-
-```powershell
-(Get-Content .\README.md -Encoding UTF8 | Select-String -Pattern '^# ').Count
-```
-
-检查 README 必要 badge：
+1. 先读 `AGENTS.md` 和 `agent-logs/HANDOFF.md`。
+2. 运行 `git status --short --branch`，确认已有改动。
+3. 新增内容时只改 MDX 和静态资源。
+4. 不要手写脚手架 HTML。
+5. 不要新增全局业务 CSS。
+6. 优先复用 `src/components/mdx`。
+7. 如果现有组件不足，先新增通用组件，再使用它。
+8. 新组件样式优先用 Tailwind。
+9. 新增页面必须通过 frontmatter 控制标题、图标和侧栏顺序。
+10. 完成后运行：
 
 ```powershell
-Select-String -Path .\README.md -Encoding UTF8 -Pattern 'NICE Robotics|Lang zh-CN'
+npm run lint:content
+npm run check
+npm run build
 ```
 
-只读检查源内容仓库：
-
-```powershell
-gh repo view nicerobotics/docs-home
-gh repo view nicerobotics/docs-transmission
-gh repo view nicerobotics/docs-hardware
-gh repo view nicerobotics/docs-structure
-gh repo view nicerobotics/docs-wheel
-```
-
-当前仓库尚未创建应用工程，因此没有可运行的构建、测试或部署命令。实现阶段必须补齐 `dev`、`build`、`preview` 和视觉验证命令。
+11. 涉及视觉变化时，用 Playwright 检查桌面、移动端、浅色和深色模式。
+12. 更新 `agent-logs/HANDOFF.md`。
 
 ## 维护规则
 
-- README 默认使用 `zh-CN`，文件开头只保留一个一级标题，标题必须是 `docs`。
-- 维护 README 和仓库基础文档时遵循 `.agent/skills/nice-github-repo/SKILL.md`。
-- 每次完成对话或关键修改后，更新 `agent-logs/HANDOFF.md`，并写入带时区的更新时间。
-- 不要编造产品资料、库存、价格、交期、认证、授权、兼容性或不存在的链接。
-- 从 GitBook 源仓库迁移内容时，保留可验证的正文、表格、图片、PDF、STEP、Onshape 和淘宝链接；不要手工改写事实数据。
-- 保持 diff 小而清晰；不要创建空目录占位。
+- 保持视觉与当前线上站点一致，重构不等于重设计。
+- 保持 MDX 简洁、可读、可复制。
+- 所有重复内容模式都应沉淀为组件。
+- 不为单个页面写一次性 CSS。
+- 不编造 SKU、规格、链接、价格、库存、交期、认证或兼容性。
+- README 只能有一个一级标题，标题必须是 `docs`。

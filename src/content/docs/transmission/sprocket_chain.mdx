@@ -1,18 +1,50 @@
 ---
 title: "链轮 & 链条"
 description: "名称说明节距 (Pitch)链条相邻两个销轴之间的距离，是区分链条规格的标准节圆直径 (Pitch Diameter)链条绕在链轮上工作时形成的理论圆，两个链轮真正接触工作时的圆直径齿顶圆直径 (Outer Diameter)链轮齿最..."
-gitbookIcon: "link"
+icon: "link"
+sidebar:
+  order: 20
 ---
+
+
+import { BuyButton, DocImage, ProductTable } from '~/components/mdx';
 
 import { Tabs, TabItem } from '@astrojs/starlight/components';
 
-<figure><img src="/assets/docs/transmission/parameter%20%281%29.png" alt="" width="375" /><figcaption></figcaption></figure>
+<DocImage src="/assets/docs/transmission/parameter%20%281%29.png" alt="链轮 & 链条 1" width={375} />
 
 ## 参数说明
 
-<div className="nice-table-scroll">
-<table><thead><tr><th width="334">名称</th><th>说明</th></tr></thead><tbody><tr><td>节距 (Pitch)</td><td>链条相邻两个销轴之间的距离，是区分链条规格的标准</td></tr><tr><td>节圆直径 (Pitch Diameter)</td><td>链条绕在链轮上工作时形成的理论圆，两个链轮真正接触工作时的圆直径</td></tr><tr><td>齿顶圆直径 (Outer Diameter)</td><td>链轮齿最外侧的直径</td></tr><tr><td>链条间隙直径 (Chain Clearance Diameter)</td><td>链轮实际占用的最大空间直径，设计时要预留这个尺寸</td></tr></tbody></table>
-</div>
+<ProductTable
+  columns={[
+  {
+    key: "c0",
+    label: "名称"
+  },
+  {
+    key: "c1",
+    label: "说明"
+  }
+]}
+  rows={[
+  {
+    c0: "节距 (Pitch)",
+    c1: "链条相邻两个销轴之间的距离，是区分链条规格的标准"
+  },
+  {
+    c0: "节圆直径 (Pitch Diameter)",
+    c1: "链条绕在链轮上工作时形成的理论圆，两个链轮真正接触工作时的圆直径"
+  },
+  {
+    c0: "齿顶圆直径 (Outer Diameter)",
+    c1: "链轮齿最外侧的直径"
+  },
+  {
+    c0: "链条间隙直径 (Chain Clearance Diameter)",
+    c1: "链轮实际占用的最大空间直径，设计时要预留这个尺寸"
+  }
+]}
+/>
 
 ## 中心距
 
@@ -57,7 +89,7 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 * 磨损最小
 * 效率最高
 
-<figure><img src="/assets/docs/transmission/tension.png" alt="" width="375" /><figcaption></figcaption></figure>
+<DocImage src="/assets/docs/transmission/tension.png" alt="链轮 & 链条 2" width={375} />
 
 #### 张紧的方法
 
@@ -83,7 +115,7 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 <TabItem label="张紧器（开放式链传动）">
 
-<figure><img src="/assets/docs/transmission/tensioner_usage.png" alt="" width="375" /><figcaption></figcaption></figure>
+<DocImage src="/assets/docs/transmission/tensioner_usage.png" alt="链轮 & 链条 3" width={375} />
 
 * 适合链条不形成完整回路的场景
 * 通过旋转中间的旋钮来拉紧链条
@@ -92,7 +124,7 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 <TabItem label="惰轮（封闭式链传动）">
 
-<figure><img src="/assets/docs/transmission/idle_gear.png" alt="" width="375" /><figcaption></figcaption></figure>
+<DocImage src="/assets/docs/transmission/idle_gear.png" alt="链轮 & 链条 4" width={375} />
 
 * 在链条路径中加一个额外的小链轮
 * 可以放在链条内侧或外侧
@@ -108,9 +140,11 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 </Tabs>
 
-## NICE 链轮 <a href="https://item.taobao.com/item.htm?id=1008703824374&#x26;mi_id=0000Iucv4yNyFMeLl09NvXO1ylTUk43X_IbMUl2EOezrC3s&#x26;spm=a21xtw.29178619.0.0" className="button primary" data-icon="bag-shopping">购买</a>
+## NICE 链轮
 
-<figure><img src="/assets/docs/transmission/nice_sprocket.png" alt="" width="375" /><figcaption></figcaption></figure>
+<BuyButton href="https://item.taobao.com/item.htm?id=1008703824374&mi_id=0000Iucv4yNyFMeLl09NvXO1ylTUk43X_IbMUl2EOezrC3s&spm=a21xtw.29178619.0.0" />
+
+<DocImage src="/assets/docs/transmission/nice_sprocket.png" alt="链轮 & 链条 5" width={375} />
 
 * ½″六角孔，兼容标准½"六角轴及圆六角轴
 * 7075-T6铝合金材质，黑色阳极氧化处理
@@ -118,15 +152,125 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 ### #25
 
-<div className="nice-table-scroll">
-<table><thead><tr><th width="170">SKU</th><th width="85.5">重量</th><th width="87.5">齿数</th><th width="198.40625" data-type="files">图纸</th><th width="201.875" data-type="files">模型</th><th width="107.125" align="center">Onshape</th></tr></thead><tbody><tr><td>NICE-02-02-001</td><td>10g</td><td>18t</td><td><a href="/assets/docs/transmission/NICE-D-02-02-01%20%281%29.pdf">NICE-D-02-02-01 (1).pdf</a></td><td><a href="/assets/docs/transmission/NICE-02-02-001%20%281%29.step">NICE-02-02-001 (1).step</a></td><td align="center"><a href="https://cad.onshape.com/documents/ba7820e266bf07d2040335fc/w/3a4be06c69e78ddc646b65a4/e/ec81485171e6164bf598792c" className="nice-onshape-link" aria-label="Onshape"><span className="nice-onshape-icon" aria-hidden="true"></span></a></td></tr><tr><td>NICE-02-02-002</td><td>14g</td><td>22t</td><td><a href="/assets/docs/transmission/NICE-D-02-02-01%20%281%29.pdf">NICE-D-02-02-01 (1).pdf</a></td><td><a href="/assets/docs/transmission/NICE-02-02-002%20%281%29.step">NICE-02-02-002 (1).step</a></td><td align="center"><a href="https://cad.onshape.com/documents/ba7820e266bf07d2040335fc/w/3a4be06c69e78ddc646b65a4/e/ec81485171e6164bf598792c" className="nice-onshape-link" aria-label="Onshape"><span className="nice-onshape-icon" aria-hidden="true"></span></a></td></tr></tbody></table>
-</div>
+<ProductTable
+  columns={[
+  {
+    key: "c0",
+    label: "SKU"
+  },
+  {
+    key: "c1",
+    label: "重量"
+  },
+  {
+    key: "c2",
+    label: "齿数"
+  },
+  {
+    key: "c3",
+    label: "图纸",
+    type: "pdf"
+  },
+  {
+    key: "c4",
+    label: "模型",
+    type: "step"
+  },
+  {
+    key: "c5",
+    label: "Onshape",
+    type: "onshape",
+    align: "center"
+  }
+]}
+  rows={[
+  {
+    c0: "NICE-02-02-001",
+    c1: "10g",
+    c2: "18t",
+    c3: {
+      href: "/assets/docs/transmission/NICE-D-02-02-01%20%281%29.pdf",
+      label: "NICE-D-02-02-01 (1).pdf"
+    },
+    c4: {
+      href: "/assets/docs/transmission/NICE-02-02-001%20%281%29.step",
+      label: "NICE-02-02-001 (1).step"
+    },
+    c5: {
+      href: "https://cad.onshape.com/documents/ba7820e266bf07d2040335fc/w/3a4be06c69e78ddc646b65a4/e/ec81485171e6164bf598792c"
+    }
+  },
+  {
+    c0: "NICE-02-02-002",
+    c1: "14g",
+    c2: "22t",
+    c3: {
+      href: "/assets/docs/transmission/NICE-D-02-02-01%20%281%29.pdf",
+      label: "NICE-D-02-02-01 (1).pdf"
+    },
+    c4: {
+      href: "/assets/docs/transmission/NICE-02-02-002%20%281%29.step",
+      label: "NICE-02-02-002 (1).step"
+    },
+    c5: {
+      href: "https://cad.onshape.com/documents/ba7820e266bf07d2040335fc/w/3a4be06c69e78ddc646b65a4/e/ec81485171e6164bf598792c"
+    }
+  }
+]}
+/>
 
 ### #35
 
-<div className="nice-table-scroll">
-<table><thead><tr><th width="177.5">SKU</th><th width="77.08203125">重量</th><th width="87.5">齿数</th><th width="200.1953125" data-type="files">图纸</th><th width="195.71484375" data-type="files">模型</th><th width="108.65625" align="center">Onshape</th></tr></thead><tbody><tr><td>NICE-02-02-003</td><td>20g</td><td>15t</td><td><a href="/assets/docs/transmission/NICE-D-02-02-02.pdf">NICE-D-02-02-02.pdf</a></td><td><a href="/assets/docs/transmission/NICE-02-02-003%20%282%29.step">NICE-02-02-003 (2).step</a></td><td align="center"><a href="https://cad.onshape.com/documents/ba7820e266bf07d2040335fc/w/3a4be06c69e78ddc646b65a4/e/ec81485171e6164bf598792c" className="nice-onshape-link" aria-label="Onshape"><span className="nice-onshape-icon" aria-hidden="true"></span></a></td></tr></tbody></table>
-</div>
+<ProductTable
+  columns={[
+  {
+    key: "c0",
+    label: "SKU"
+  },
+  {
+    key: "c1",
+    label: "重量"
+  },
+  {
+    key: "c2",
+    label: "齿数"
+  },
+  {
+    key: "c3",
+    label: "图纸",
+    type: "pdf"
+  },
+  {
+    key: "c4",
+    label: "模型",
+    type: "step"
+  },
+  {
+    key: "c5",
+    label: "Onshape",
+    type: "onshape",
+    align: "center"
+  }
+]}
+  rows={[
+  {
+    c0: "NICE-02-02-003",
+    c1: "20g",
+    c2: "15t",
+    c3: {
+      href: "/assets/docs/transmission/NICE-D-02-02-02.pdf",
+      label: "NICE-D-02-02-02.pdf"
+    },
+    c4: {
+      href: "/assets/docs/transmission/NICE-02-02-003%20%282%29.step",
+      label: "NICE-02-02-003 (2).step"
+    },
+    c5: {
+      href: "https://cad.onshape.com/documents/ba7820e266bf07d2040335fc/w/3a4be06c69e78ddc646b65a4/e/ec81485171e6164bf598792c"
+    }
+  }
+]}
+/>
 
 ## NICE 链条
 
@@ -134,22 +278,111 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 * 长度：10ft (约3米)
 * 材质：高强度链条钢
 
-<div className="nice-table-scroll">
-<table><thead><tr><th width="159.5">购买</th><th width="187">SKU</th><th>重量</th><th width="128">规格</th><th>长度(ft)</th></tr></thead><tbody><tr><td><a href="https://item.taobao.com/item.htm?id=1006532103368&#x26;mi_id=00005cHRAAB_ykw5E0XdtquQIAONLPIPn_CrOPn183Rqtzg&#x26;spm=a21xtw.29178619.0.0" className="button primary" data-icon="bag-shopping">购买</a></td><td>NICE-02-02-005</td><td>455g</td><td>#25</td><td>10</td></tr><tr><td><a href="https://item.taobao.com/item.htm?id=1006532103368&#x26;mi_id=00005cHRAAB_ykw5E0XdtquQIAONLPIPn_CrOPn183Rqtzg&#x26;spm=a21xtw.29178619.0.0" className="button primary" data-icon="bag-shopping">购买</a></td><td>NICE-02-02-004</td><td>531g</td><td>#25H</td><td>10</td></tr><tr><td><a href="https://item.taobao.com/item.htm?id=1010052110010&#x26;mi_id=0000JctZwzt1cQh3yJmS7lAkYJrL-kE4TwBfAA6Mt7xcfhs&#x26;spm=a21xtw.29178619.0.0&#x26;skuId=6011153336239" className="button primary" data-icon="bag-shopping">购买</a></td><td>NICE-02-02-006</td><td>1049g</td><td>#35</td><td>10</td></tr></tbody></table>
-</div>
+<ProductTable
+  columns={[
+  {
+    key: "c0",
+    label: "购买",
+    type: "buy",
+    align: "center"
+  },
+  {
+    key: "c1",
+    label: "SKU"
+  },
+  {
+    key: "c2",
+    label: "重量"
+  },
+  {
+    key: "c3",
+    label: "规格"
+  },
+  {
+    key: "c4",
+    label: "长度(ft)"
+  }
+]}
+  rows={[
+  {
+    c0: {
+      href: "https://item.taobao.com/item.htm?id=1006532103368&mi_id=00005cHRAAB_ykw5E0XdtquQIAONLPIPn_CrOPn183Rqtzg&spm=a21xtw.29178619.0.0",
+      label: "购买"
+    },
+    c1: "NICE-02-02-005",
+    c2: "455g",
+    c3: "#25",
+    c4: "10"
+  },
+  {
+    c0: {
+      href: "https://item.taobao.com/item.htm?id=1006532103368&mi_id=00005cHRAAB_ykw5E0XdtquQIAONLPIPn_CrOPn183Rqtzg&spm=a21xtw.29178619.0.0",
+      label: "购买"
+    },
+    c1: "NICE-02-02-004",
+    c2: "531g",
+    c3: "#25H",
+    c4: "10"
+  },
+  {
+    c0: {
+      href: "https://item.taobao.com/item.htm?id=1010052110010&mi_id=0000JctZwzt1cQh3yJmS7lAkYJrL-kE4TwBfAA6Mt7xcfhs&spm=a21xtw.29178619.0.0&skuId=6011153336239",
+      label: "购买"
+    },
+    c1: "NICE-02-02-006",
+    c2: "1049g",
+    c3: "#35",
+    c4: "10"
+  }
+]}
+/>
 
-## NICE 全链节  <a href="https://item.taobao.com/item.htm?id=1007980749424&#x26;mi_id=0000eS82sUgIu8kZVW6YTe04SSr5pf9xfAquYVKRcNCq2Xk&#x26;spm=a21xtw.29178619.0.0" className="button primary" data-icon="bag-shopping">购买</a>
+## NICE 全链节
+
+<BuyButton href="https://item.taobao.com/item.htm?id=1007980749424&mi_id=0000eS82sUgIu8kZVW6YTe04SSr5pf9xfAquYVKRcNCq2Xk&spm=a21xtw.29178619.0.0" />
 
 * 规格：#25 / #25H / #35
 * 数量：5颗/包
 
-<div className="nice-table-scroll">
-<table><thead><tr><th width="210.5">SKU</th><th width="121">重量</th><th width="121.5">规格</th></tr></thead><tbody><tr><td>NICE-02-02-007</td><td>1g</td><td>#25</td></tr><tr><td>NICE-02-02-008</td><td>1g</td><td>#25H</td></tr><tr><td>NICE-02-02-009</td><td>4g</td><td>#35</td></tr></tbody></table>
-</div>
+<ProductTable
+  columns={[
+  {
+    key: "c0",
+    label: "SKU"
+  },
+  {
+    key: "c1",
+    label: "重量"
+  },
+  {
+    key: "c2",
+    label: "规格"
+  }
+]}
+  rows={[
+  {
+    c0: "NICE-02-02-007",
+    c1: "1g",
+    c2: "#25"
+  },
+  {
+    c0: "NICE-02-02-008",
+    c1: "1g",
+    c2: "#25H"
+  },
+  {
+    c0: "NICE-02-02-009",
+    c1: "4g",
+    c2: "#35"
+  }
+]}
+/>
 
-## NICE 链条张紧器  <a href="https://item.taobao.com/item.htm?id=1007154306593&#x26;mi_id=0000os9LBqznREtiA5NSsLmaF1jkBytMTOSSjCu5g10xdpM&#x26;spm=a21xtw.29178619.0.0" className="button primary" data-icon="bag-shopping">购买</a>
+## NICE 链条张紧器
 
-<figure><img src="/assets/docs/transmission/tensioner.png" alt="" width="375" /><figcaption></figcaption></figure>
+<BuyButton href="https://item.taobao.com/item.htm?id=1007154306593&mi_id=0000os9LBqznREtiA5NSsLmaF1jkBytMTOSSjCu5g10xdpM&spm=a21xtw.29178619.0.0" />
+
+<DocImage src="/assets/docs/transmission/tensioner.png" alt="链轮 & 链条 6" width={375} />
 
 使用方法：
 
@@ -167,6 +400,65 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 * 规格：#25/ #25H / #35
 * 旋钮：适配M6螺栓，连接更牢固
 
-<div className="nice-table-scroll">
-<table><thead><tr><th width="218.5">SKU</th><th>重量</th><th width="138.5">规格</th><th width="198.48828125" data-type="files">图纸</th><th width="195.2578125" data-type="files">模型</th><th width="112.83203125" align="center">Onshape</th></tr></thead><tbody><tr><td>NICE-02-02-010</td><td>16g</td><td>#25/#25H</td><td><a href="/assets/docs/transmission/NICE-D-02-02-03.pdf">NICE-D-02-02-03.pdf</a></td><td><a href="/assets/docs/transmission/NICE-02-02-010.step">NICE-02-02-010.step</a></td><td align="center"><span className="nice-onshape-icon" aria-label="Onshape"></span></td></tr><tr><td>NICE-02-02-011</td><td></td><td>#35</td><td><a href="/assets/docs/transmission/NICE-D-02-02-03.pdf">NICE-D-02-02-03.pdf</a></td><td><a href="/assets/docs/transmission/NICE-02-02-011.step">NICE-02-02-011.step</a></td><td align="center"><span className="nice-onshape-icon" aria-label="Onshape"></span></td></tr></tbody></table>
-</div>
+<ProductTable
+  columns={[
+  {
+    key: "c0",
+    label: "SKU"
+  },
+  {
+    key: "c1",
+    label: "重量"
+  },
+  {
+    key: "c2",
+    label: "规格"
+  },
+  {
+    key: "c3",
+    label: "图纸",
+    type: "pdf"
+  },
+  {
+    key: "c4",
+    label: "模型",
+    type: "step"
+  },
+  {
+    key: "c5",
+    label: "Onshape",
+    type: "onshape",
+    align: "center"
+  }
+]}
+  rows={[
+  {
+    c0: "NICE-02-02-010",
+    c1: "16g",
+    c2: "#25/#25H",
+    c3: {
+      href: "/assets/docs/transmission/NICE-D-02-02-03.pdf",
+      label: "NICE-D-02-02-03.pdf"
+    },
+    c4: {
+      href: "/assets/docs/transmission/NICE-02-02-010.step",
+      label: "NICE-02-02-010.step"
+    },
+    c5: null
+  },
+  {
+    c0: "NICE-02-02-011",
+    c1: "",
+    c2: "#35",
+    c3: {
+      href: "/assets/docs/transmission/NICE-D-02-02-03.pdf",
+      label: "NICE-D-02-02-03.pdf"
+    },
+    c4: {
+      href: "/assets/docs/transmission/NICE-02-02-011.step",
+      label: "NICE-02-02-011.step"
+    },
+    c5: null
+  }
+]}
+/>
