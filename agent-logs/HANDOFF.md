@@ -1,6 +1,6 @@
 # Handoff
 
-更新时间：2026-06-08 14:54:06 +08:00
+更新时间：2026-06-08 14:58:45 +08:00
 
 ## 当前状态
 
@@ -8,7 +8,8 @@
 - 本地分支：`main` 跟踪 `origin/main`。
 - Vercel 项目：NI Corporate / `docs`，Project ID `prj_Y5hrSGAEBBI9098IzW2wcVKNsgwD`，GitHub 仓库连接为 `nicerobotics/docs`，production branch 为 `main`。
 - 生产域名：`https://doc.nicerobotics.hk`。
-- 第五轮视觉与渲染修正已完成本地实现和验证，尚未提交推送。
+- 第五轮视觉与渲染修正已完成、已提交推送到 `main`；实现提交为 `f766c52`。
+- Vercel production 部署已 Ready，并已绑定 alias `https://doc.nicerobotics.hk`；handoff 不固定记录会随提交变化的 deployment slug。
 - Vercel production 部署已 Ready，并已绑定 alias `https://doc.nicerobotics.hk`；不要在 handoff 中固定记录会随提交变化的 deployment slug。
 - 临时 preview 服务已停止，preview 日志已清理。
 
@@ -37,10 +38,13 @@
   - 公式：`/transmission/gear/` 存在 `.nice-math-display .katex-html`，页面文本不再出现 `$$`。
   - 首页卡片：SKU 字重 500，颜色 `rgb(120, 107, 103)`；hover 后 border 为主色、box-shadow 不变、transform 为 none；管材图片 `object-fit: cover`、`object-position: left center`。
   - 浏览器控制台错误数为 0。
+- 生产域名复查：
+  - `https://doc.nicerobotics.hk/` 返回 200，包含 `NICE Robotics`。
+  - `https://doc.nicerobotics.hk/transmission/gear/` 返回 200，包含 `katex-html`、`nice-table-scroll` 和 footer 版权文本。
+  - Playwright 生产页验证：顶部 logo left=59px，首个导航 icon left=59px；正文 left=303px，footer contact left=303px；footer logo 为 inline SVG、无 img；表格无页面横向溢出；首列 padding 20px；最后一行 border-bottom=0；右目录选中项有 2px 橙色竖线；控制台错误数为 0。
 
 ## 待处理事项
 
-- 提交并推送本轮改动后，等待 Vercel production 自动部署并复查 `https://doc.nicerobotics.hk`。
 - 后续可定位构建中的既有非阻断提示：`markdown.remarkPlugins`/`rehypePlugins` deprecation，以及 `Entry docs → 404 was not found.`。
 - 后续可跟进 `npm audit` 的 moderate vulnerabilities；不要直接 `npm audit fix --force`。
 
