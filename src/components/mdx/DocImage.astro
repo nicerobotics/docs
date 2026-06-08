@@ -9,10 +9,7 @@ interface Props {
 
 const { src, alt, caption, width, variant = 'default' } = Astro.props;
 const maxWidth = variant === 'wide' ? 'max-w-full' : 'max-w-[min(100%,23.4375rem)]';
-const background =
-	variant === 'plain'
-		? 'bg-transparent'
-		: 'bg-[#fbfaf8] [html[data-theme="dark"]_&]:bg-[#252321]';
+const background = variant === 'plain' ? 'bg-transparent' : 'bg-white';
 ---
 
 <figure class="not-content my-5 grid justify-items-center">

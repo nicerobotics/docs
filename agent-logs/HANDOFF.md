@@ -1,6 +1,6 @@
 # Handoff
 
-更新时间：2026-06-08 19:29:48 +08:00
+更新时间：2026-06-08 19:44:46 +08:00
 
 ## 当前状态
 
@@ -9,6 +9,7 @@
 - 旧外部同步脚本和旧字段残留已经清理；当前文档内容不再依赖外部同步仓库或旧平台语法。
 - 现有 UI/UX 视觉经桌面、16:9、深色模式和移动端截图抽查，整体保持上一阶段效果。
 - 页面底部横向滚动条问题已修复：页面根节点会裁掉非内容级横向溢出，宽表和公式仍保留组件内部横向滚动。
+- 非快速索引的正文图片背景已改为纯白；快速索引卡片图片背景保持原样。
 
 ## 本轮完成
 
@@ -24,6 +25,7 @@
   - 右侧目录 fixed 定位从 viewport 宽度计算改为百分比计算。
   - footer 保留全宽视觉，但 padding 改用 shared shell edge。
   - `html`、`body`、`.page`、`.main-frame` 增加页面级横向裁切，避免 full-bleed 元素在 Windows 经典滚动条环境中撑出页面横向滚动条。
+- 将 `DocImage` 和全局 markdown 图片兜底背景改为纯白；未修改 `SubpageGallery` 快速索引卡片背景。
 
 ## 验证结果
 
@@ -32,6 +34,7 @@
 - `src/content/docs` 中脚手架 HTML 扫描无匹配。
 - `npm run check` 通过，0 errors、0 warnings、0 hints。
 - `npm run build` 通过，生成 16 个页面，Pagefind 搜索索引构建成功。
+- Playwright 计算样式验证：正文图片 light/dark 背景均为 `rgb(255, 255, 255)`；快速索引图片背景仍为原卡片背景。
 - 使用 `astro preview` + Playwright 抽查 `/`、`/transmission/gear/`、`/transmission/sprocket_chain/`、`/hardware/tube_plugs/`、`/hardware/bearing_shaft/`、`/structure/tube/`、`/structure/bumper/`、`/wheels/silicone-wheel/`、`/wheels/roller-system/`。
 - 桌面、16:9、移动端页面级横向溢出均为 0；宽表在移动端仍能在组件内部横向滚动。
 - 移动端目录按钮验证通过：侧栏正常展开，背景正常，页面级横向溢出仍为 0。
