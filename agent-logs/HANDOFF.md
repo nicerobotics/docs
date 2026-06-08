@@ -1,6 +1,6 @@
 # Handoff
 
-更新时间：2026-06-08 22:47:17 +08:00
+更新时间：2026-06-08 23:04:00 +08:00
 
 ## 当前状态
 
@@ -34,6 +34,8 @@
   - 首页快速索引新增 5 个入口：板材、塑芯硅胶轮、实心飞轮、硅胶软管、滚轴系统。
   - 文档 MDX 文件名统一从下划线改为连字符：`bearing-shaft`、`nut-strips`、`tube-plugs`、`sprocket-chain`。
   - 保留旧下划线路径到新连字符路径的 redirects，避免已有外链失效。
+- 修复带购买按钮标题和普通标题的排版不一致问题：标题保持 flow 内同排布局，不再使用绝对定位；h2/h3/h4 明确按 24px / 20px / 17.28px 递减。
+- 修复 `ProductTable` 表头和列之间的白色竖线：组件级强制 `border-spacing: 0`，外层统一裁切圆角，避免表头背景被单元格间距切开。
 
 ## 验证结果
 
@@ -52,6 +54,11 @@
   - 首页快速索引包含板材和轮子四篇文档入口。
   - `/structure/ban-cai/` 可访问，并显示 SRPP 内容、购买按钮和产品表。
   - `/wheels/roller-system/` 包含“硅胶防滑胶带”标题、PDF 链接，且没有 `p[align]`。
+- Playwright 复测 `/transmission/sprocket-chain/`：
+  - 普通 h2“中心距”和带购买按钮 h2“NICE 链轮”到下一块内容的 gap 均为 20px。
+  - 带按钮标题的按钮位于标题右侧，垂直居中误差约 1.8px。
+  - h2 / h3 / h4 字号分别为 24px / 20px / 17.28px。
+  - `ProductTable` computed `border-spacing` 为 `0px`，表头相邻单元格 gap 为 0，外框圆角为 8px。
 - `npm run build` 通过，生成 16 个页面，Pagefind 搜索索引构建成功。
 - Playwright 计算样式验证：正文图片 light/dark 背景均为 `rgb(255, 255, 255)`；快速索引图片背景仍为原卡片背景。
 - 使用 `astro preview` + Playwright 抽查 `/`、`/transmission/gear/`、`/transmission/sprocket_chain/`、`/hardware/tube_plugs/`、`/hardware/bearing_shaft/`、`/structure/tube/`、`/structure/bumper/`、`/wheels/silicone-wheel/`、`/wheels/roller-system/`。

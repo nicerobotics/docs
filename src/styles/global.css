@@ -219,6 +219,7 @@
 	.sl-markdown-content .sl-heading-wrapper:has(+ .nice-buy-button) {
 		display: inline-flex;
 		margin-inline-end: 0.55rem;
+		padding-inline-end: 0;
 		vertical-align: bottom;
 	}
 
@@ -227,8 +228,13 @@
 	}
 
 	.sl-markdown-content .sl-heading-wrapper + .nice-buy-button {
-		margin-block: 0;
-		vertical-align: middle;
+		position: static;
+		margin: 0;
+		vertical-align: bottom;
+	}
+
+	.sl-markdown-content .sl-heading-wrapper:has(+ .nice-buy-button) + .nice-buy-button + :is(p, ul, ol) {
+		margin-block-start: 1rem;
 	}
 
 	.sl-markdown-content .sl-anchor-link {
@@ -284,6 +290,16 @@
 	.sl-markdown-content h2 {
 		font-size: 1.5rem;
 		line-height: 1.35;
+	}
+
+	.sl-markdown-content h3 {
+		font-size: 1.25rem;
+		line-height: 1.4;
+	}
+
+	.sl-markdown-content h4 {
+		font-size: 1.08rem;
+		line-height: 1.45;
 	}
 
 	.sl-markdown-content figure {
