@@ -1,6 +1,6 @@
 # Handoff
 
-更新时间：2026-06-08 14:11:15 +08:00
+更新时间：2026-06-08 14:13:09 +08:00
 
 ## 当前状态
 
@@ -9,7 +9,7 @@
 - Vercel 项目：NI Corporate / `docs`，Project ID `prj_Y5hrSGAEBBI9098IzW2wcVKNsgwD`，GitHub 仓库连接为 `nicerobotics/docs`，production branch 为 `main`。
 - 生产域名：`https://doc.nicerobotics.hk`。
 - 本轮第四轮视觉调整已完成、已提交推送到 `main`；实现提交为 `ed16e75`。
-- Vercel 最新生产部署 `https://docs-dlktc4eil-ni-corporate.vercel.app` 已 Ready，并已绑定 alias `https://doc.nicerobotics.hk`。
+- Vercel production 部署已 Ready，并已绑定 alias `https://doc.nicerobotics.hk`；不要在 handoff 中固定记录会随提交变化的 deployment slug。
 - 临时 preview 服务已停止，preview 日志已清理。
 
 ## 本轮完成变更
