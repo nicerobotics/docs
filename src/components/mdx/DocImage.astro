@@ -8,7 +8,7 @@ interface Props {
 }
 
 const { src, alt, caption, width, variant = 'default' } = Astro.props;
-const maxWidth = variant === 'wide' ? 'max-w-full' : 'max-w-[min(100%,23.4375rem)]';
+const imageWidth = variant === 'wide' ? 'w-full max-w-full' : 'max-w-[min(100%,23.4375rem)]';
 const background = variant === 'plain' ? 'bg-transparent' : 'bg-white';
 ---
 
@@ -16,7 +16,7 @@ const background = variant === 'plain' ? 'bg-transparent' : 'bg-white';
 	<img
 		class:list={[
 			'block rounded border-0 object-contain',
-			maxWidth,
+			imageWidth,
 			background,
 			variant === 'plain' ? 'p-0' : 'p-0',
 		]}

@@ -94,9 +94,11 @@ import niceBoxLogo from '../assets/logos/nice-box.svg?raw';
 			text-align: center;
 		}
 
-		@media (max-width: 42rem) {
+		@media (max-width: 50rem) {
 			.nice-footer {
 				grid-template-columns: 1fr;
+				justify-items: center;
+				gap: 0.75rem;
 			}
 
 			.nice-footer-brand,
@@ -104,6 +106,7 @@ import niceBoxLogo from '../assets/logos/nice-box.svg?raw';
 			.nice-footer p {
 				position: static;
 				grid-column: 1;
+				grid-row: auto;
 				justify-self: center;
 				text-align: center;
 			}
