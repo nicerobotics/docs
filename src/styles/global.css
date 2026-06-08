@@ -320,6 +320,17 @@
 		padding-inline-start: 1.25rem;
 	}
 
+	.sl-markdown-content
+		.nice-table-scroll
+		table:has(tbody td:first-child a.button.primary:not([data-icon='globe-pointer']))
+		:is(th:first-child, td:first-child) {
+		width: 3.75rem !important;
+		min-width: 3.75rem;
+		max-width: 3.75rem;
+		padding-inline: 0.6rem;
+		text-align: center;
+	}
+
 	.sl-markdown-content td:last-child {
 		padding-inline-end: 1.25rem;
 	}
@@ -448,7 +459,8 @@
 	}
 
 	.sl-markdown-content a.button.primary:not([data-icon='globe-pointer']) {
-		width: 2rem;
+		width: 2.35rem;
+		min-height: 2.35rem;
 		padding-inline: 0;
 		gap: 0;
 		font-size: 0;
@@ -456,8 +468,8 @@
 
 	.sl-markdown-content a.button.primary:not([data-icon='globe-pointer'])::before {
 		content: '';
-		width: 1.08rem;
-		height: 1.08rem;
+		width: 1.35rem;
+		height: 1.35rem;
 		border-radius: 0.1875rem;
 		background: currentColor;
 		-webkit-mask: url('/assets/ui/taobao.svg') center / contain no-repeat;
