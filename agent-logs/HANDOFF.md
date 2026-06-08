@@ -1,6 +1,6 @@
 # Handoff
 
-更新时间：2026-06-08 14:07:09 +08:00
+更新时间：2026-06-08 14:11:15 +08:00
 
 ## 当前状态
 
@@ -8,7 +8,9 @@
 - 本地分支：`main` 跟踪 `origin/main`。
 - Vercel 项目：NI Corporate / `docs`，Project ID `prj_Y5hrSGAEBBI9098IzW2wcVKNsgwD`，GitHub 仓库连接为 `nicerobotics/docs`，production branch 为 `main`。
 - 生产域名：`https://doc.nicerobotics.hk`。
-- 本轮第四轮视觉调整已完成本地实现和验证，准备提交推送；临时 preview 服务已停止，preview 日志已清理。
+- 本轮第四轮视觉调整已完成、已提交推送到 `main`；实现提交为 `ed16e75`。
+- Vercel 最新生产部署 `https://docs-dlktc4eil-ni-corporate.vercel.app` 已 Ready，并已绑定 alias `https://doc.nicerobotics.hk`。
+- 临时 preview 服务已停止，preview 日志已清理。
 
 ## 本轮完成变更
 
@@ -37,10 +39,13 @@
   - `/transmission/sprocket_chain/`：hint 图标与内容首行同行，tabs/table 均有 1px 外框，表头有背景。
   - 左目录普通项 hover 后背景 `rgba(255, 255, 255, 0.07)`，文字转白；当前项保持橙色浅背景。
   - 浏览器控制台错误数为 0。
+- 生产域名复查：
+  - `https://doc.nicerobotics.hk/` 返回 200，包含 `NICE Robotics`。
+  - `https://doc.nicerobotics.hk/hardware/tube_plugs/` 返回 200，包含 `方管塞`、`starlight-tabs` 和 footer 版权文本。
+  - Playwright 生产页验证：可见店铺按钮文字为 `店铺`，H1 图标宽 48px，footer 宽度等于 1365px 视口，控制台错误数为 0。
 
 ## 待处理事项
 
-- 提交并推送本轮改动后，等待 Vercel 自动部署并复查 `https://doc.nicerobotics.hk`。
 - 后续可定位构建中的既有非阻断提示：`markdown.remarkPlugins`/`rehypePlugins` deprecation，以及 `Entry docs → 404 was not found.`。
 - 后续可跟进 `npm audit` 的 moderate vulnerabilities；不要直接 `npm audit fix --force`。
 
