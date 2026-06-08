@@ -1,38 +1,55 @@
 ---
-const iconPaths = {
-	home: ['M3 10.5 12 3l9 7.5', 'M5 10v10h5v-6h4v6h5V10'],
-	'hand-wave': [
-		'M4 12.5 8.5 8l5.2 5.2',
-		'M7.5 4.5 15 12',
-		'M11 3.5l6.5 6.5',
-		'M15.5 4.5 19 8',
-		'M5.5 14.5 9 18a6 6 0 0 0 8.5 0l1.3-1.3a4 4 0 0 0 0-5.7',
-	],
-	gear: [
-		'M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z',
-		'M19.4 15a1.7 1.7 0 0 0 .34 1.82l.04.04a2 2 0 1 1-2.83 2.83l-.04-.04a1.7 1.7 0 0 0-1.82-.34 1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.14a1.7 1.7 0 0 0-1-1.55 1.7 1.7 0 0 0-1.82.34l-.04.04a2 2 0 1 1-2.83-2.83l.04-.04A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.05a1.7 1.7 0 0 0 1.55-1 1.7 1.7 0 0 0-.34-1.82l-.04-.04a2 2 0 1 1 2.83-2.83l.04.04A1.7 1.7 0 0 0 8.9 4.6a1.7 1.7 0 0 0 1-1.55V3a2 2 0 1 1 4 0v.05a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1.82-.34l.04-.04a2 2 0 1 1 2.83 2.83l-.04.04A1.7 1.7 0 0 0 19.4 9c.24.6.82 1 1.55 1H21a2 2 0 1 1 0 4h-.05a1.7 1.7 0 0 0-1.55 1Z',
-	],
-	link: [
-		'M10 13a5 5 0 0 0 7.07 0l2-2A5 5 0 0 0 12 3.93l-1.15 1.15',
-		'M14 11a5 5 0 0 0-7.07 0l-2 2A5 5 0 0 0 12 20.07l1.15-1.15',
-	],
-	gem: ['M6 3h12l4 6-10 12L2 9l4-6Z', 'M2 9h20', 'M8 3l4 18 4-18'],
-	'screwdriver-wrench': ['M14.7 6.3 17 4l3 3-2.3 2.3', 'M4 20l7.2-7.2', 'M13 5l6 6', 'M5 5l4 4', 'M3.5 6.5 6.5 3.5'],
-	futbol: ['M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20Z', 'M12 8l3 2.2-1.1 3.6H10l-1.1-3.6L12 8Z', 'M7 6l1.9 4.2', 'M17 6l-1.9 4.2', 'M6.5 17l3.5-3.2', 'M17.5 17l-3.6-3.2'],
-	seal: ['M12 3l2.1 2 2.9-.2 1 2.8 2.5 1.6-1 2.8 1 2.8-2.5 1.6-1 2.8-2.9-.2-2.1 2-2.1-2-2.9.2-1-2.8-2.5-1.6 1-2.8-1-2.8 2.5-1.6 1-2.8 2.9.2L12 3Z', 'M9 12l2 2 4-4'],
-	'circle-0': ['M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20Z', 'M12 7c2.2 0 4 2.2 4 5s-1.8 5-4 5-4-2.2-4-5 1.8-5 4-5Z'],
-	'square-quarters': ['M4 4h16v16H4V4Z', 'M12 4v16', 'M4 12h16'],
-	chimney: ['M4 20V8h4V4h8v4h4v12', 'M4 12h16', 'M8 16h4', 'M16 16h4'],
-	car: ['M5 16h14l-1.5-5.2A3 3 0 0 0 14.6 8H9.4a3 3 0 0 0-2.9 2.8L5 16Z', 'M4 16v3', 'M20 16v3', 'M7 19h.01', 'M17 19h.01'],
-	'truck-monster': ['M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20Z', 'M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12Z', 'M12 2v4', 'M12 18v4', 'M2 12h4', 'M18 12h4'],
-	rotate: ['M21 12a9 9 0 1 1-3-6.7', 'M21 3v6h-6'],
-	circle: ['M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20Z'],
-	'sushi-roll': ['M5 7h10a4 4 0 0 1 0 10H5a4 4 0 0 1 0-10Z', 'M15 7a4 4 0 0 0 0 10', 'M6 10h3', 'M6 14h3'],
-	list: ['M4 6h16', 'M8 12h12', 'M4 18h16'],
-	bulb: ['M9 18h6', 'M10 22h4', 'M8.5 15.5a6.5 6.5 0 1 1 7 0c-.8.6-1.2 1.4-1.2 2.5H9.7c0-1.1-.4-1.9-1.2-2.5Z'],
-} as const;
+import {
+	BadgeCheck,
+	Box,
+	BrickWall,
+	Car,
+	Circle,
+	CircleDot,
+	CircleGauge,
+	Cog,
+	Cylinder,
+	Disc3,
+	Gem,
+	Globe,
+	Grid2x2,
+	Hand,
+	House,
+	Lightbulb,
+	Link,
+	List,
+	RotateCw,
+	Truck,
+	Wrench,
+	type AstroComponent,
+} from '@lucide/astro';
 
-type IconName = keyof typeof iconPaths;
+const iconComponents = {
+	home: House,
+	'hand-wave': Hand,
+	gear: Cog,
+	link: Link,
+	gem: Gem,
+	'screwdriver-wrench': Wrench,
+	futbol: CircleDot,
+	seal: BadgeCheck,
+	'circle-0': CircleDot,
+	'square-quarters': Grid2x2,
+	chimney: BrickWall,
+	car: Car,
+	'truck-monster': CircleGauge,
+	rotate: RotateCw,
+	circle: Circle,
+	'sushi-roll': Cylinder,
+	list: List,
+	bulb: Lightbulb,
+	globe: Globe,
+	box: Box,
+	disc: Disc3,
+	truck: Truck,
+} satisfies Record<string, AstroComponent>;
+
+type IconName = keyof typeof iconComponents;
 
 interface Props {
 	name?: IconName | string;
@@ -42,24 +59,17 @@ interface Props {
 }
 
 const { name = 'circle', size = '1em', strokeWidth = 2, class: className } = Astro.props;
-const paths = iconPaths[name as IconName] ?? iconPaths.circle;
+const Icon = iconComponents[name as IconName] ?? Circle;
+const classes = ['nice-icon', className].filter(Boolean).join(' ');
 ---
 
-<svg
-	class:list={['nice-icon', className]}
+<Icon
+	class={classes}
 	aria-hidden="true"
-	viewBox="0 0 24 24"
-	width={size}
-	height={size}
-	fill="none"
-	stroke="currentColor"
-	stroke-width={strokeWidth}
-	stroke-linecap="round"
-	stroke-linejoin="round"
 	focusable="false"
->
-	{paths.map((d) => <path d={d} />)}
-</svg>
+	size={size}
+	stroke-width={strokeWidth}
+/>
 
 <style>
 	@layer starlight.core {

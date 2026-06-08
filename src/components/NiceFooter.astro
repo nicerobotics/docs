@@ -5,10 +5,6 @@ import niceBoxLogo from '../assets/logos/nice-box.svg';
 <footer class="nice-footer">
 	<div class="nice-footer-brand">
 		<img src={niceBoxLogo.src} alt="" width="34" height="34" loading="lazy" />
-		<div>
-			<strong>NICE Robotics</strong>
-			<span>官方产品文档</span>
-		</div>
 	</div>
 	<div class="nice-footer-contact">
 		<h2>联系我们</h2>
@@ -21,7 +17,7 @@ import niceBoxLogo from '../assets/logos/nice-box.svg';
 	@layer starlight.core {
 		.nice-footer {
 			display: grid;
-			grid-template-columns: minmax(0, 1fr) auto;
+			grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
 			align-items: start;
 			gap: 1.25rem 2rem;
 			margin-block-start: 3.5rem;
@@ -34,6 +30,7 @@ import niceBoxLogo from '../assets/logos/nice-box.svg';
 		.nice-footer-brand {
 			display: flex;
 			align-items: center;
+			justify-self: start;
 			gap: 0.75rem;
 			min-width: 0;
 		}
@@ -44,24 +41,9 @@ import niceBoxLogo from '../assets/logos/nice-box.svg';
 			flex: 0 0 auto;
 		}
 
-		.nice-footer-brand div {
-			display: grid;
-			gap: 0.15rem;
-			min-width: 0;
-		}
-
-		.nice-footer-brand strong {
-			color: var(--sl-color-white);
-			font-size: var(--sl-text-base);
-			line-height: 1.2;
-		}
-
-		.nice-footer-brand span {
-			color: var(--sl-color-gray-3);
-			line-height: 1.35;
-		}
-
 		.nice-footer-contact {
+			grid-column: 3;
+			justify-self: end;
 			text-align: end;
 		}
 
@@ -84,8 +66,11 @@ import niceBoxLogo from '../assets/logos/nice-box.svg';
 		}
 
 		.nice-footer p {
-			grid-column: 1 / -1;
+			grid-column: 2;
+			grid-row: 2;
+			justify-self: center;
 			margin: 0;
+			text-align: center;
 		}
 
 		@media (max-width: 42rem) {
@@ -93,8 +78,16 @@ import niceBoxLogo from '../assets/logos/nice-box.svg';
 				grid-template-columns: 1fr;
 			}
 
+			.nice-footer-brand,
+			.nice-footer-contact,
+			.nice-footer p {
+				grid-column: 1;
+				justify-self: center;
+				text-align: center;
+			}
+
 			.nice-footer-contact {
-				text-align: start;
+				text-align: center;
 			}
 		}
 	}

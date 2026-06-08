@@ -4,7 +4,6 @@ import config from 'virtual:starlight/user-config';
 import Search from '@astrojs/starlight/components/Search.astro';
 import SiteTitle from '@astrojs/starlight/components/SiteTitle.astro';
 import SocialIcons from '@astrojs/starlight/components/SocialIcons.astro';
-import niceBoxLogo from '../assets/logos/nice-box.svg';
 import NiceIcon from './NiceIcon.astro';
 import NiceThemeToggle from './NiceThemeToggle.astro';
 
@@ -75,9 +74,6 @@ const navItems: Array<{
 	</div>
 	<nav class="nice-section-nav print:hidden" aria-label="产品分类">
 		<div class="nice-section-inner">
-			<a class="nice-section-mark" href="/" aria-label="NICE Robotics 首页">
-				<img src={niceBoxLogo.src} alt="" width="24" height="24" loading="eager" />
-			</a>
 			{
 				navItems.map((item) => (
 					<a class:list={{ 'nice-section-link': true, active: item.match(pathname) }} href={item.href}>
@@ -201,23 +197,6 @@ const navItems: Array<{
 			display: none;
 		}
 
-		.nice-section-mark {
-			display: inline-flex;
-			align-items: center;
-			justify-content: center;
-			width: 2.625rem;
-			min-width: 2.625rem;
-			height: 3rem;
-			margin-inline-end: 0.25rem;
-			color: var(--sl-color-gray-2);
-			text-decoration: none;
-		}
-
-		.nice-section-mark img {
-			width: 1.35rem;
-			height: 1.35rem;
-		}
-
 		.nice-section-link {
 			display: inline-flex;
 			align-items: center;
@@ -270,12 +249,6 @@ const navItems: Array<{
 				padding-inline: 0.5rem;
 			}
 
-			.nice-section-mark {
-				width: 2.25rem;
-				min-width: 2.25rem;
-				height: 2.75rem;
-				margin-inline-end: 0.125rem;
-			}
 		}
 	}
 </style>

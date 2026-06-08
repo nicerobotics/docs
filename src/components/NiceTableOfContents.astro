@@ -1,0 +1,97 @@
+---
+import NiceIcon from './NiceIcon.astro';
+import NiceTableOfContentsList from './NiceTableOfContentsList.astro';
+
+const { toc } = Astro.locals.starlightRoute;
+---
+
+{
+	toc && (
+		<nice-toc data-min-h={toc.minHeadingLevel} data-max-h={toc.maxHeadingLevel}>
+			<nav aria-labelledby="starlight__on-this-page">
+				<h2 id="starlight__on-this-page">
+					<NiceIcon name="list" size="0.9rem" />
+					<span>{Astro.locals.t('tableOfContents.onThisPage')}</span>
+				</h2>
+				<NiceTableOfContentsList toc={toc.items} />
+			</nav>
+		</nice-toc>
+	)
+}
+
+<script>
+	class NiceTOC extends HTMLElement {
+		private current?: HTMLAnchorElement;
+		private observer?: IntersectionObserver;
+
+		connectedCallback() {
+			const onIdle = window.requestIdleCallback ?? ((callback: IdleRequestCallback) => setTimeout(callback, 1));
+			onIdle(() => this.init());
+		}
+
+		private init() {
+			const links = [...this.querySelectorAll<HTMLAnchorElement>('a[href^="#"]')];
+			if (!links.length) return;
+
+			const headings = links
+				.map((link) => this.getTarget(link))
+				.filter((heading): heading is HTMLElement => Boolean(heading));
+
+			const setCurrent = (link: HTMLAnchorElement) => {
+				if (link === this.current) return;
+				this.current?.removeAttribute('aria-current');
+				link.setAttribute('aria-current', 'true');
+				this.current = link;
+			};
+
+			const setCurrentById = (id: string) => {
+				const encoded = encodeURIComponent(id);
+				const link = links.find((candidate) => {
+					const hash = candidate.hash.slice(1);
+					return hash === id || hash === encoded;
+				});
+				if (link) setCurrent(link);
+			};
+
+			this.observer = new IntersectionObserver(
+				(entries) => {
+					const visible = entries
+						.filter((entry) => entry.isIntersecting)
+						.sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+					if (visible?.target instanceof HTMLElement) setCurrentById(visible.target.id);
+				},
+				{ rootMargin: this.getRootMargin() }
+			);
+
+			headings.forEach((heading) => this.observer?.observe(heading));
+
+			if (location.hash) {
+				const currentId = decodeURIComponent(location.hash.slice(1));
+				setCurrentById(currentId);
+			} else {
+				setCurrent(links[0]);
+			}
+		}
+
+		private getTarget(link: HTMLAnchorElement) {
+			const rawHash = link.hash.slice(1);
+			try {
+				return document.getElementById(decodeURIComponent(rawHash)) ?? document.getElementById(rawHash);
+			} catch {
+				return document.getElementById(rawHash);
+			}
+		}
+
+		private getRootMargin(): `${string} 0% ${string} 0%` {
+			const headerHeight = document.querySelector('header')?.getBoundingClientRect().height ?? 0;
+			const top = headerHeight + 32;
+			return `-${top}px 0% -55% 0%`;
+		}
+
+		disconnectedCallback() {
+			this.observer?.disconnect();
+		}
+	}
+
+	if (!customElements.get('nice-toc')) customElements.define('nice-toc', NiceTOC);
+</script>
