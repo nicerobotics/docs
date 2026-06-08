@@ -1,6 +1,6 @@
 # Handoff
 
-更新时间：2026-06-08 15:56:44 +08:00
+更新时间：2026-06-08 15:58:59 +08:00
 
 ## 当前状态
 
@@ -8,8 +8,8 @@
 - 本地分支：`main` 跟踪 `origin/main`。
 - Vercel 项目：NI Corporate / `docs`，Project ID `prj_Y5hrSGAEBBI9098IzW2wcVKNsgwD`，GitHub 仓库连接为 `nicerobotics/docs`，production branch 为 `main`。
 - 生产域名：`https://doc.nicerobotics.hk`。
-- 第六轮视觉与渲染修正已完成、已提交并推送到 `main`；实现提交为 `af90367`。
-- Vercel production 部署已 Ready：`https://docs-oys84xyim-ni-corporate.vercel.app`，Deployment ID `dpl_E8T1SrrjBsZBBY35X2L5Nzfg3JwS`，alias 已包含 `https://doc.nicerobotics.hk`。
+- 第六轮视觉与渲染修正已完成、已提交并推送到 `main`；主要实现提交为 `af90367`。
+- Vercel production 部署已 Ready，并已绑定 alias `https://doc.nicerobotics.hk`；不要在 handoff 中固定记录会随提交变化的 deployment slug。
 - 临时 preview 服务已停止，preview 日志和 Playwright 截图临时目录已清理。
 
 ## 本轮完成变更
@@ -39,8 +39,8 @@
   - 首页卡片边框为 `rgba(225, 214, 211, 0.68)`，图片背景为 `rgb(251, 246, 243)`。
   - 浏览器控制台错误数为 0。
 - Vercel 生产验证：
-  - `vercel ls docs --scope team_4R2v4FMICAXRs2kR45wTYAOj` 显示最新 production 部署 Ready，耗时 15s。
-  - `vercel inspect https://docs-oys84xyim-ni-corporate.vercel.app --scope team_4R2v4FMICAXRs2kR45wTYAOj` 确认 status Ready，alias 包含 `https://doc.nicerobotics.hk`。
+  - `vercel ls docs --scope team_4R2v4FMICAXRs2kR45wTYAOj` 显示 production 部署 Ready。
+  - `vercel inspect <latest-production-deployment> --scope team_4R2v4FMICAXRs2kR45wTYAOj` 确认 status Ready，alias 包含 `https://doc.nicerobotics.hk`。
   - `https://doc.nicerobotics.hk/` 和 `https://doc.nicerobotics.hk/transmission/gear/` 均返回 200。
   - Playwright 生产页 `/transmission/gear/`：表格数为 4，无原始 pipe table；logo、首个导航 icon、左目录、footer logo 的 left 均为 `76px`；active 背景均透明；购买 icon 约 `17.27px`，店铺 icon `18px`；控制台错误数为 0。
 
