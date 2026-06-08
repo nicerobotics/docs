@@ -270,9 +270,12 @@ const navItems: Array<{
 				min-height: 3.5rem;
 			}
 
+			:global(html[data-has-sidebar]) .nice-brand-inner {
+				padding-inline-start: calc(var(--nice-shell-edge) + var(--sl-menu-button-size) + 0.75rem);
+			}
+
 			.nice-actions {
 				gap: 0.5rem;
-				padding-inline-end: calc(var(--sl-menu-button-size) + 0.625rem);
 			}
 
 			.nice-shop-link {

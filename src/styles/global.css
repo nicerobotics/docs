@@ -95,8 +95,8 @@
 
 	#starlight__sidebar {
 		border-inline-end: 0 !important;
-		background: transparent !important;
-		z-index: 1;
+		background: var(--nice-content-bg) !important;
+		z-index: var(--sl-z-index-menu);
 	}
 
 	@media (min-width: 80rem) {
@@ -106,12 +106,24 @@
 
 		html[data-has-sidebar] #starlight__sidebar {
 			inset-inline-start: var(--nice-shell-edge);
+			background: transparent !important;
+			z-index: 1;
 		}
 	}
 
+	html:not([data-has-sidebar]) starlight-menu-button {
+		display: none;
+	}
+
 	starlight-menu-button button {
-		inset-inline-end: 1rem;
+		inset-inline-start: var(--nice-shell-edge);
+		inset-inline-end: auto;
 		top: 0.75rem;
+		border: 0;
+		border-radius: 0;
+		background: transparent !important;
+		box-shadow: none !important;
+		color: white;
 	}
 
 	.nice-brand-row .site-title {
@@ -128,7 +140,8 @@
 		height: 2.25rem;
 		justify-content: center;
 		padding-inline: 0;
-		border-color: rgba(255, 255, 255, 0.48);
+		border: 1px solid rgba(255, 255, 255, 0.48);
+		border-radius: 0.5rem;
 		background: rgba(255, 255, 255, 0.16);
 		color: white;
 	}
@@ -216,6 +229,12 @@
 		font-size: 0.9em;
 		font-weight: 700;
 		line-height: 1;
+	}
+
+	@media (max-width: 50rem) {
+		.sl-markdown-content .sl-anchor-link {
+			display: none !important;
+		}
 	}
 
 	.sl-markdown-content {

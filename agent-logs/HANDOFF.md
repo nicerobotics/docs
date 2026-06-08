@@ -1,6 +1,6 @@
 # Handoff
 
-更新时间：2026-06-08 17:26:44 +08:00
+更新时间：2026-06-08 17:41:29 +08:00
 
 ## 当前状态
 
@@ -8,36 +8,37 @@
 - 本地分支：`main` 跟踪 `origin/main`。
 - Vercel 项目：NI Corporate / `docs`，Project ID `prj_Y5hrSGAEBBI9098IzW2wcVKNsgwD`，production branch 为 `main`。
 - 生产域名：`https://doc.nicerobotics.hk`。
-- 本轮淘宝按钮尺寸和购买列宽修正已完成本地实现、提交、推送和 Vercel production 验证。
+- 本轮移动端 header、搜索、左目录和标题锚点修正已完成本地实现与验证，待提交、推送并确认 Vercel production。
 
 ## 本轮完成变更
 
-- 顶部淘宝店铺按钮从 `2.25rem` 放大到 `2.5rem`，淘宝 icon 从 `1.1rem` 放大到 `1.35rem`；移动端按钮同步放大到 `2.2rem`。
-- 正文淘宝购买按钮从 `2rem` 放大到 `2.35rem`，内部淘宝 icon 从 `1.08rem` 放大到 `1.35rem`。
-- 含购买按钮的表格第一列通过 CSS `:has()` 单独收窄为约 `3.75rem`，覆盖 GitBook 同步内容里 `width="160"` 之类的过宽列宽。
-- 不改正文链接、SKU、同步脚本和生成内容，只做样式层调整。
+- 移动端搜索按钮保持在品牌栏最右侧，移除原来给右侧菜单按钮预留的 padding。
+- 移动端搜索按钮补上 `1px` 边框和 `0.5rem` 圆角。
+- 移动端左目录按钮改到左上角，位于 NICE 大 logo 左侧；按钮无背景、无阴影、无边框，只保留 icon。
+- 首页等无左目录页面不会出现目录按钮；Starlight 仍根据 `route.hasSidebar` 渲染按钮，CSS 也补充隐藏保护。
+- 有左目录的移动端页面给 NICE logo 左侧让位，避免菜单 icon 和 logo 重叠。
+- 移动端打开左目录时，`#starlight__sidebar` 使用 `var(--nice-content-bg)` 背景和正常 menu 层级，修复透明背景导致标题不可读的问题；桌面端仍保持透明 sidebar，避免影响 footer 叠层。
+- 移动端隐藏正文标题左侧的 `#` 锚点。
 
 ## 验证结果
 
-- Playwright 本地 2048×1152 验证：
-  - `/structure/tube/`：购买列首个 `th/td` 实际宽度约 `60px`，购买按钮约 `37.6px`，按钮 icon 约 `21.6px`。
-  - 顶部店铺按钮约 `40px`，顶部淘宝 icon 约 `21.6px`。
-  - `/transmission/sprocket_chain/`：购买列和按钮尺寸一致，页面没有 body 横向溢出。
-  - 浏览器控制台错误数为 0。
+- Playwright 本地 390×844 移动视口验证：
+  - `/`：无 `data-has-sidebar`，无目录按钮；搜索按钮位于最右，右边距 `16px`，圆角 `8px`，边框 `1px`。
+  - `/transmission/gear/`：有目录按钮，left=`16px`，背景透明、无边框、无阴影；NICE logo left=`60px`；搜索按钮仍在最右，右边距 `16px`。
+  - `/transmission/gear/`：正文标题锚点 `.sl-anchor-link` 在移动端 `display:none`。
+  - 点击目录按钮后：body 有 `data-mobile-menu-expanded`，sidebar 可见，背景 `rgb(255,255,255)`，首个链接可读，控制台错误数为 0。
+  - 页面没有 body 横向溢出。
 - `npm run check` 通过：0 errors，0 warnings，0 hints；仍有既有 Astro markdown deprecation 提示。
 - `npm run build` 通过：生成 16 个内容页、Pagefind 索引和 sitemap；仍有既有 `Entry docs → 404 was not found.` 提示。
 - `git diff --check` 通过；只有 Git 的 LF/CRLF 转换提示。
-- Vercel production 验证：
-  - 最新 production deployment Ready，alias 包含 `https://doc.nicerobotics.hk`。
-  - `https://doc.nicerobotics.hk/structure/tube/` 返回 200。
-  - 线上 Playwright 复测：购买列 `60px`，按钮约 `37.6px`，按钮 icon 约 `21.6px`，顶部店铺按钮约 `40px`，顶部淘宝 icon 约 `21.6px`，无 body 横向溢出，控制台错误数为 0。
 
 ## 待处理事项
 
+- 提交并推送本轮改动，然后确认 Vercel production Ready 且 `https://doc.nicerobotics.hk` 可访问。
 - 后续可单独处理既有构建提示：Astro markdown deprecation 和 `Entry docs → 404 was not found.`。
 - 后续可跟进 `npm audit` 的 moderate vulnerabilities；不要直接 `npm audit fix --force`。
 
 ## 关键风险
 
-- 表格购买列收窄依赖现代浏览器 CSS `:has()`，这是当前主流浏览器支持的标准选择器；如后续需要兼容极老浏览器，应改为同步脚本给购买列加 class。
-- 购买列宽现在以 icon button 为中心优化；如果未来恢复按钮文字，需要同步调整列宽。
+- 移动端菜单按钮使用 Starlight 内建 `MobileMenuToggle`，本轮只通过 CSS 重定位和重设视觉；如果后续替换 Starlight 版本，需要复查 `starlight-menu-button` DOM 是否变化。
+- 移动端 sidebar 背景在浅色/深色模式分别依赖 `--nice-content-bg`；后续如调整主题变量，需要同步复查移动菜单可读性。
