@@ -53,11 +53,20 @@ import NiceIcon from './NiceIcon.astro';
 			background: transparent;
 			color: white;
 			cursor: pointer;
+			transition: background-color 180ms ease;
 		}
 
 		nice-theme-toggle button:hover {
 			background: rgba(255, 255, 255, 0.14);
 			color: white;
+		}
+
+		:root[data-theme='light'] nice-theme-toggle :global(.nice-icon) {
+			fill: currentColor;
+		}
+
+		:root[data-theme='dark'] nice-theme-toggle :global(.nice-icon) {
+			fill: none;
 		}
 	}
 </style>

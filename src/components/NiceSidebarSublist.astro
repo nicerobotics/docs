@@ -97,7 +97,7 @@ function iconForHref(href = '') {
 
 		.large {
 			font-size: var(--sl-text-lg);
-			font-weight: 600;
+			font-weight: 400;
 			color: #8a7c78;
 		}
 
@@ -151,6 +151,7 @@ function iconForHref(href = '') {
 			padding: 0.45em var(--sl-sidebar-item-padding-inline) 0.45em 0.75rem;
 			color: #8a7c78;
 			line-height: 1.4;
+			font-weight: 400;
 			text-decoration: none;
 			transition:
 				background-color 180ms ease,
@@ -189,11 +190,16 @@ function iconForHref(href = '') {
 		}
 
 		[aria-current='page'],
-		[aria-current='page']:hover,
 		[aria-current='page']:focus {
-			background-color: rgba(252, 80, 0, 0.08);
+			background-color: transparent;
 			color: var(--sl-color-text-accent);
-			font-weight: 600;
+			font-weight: 400;
+		}
+
+		[aria-current='page']:hover {
+			background-color: rgba(120, 107, 103, 0.1);
+			color: var(--sl-color-text-accent);
+			font-weight: 400;
 		}
 
 		[aria-current='page']::before {
@@ -207,8 +213,12 @@ function iconForHref(href = '') {
 		}
 
 		:global(:root[data-theme='dark']) [aria-current='page'],
-		:global(:root[data-theme='dark']) [aria-current='page']:hover,
 		:global(:root[data-theme='dark']) [aria-current='page']:focus {
+			color: var(--sl-color-text-accent);
+		}
+
+		:global(:root[data-theme='dark']) [aria-current='page']:hover {
+			background-color: rgba(255, 255, 255, 0.07);
 			color: var(--sl-color-text-accent);
 		}
 

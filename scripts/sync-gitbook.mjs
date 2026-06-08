@@ -310,6 +310,94 @@ function convertGlobeIcons(markdown) {
 		);
 }
 
+function splitMarkdownTableRow(line) {
+	return line
+		.trim()
+		.replace(/^\|/, '')
+		.replace(/\|$/, '')
+		.split(/(?<!\\)\|/)
+		.map((cell) => cell.trim());
+}
+
+function isMarkdownTableRow(line) {
+	return /^\s*\|.+\|\s*$/.test(line);
+}
+
+function isMarkdownTableDivider(line) {
+	if (!isMarkdownTableRow(line)) return false;
+	const cells = splitMarkdownTableRow(line);
+	return cells.length > 1 && cells.every((cell) => /^:?-{2,}:?$/.test(cell.replace(/\s+/g, '')));
+}
+
+function tableCellAlignment(dividerCell) {
+	const normalized = dividerCell.replace(/\s+/g, '');
+	if (normalized.startsWith(':') && normalized.endsWith(':')) return 'center';
+	if (normalized.endsWith(':')) return 'right';
+	return undefined;
+}
+
+function escapeHtml(value) {
+	return value
+		.replace(/&/g, '&amp;')
+		.replace(/</g, '&lt;')
+		.replace(/>/g, '&gt;')
+		.replace(/"/g, '&quot;');
+}
+
+function formatMarkdownTableCell(value) {
+	return escapeHtml(htmlDecode(value).replace(/\\([\\`*_[\]{}()#+\-.!|])/g, '$1')).replace(/\*/g, '&#42;');
+}
+
+function renderMarkdownTable(rows, divider) {
+	const headers = splitMarkdownTableRow(rows[0]);
+	const alignments = splitMarkdownTableRow(divider).map(tableCellAlignment);
+	const columnCount = headers.length;
+	const attrsFor = (index) => (alignments[index] ? ` align="${alignments[index]}"` : '');
+	const renderCells = (cells, tag) =>
+		Array.from({ length: columnCount }, (_, index) => {
+			const value = formatMarkdownTableCell(cells[index] ?? '');
+			return `<${tag}${attrsFor(index)}>${value}</${tag}>`;
+		}).join('');
+	const header = `<thead><tr>${renderCells(headers, 'th')}</tr></thead>`;
+	const bodyRows = rows
+		.slice(1)
+		.map((row) => `<tr>${renderCells(splitMarkdownTableRow(row), 'td')}</tr>`)
+		.join('');
+	return `<table>${header}<tbody>${bodyRows}</tbody></table>`;
+}
+
+function convertMarkdownTables(markdown) {
+	const lines = markdown.split(/\r?\n/);
+	const output = [];
+	let inFence = false;
+
+	for (let index = 0; index < lines.length; index += 1) {
+		const line = lines[index];
+		if (/^\s*(```|~~~)/.test(line)) {
+			inFence = !inFence;
+			output.push(line);
+			continue;
+		}
+
+		if (!inFence && isMarkdownTableRow(line) && isMarkdownTableDivider(lines[index + 1] ?? '')) {
+			const rows = [line];
+			const divider = lines[index + 1];
+			index += 2;
+			while (index < lines.length && isMarkdownTableRow(lines[index])) {
+				rows.push(lines[index]);
+				index += 1;
+			}
+			index -= 1;
+			output.push(renderMarkdownTable(rows, divider));
+			continue;
+		}
+
+		output.push(line);
+	}
+
+	return output.join('\n');
+}
+
 function wrapHtmlTables(markdown) {
 	return markdown.replace(/(^|\n)(<table[\s\S]*?<\/table>)/g, (_, prefix, table) => {
 		return `${prefix}<div className="nice-table-scroll">\n${table}\n</div>`;
@@ -386,6 +474,7 @@ function transformMarkdown(source, page, assetMap) {
 	body = convertCards(body);
 	body = convertHtmlForMdx(body);
 	body = convertGlobeIcons(body);
+	body = convertMarkdownTables(body);
 	body = wrapHtmlTables(body);
 	body = renderMath(body);
 	body = escapeMdxTextExpressions(body);

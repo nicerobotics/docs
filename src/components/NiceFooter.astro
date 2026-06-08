@@ -16,6 +16,8 @@ import niceBoxLogo from '../assets/logos/nice-box.svg?raw';
 <style>
 	@layer starlight.core {
 		.nice-footer {
+			position: relative;
+			z-index: 20;
 			display: grid;
 			grid-template-columns:
 				minmax(0, 1fr)
@@ -30,23 +32,24 @@ import niceBoxLogo from '../assets/logos/nice-box.svg?raw';
 			padding-block: 1.75rem 0.7rem;
 			padding-inline: max(1rem, calc((100vw - 82rem) / 2));
 			border-block-start: 1px solid var(--sl-color-hairline);
+			background: var(--nice-content-bg);
 			color: var(--sl-color-gray-3);
 			font-size: var(--sl-text-sm);
 		}
 
 		.nice-footer-brand {
-			grid-column: 1;
+			position: absolute;
+			inset-block-start: 1.75rem;
+			inset-inline-start: var(--nice-shell-edge);
 			display: flex;
 			align-items: center;
-			justify-self: end;
 			min-width: 0;
-			padding-inline-end: 1.75rem;
 		}
 
 		.nice-footer-logo {
 			display: inline-flex;
-			width: 2.75rem;
-			height: 2.4rem;
+			width: 3rem;
+			height: 2.63rem;
 			flex: 0 0 auto;
 			color: var(--nice-header-bg, #fc5000);
 		}
@@ -99,10 +102,10 @@ import niceBoxLogo from '../assets/logos/nice-box.svg?raw';
 			.nice-footer-brand,
 			.nice-footer-contact,
 			.nice-footer p {
+				position: static;
 				grid-column: 1;
 				justify-self: center;
 				text-align: center;
-				padding-inline-end: 0;
 			}
 
 			.nice-footer-contact {
