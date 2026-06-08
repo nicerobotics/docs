@@ -6,7 +6,7 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://doc.nicerobotics.hk',
+	site: 'https://docs.nicerobotics.hk',
 	redirects: {
 		'/transmission': '/transmission/gear/',
 		'/transmission/sprocket_chain': '/transmission/sprocket-chain/',

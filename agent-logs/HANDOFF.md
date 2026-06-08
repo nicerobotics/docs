@@ -1,6 +1,6 @@
 # Handoff
 
-更新时间：2026-06-08 23:04:00 +08:00
+更新时间：2026-06-08 23:14:39 +08:00
 
 ## 当前状态
 
@@ -13,6 +13,10 @@
 
 ## 本轮完成
 
+- 将站点生产域名从 `doc.nicerobotics.hk` 更新为 `docs.nicerobotics.hk`：
+  - `astro.config.mjs` 的 `site` 已更新，后续 canonical URL、Open Graph URL 和 sitemap 会使用新域名。
+  - `README.md` 和 `AGENTS.md` 中的默认生产域名说明已同步更新。
+  - 联系邮箱 `contact@nicerobotics.hk` 与站点域名无关，保持不变。
 - 删除旧同步脚本，移除 `package.json` 中对应命令。
 - 新增 `scripts/lint-content.mjs` 和 `npm run lint:content`，用于阻止旧关键词、脚手架 HTML、临时 class 写回文档内容。
 - 将 frontmatter 中的旧图标字段统一为 `icon`，并让侧栏图标从内容集合读取，减少新增页面时的隐性代码映射。
@@ -39,6 +43,10 @@
 
 ## 验证结果
 
+- `npm run lint:content` 通过。
+- `npm run check` 通过，0 errors、0 warnings、0 hints。
+- `npm run build` 通过，生成 17 个页面，Pagefind 搜索索引构建成功。
+- 构建产物中的 canonical、Open Graph 和 sitemap URL 已确认使用 `https://docs.nicerobotics.hk`。
 - `npm run lint:content` 通过。
 - 旧平台相关关键词扫描无匹配。
 - `src/content/docs` 中脚手架 HTML 扫描无匹配。

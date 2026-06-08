@@ -23,7 +23,7 @@
 - 用 Astro 和 Starlight 维护 NICE Robotics 官方产品文档网站。
 - 保持现有 UI/UX 视觉体验稳定，不把重构变成重新设计。
 - 后续维护者只通过新增或修改 MDX、图片和下载资源更新文档。
-- 默认部署到 NI Corporate Vercel，默认生产域名为 `doc.nicerobotics.hk`。
+- 默认部署到 NI Corporate Vercel，默认生产域名为 `docs.nicerobotics.hk`。
 
 ## 技术栈约束
 
