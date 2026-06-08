@@ -1,6 +1,5 @@
 ---
 import SidebarPersister from '@astrojs/starlight/components/SidebarPersister.astro';
-import MobileMenuFooter from './NiceMobileMenuFooter.astro';
 import NiceSidebarSublist from './NiceSidebarSublist.astro';
 
 const { sidebar } = Astro.locals.starlightRoute;
@@ -9,7 +8,3 @@ const { sidebar } = Astro.locals.starlightRoute;
 <SidebarPersister>
 	<NiceSidebarSublist sublist={sidebar} />
 </SidebarPersister>
-
-<div class="md:sl-hidden">
-	<MobileMenuFooter />
-</div>

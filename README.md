@@ -135,7 +135,8 @@ import {
 3. 把图片放到 `public/assets/docs/<section>/<page>/`。
 4. 把 PDF、STEP 等下载资源放到 `public/downloads/<section>/<page>/`。
 5. 正文使用 Markdown 和 `src/components/mdx` 组件。
-6. 运行检查：
+6. 只有当目标分类或页面有真实、可用、能代表内容的预览图时，才允许添加首页快捷展示 card；没有预览图时不要放首页，也不要使用占位图或无关图片。
+7. 运行检查：
 
 ```powershell
 npm run lint:content
@@ -215,5 +216,6 @@ npm run build
 - 保持 MDX 简洁、可读、可复制。
 - 所有重复内容模式都应沉淀为组件。
 - 不为单个页面写一次性 CSS。
+- 首页快捷展示 card 必须有真实预览图；没有预览图的分类或页面不放首页。
 - 不编造 SKU、规格、链接、价格、库存、交期、认证或兼容性。
 - README 只能有一个一级标题，标题必须是 `docs`。

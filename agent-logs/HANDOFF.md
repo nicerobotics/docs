@@ -1,6 +1,6 @@
 # Handoff
 
-更新时间：2026-06-08 23:14:39 +08:00
+更新时间：2026-06-09 00:06:03 +08:00
 
 ## 当前状态
 
@@ -13,6 +13,13 @@
 
 ## 本轮完成
 
+- 移除移动端侧栏底部重复的暗亮切换按钮；暗亮切换入口保留在顶部 header。
+- 首页快速索引调整：
+  - 撤下“板材”卡片。
+  - 撤下“硅胶软管”卡片。
+  - 将“滚轴系统”卡片配图从 `RollerSystem.png` 改为 `SinglePulley.png`。
+- 新增首页快捷展示规则：目标分类或页面必须有真实可用预览图；没有预览图时不允许放首页，也不要使用占位图或无关图片。
+- 已启动本地预览：`http://127.0.0.1:4321/`。
 - 将站点生产域名从 `doc.nicerobotics.hk` 更新为 `docs.nicerobotics.hk`：
   - `astro.config.mjs` 的 `site` 已更新，后续 canonical URL、Open Graph URL 和 sitemap 会使用新域名。
   - `README.md` 和 `AGENTS.md` 中的默认生产域名说明已同步更新。
@@ -43,6 +50,11 @@
 
 ## 验证结果
 
+- 使用内置浏览器打开 `http://127.0.0.1:4321/structure/tube/` 并展开移动端侧栏，确认“防撞条”下方不再出现暗亮切换按钮，顶部 header 暗亮切换按钮仍存在。
+- `npm run lint:content` 通过。
+- `ASTRO_TELEMETRY_DISABLED=1 npm run check` 通过，0 errors、0 warnings、0 hints。
+- `ASTRO_TELEMETRY_DISABLED=1 npm run build` 通过。
+- 使用内置浏览器打开 `http://127.0.0.1:4321/` 验证：首页不再包含“板材”和“硅胶软管”卡片，“滚轴系统”卡片图片为 `/assets/docs/wheels/SinglePulley.png`。
 - `npm run lint:content` 通过。
 - `npm run check` 通过，0 errors、0 warnings、0 hints。
 - `npm run build` 通过，生成 17 个页面，Pagefind 搜索索引构建成功。
