@@ -1,6 +1,6 @@
 # Handoff
 
-更新时间：2026-06-08 17:09:09 +08:00
+更新时间：2026-06-08 17:14:09 +08:00
 
 ## 当前状态
 
@@ -8,7 +8,7 @@
 - 本地分支：`main` 跟踪 `origin/main`。
 - Vercel 项目：NI Corporate / `docs`，Project ID `prj_Y5hrSGAEBBI9098IzW2wcVKNsgwD`，production branch 为 `main`。
 - 生产域名：`https://doc.nicerobotics.hk`。
-- 本轮追加修正已完成本地实现和验证，待提交、推送并确认 Vercel production。
+- 本轮追加修正已完成本地实现、提交、推送和 Vercel production 验证。
 
 ## 本轮完成变更
 
@@ -33,10 +33,13 @@
   - `/hardware/tube_plugs/`：选中 tab 背景透明，只有 `rgb(252,80,0)` 的 inset 下划线。
   - `/wheels/silicone-wheel/`：右目录为 `2” 塑芯硅胶轮`、`3” 塑芯硅胶轮`、`4” 塑芯硅胶轮`，无 `购买` 字样。
   - 浏览器控制台错误数为 0。
+- Vercel production 验证：
+  - 最新 production deployment Ready，alias 包含 `https://doc.nicerobotics.hk`。
+  - `https://doc.nicerobotics.hk/transmission/gear/`、`/hardware/tube_plugs/`、`/wheels/silicone-wheel/` 均返回 200。
+  - Playwright 线上复测结果与本地一致：标题锚点不推动标题、hint icon 配色正确、选中 tab 背景透明、右目录无 `购买` 字样，控制台错误数为 0。
 
 ## 待处理事项
 
-- 提交并推送本轮改动，然后确认 Vercel production Ready 且 `https://doc.nicerobotics.hk` 可访问。
 - 后续可单独处理既有构建提示：Astro markdown deprecation 和 `Entry docs → 404 was not found.`。
 - 后续可跟进 `npm audit` 的 moderate vulnerabilities；不要直接 `npm audit fix --force`。
 
