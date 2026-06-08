@@ -219,7 +219,7 @@
 	.sl-markdown-content .sl-heading-wrapper:has(+ .nice-buy-button) {
 		display: inline-flex;
 		margin-inline-end: 0.55rem;
-		vertical-align: middle;
+		vertical-align: bottom;
 	}
 
 	.sl-markdown-content .sl-heading-wrapper:has(+ .nice-buy-button) > :first-child {

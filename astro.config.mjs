@@ -9,7 +9,11 @@ export default defineConfig({
 	site: 'https://doc.nicerobotics.hk',
 	redirects: {
 		'/transmission': '/transmission/gear/',
-		'/hardware': '/hardware/tube_plugs/',
+		'/transmission/sprocket_chain': '/transmission/sprocket-chain/',
+		'/hardware': '/hardware/tube-plugs/',
+		'/hardware/tube_plugs': '/hardware/tube-plugs/',
+		'/hardware/nut_strips': '/hardware/nut-strips/',
+		'/hardware/bearing_shaft': '/hardware/bearing-shaft/',
 		'/structure': '/structure/tube/',
 		'/wheels': '/wheels/silicone-wheel/',
 	},

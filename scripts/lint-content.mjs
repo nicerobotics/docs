@@ -21,6 +21,7 @@ const mdxRules = [
 	{ label: '不要在 MDX 中手写 table', pattern: /<table\b/ },
 	{ label: '不要在 MDX 中手写 figure', pattern: /<figure\b/ },
 	{ label: '不要在 MDX 中手写 img', pattern: /<img\b/ },
+	{ label: '不要在 MDX 中手写 p align', pattern: /<p\s+align\s*=/ },
 	{ label: '不要在 MDX 中手写 style', pattern: /style\s*=/ },
 	{ label: '不要在 MDX 中手写 data-*', pattern: /\sdata-[\w-]+\s*=/ },
 	{ label: '不要使用旧购买按钮 class', pattern: /button primary/ },
