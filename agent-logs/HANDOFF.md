@@ -1,6 +1,6 @@
 # Handoff
 
-更新时间：2026-06-08 19:44:46 +08:00
+更新时间：2026-06-08 20:07:50 +08:00
 
 ## 当前状态
 
@@ -26,6 +26,7 @@
   - footer 保留全宽视觉，但 padding 改用 shared shell edge。
   - `html`、`body`、`.page`、`.main-frame` 增加页面级横向裁切，避免 full-bleed 元素在 Windows 经典滚动条环境中撑出页面横向滚动条。
 - 将 `DocImage` 和全局 markdown 图片兜底背景改为纯白；未修改 `SubpageGallery` 快速索引卡片背景。
+- 修复正文标题后紧跟的 `BuyButton` 被折到下一行的问题：按钮增加稳定类名、不收缩和不换行约束；标题 wrapper 在紧邻购买按钮时改为同排 inline-flex。
 
 ## 验证结果
 
@@ -33,6 +34,8 @@
 - 旧平台相关关键词扫描无匹配。
 - `src/content/docs` 中脚手架 HTML 扫描无匹配。
 - `npm run check` 通过，0 errors、0 warnings、0 hints。
+- `npm run build` 通过。
+- 使用 `astro preview` + Playwright 抽查 `/hardware/bearing_shaft/`，标题和紧随的购买按钮保持同一行，按钮位于标题右侧且垂直居中。
 - `npm run build` 通过，生成 16 个页面，Pagefind 搜索索引构建成功。
 - Playwright 计算样式验证：正文图片 light/dark 背景均为 `rgb(255, 255, 255)`；快速索引图片背景仍为原卡片背景。
 - 使用 `astro preview` + Playwright 抽查 `/`、`/transmission/gear/`、`/transmission/sprocket_chain/`、`/hardware/tube_plugs/`、`/hardware/bearing_shaft/`、`/structure/tube/`、`/structure/bumper/`、`/wheels/silicone-wheel/`、`/wheels/roller-system/`。
