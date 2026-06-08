@@ -42,7 +42,8 @@
 	--sl-content-width: 47.5rem;
 	--sl-content-inline-start: 0rem;
 	--sl-mobile-toc-height: 0rem;
-	--nice-shell-edge: clamp(3.25rem, 4vw, 4.75rem);
+	--nice-shell-max-width: 86rem;
+	--nice-shell-edge: max(1rem, calc((100vw - var(--nice-shell-max-width)) / 2));
 	--sl-color-accent-low: var(--color-accent-100);
 	--sl-color-accent: var(--color-accent-500);
 	--sl-color-accent-high: var(--color-accent-700);
@@ -94,6 +95,7 @@
 
 	#starlight__sidebar {
 		border-inline-end: 0 !important;
+		background: transparent !important;
 		z-index: 1;
 	}
 
@@ -170,6 +172,47 @@
 
 	.sl-markdown-content :is(h1, h2, h3) {
 		letter-spacing: 0;
+	}
+
+	.sl-markdown-content .sl-heading-wrapper {
+		display: flex;
+		align-items: baseline;
+		gap: 0.35em;
+	}
+
+	.sl-markdown-content .sl-heading-wrapper > :first-child {
+		padding-inline-end: 0 !important;
+	}
+
+	.sl-markdown-content .sl-anchor-link {
+		order: -1;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 0.85em;
+		height: 1em;
+		margin-inline: 0 0.05em !important;
+		color: var(--sl-color-text-accent);
+		text-decoration: none;
+	}
+
+	.sl-markdown-content .sl-anchor-icon {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		line-height: 1;
+	}
+
+	.sl-markdown-content .sl-anchor-icon > svg {
+		display: none;
+	}
+
+	.sl-markdown-content .sl-anchor-icon::before {
+		content: '#';
+		color: currentColor;
+		font-size: 0.9em;
+		font-weight: 700;
+		line-height: 1;
 	}
 
 	.sl-markdown-content {
@@ -368,7 +411,6 @@
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		gap: 0.35rem;
 		min-height: 2rem;
 		margin-inline-start: 0.5rem;
 		padding: 0.35rem 0.75rem;
@@ -386,6 +428,13 @@
 			background-color 180ms ease,
 			border-color 180ms ease,
 			color 180ms ease;
+	}
+
+	.sl-markdown-content a.button.primary:not([data-icon='globe-pointer']) {
+		width: 2rem;
+		padding-inline: 0;
+		gap: 0;
+		font-size: 0;
 	}
 
 	.sl-markdown-content a.button.primary:not([data-icon='globe-pointer'])::before {
@@ -408,6 +457,10 @@
 		background: currentColor;
 		-webkit-mask: url('/assets/ui/lucide-globe.svg') center / contain no-repeat;
 		mask: url('/assets/ui/lucide-globe.svg') center / contain no-repeat;
+	}
+
+	.sl-markdown-content a.button.primary[data-icon='globe-pointer'] {
+		gap: 0.35rem;
 	}
 
 	.nice-onshape-link {
@@ -471,11 +524,11 @@
 		aspect-ratio: 16 / 9;
 		object-fit: contain;
 		padding: 0;
-		background: #fbf6f3;
+		background: #fffaf8;
 	}
 
 	:root[data-theme='dark'] .nice-card img {
-		background: #28231f;
+		background: #252321;
 	}
 
 	.nice-card img[data-fit='cover'] {
@@ -508,7 +561,7 @@
 	}
 
 	.nice-card small {
-		color: #786b67;
+		color: #1d1d1d;
 		font-size: 0.8125rem;
 		font-weight: 500;
 	}
