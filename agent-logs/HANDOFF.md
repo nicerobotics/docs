@@ -1,6 +1,6 @@
 # Handoff
 
-更新时间：2026-06-09 00:35:12 +08:00
+更新时间：2026-06-12 01:08:15 +0800
 
 ## 当前状态
 
@@ -50,6 +50,12 @@
   - 保留旧下划线路径到新连字符路径的 redirects，避免已有外链失效。
 - 修复带购买按钮标题和普通标题的排版不一致问题：标题保持 flow 内同排布局，不再使用绝对定位；h2/h3/h4 明确按 24px / 20px / 17.28px 递减。
 - 修复 `ProductTable` 表头和列之间的白色竖线：组件级强制 `border-spacing: 0`，外层统一裁切圆角，避免表头背景被单元格间距切开。
+- 修复 `/wheels/roller-system/` 首次进入页面后点击右侧目录“硅胶防滑胶带”会停在前面滚筒系统区域的问题：
+  - 根因是首进时懒加载图片缺少稳定尺寸占位，且该章节位于页面末尾附近，浏览器锚点滚动容易被最大滚动位置截断。
+  - `DocImage` 构建时读取 `public` 下本地图片真实尺寸，输出 `width` / `height`，并保留 `h-auto`，避免宽高属性改变实际显示尺寸。
+  - 给带右侧目录的正文保留尾部滚动余量，确保末尾章节也能被锚点滚动到可判定的视口位置。
+  - 已撤回第一次误判中不必要的 `scroll-margin-top` 改动；拆分验证显示它不是修复该问题所必需。
+  - 修复提交已推送到远端：`90691b7 Fix roller system TOC anchor stability`。
 
 ## 验证结果
 
@@ -85,6 +91,12 @@
   - 带按钮标题的按钮位于标题右侧，垂直居中误差约 1.8px。
   - h2 / h3 / h4 字号分别为 24px / 20px / 17.28px。
   - `ProductTable` computed `border-spacing` 为 `0px`，表头相邻单元格 gap 为 0，外框圆角为 8px。
+- `ASTRO_TELEMETRY_DISABLED=1 npm run build` 通过。
+- `ASTRO_TELEMETRY_DISABLED=1 npm run check` 通过，0 errors、0 warnings、0 hints。
+- Playwright 复测 `/wheels/roller-system/` 首次进入后立即点击右侧目录“硅胶防滑胶带”：
+  - 正常图片加载场景：URL hash 为 `#硅胶防滑胶带`，右侧目录高亮为“硅胶防滑胶带”。
+  - 图片请求被拦截场景：URL hash 为 `#硅胶防滑胶带`，右侧目录高亮仍为“硅胶防滑胶带”。
+  - 临时禁用尾部滚动余量会复现错误高亮，确认该样式是必要修复；临时禁用 `scroll-margin-top` 不影响修复，因此已撤回该改动。
 - `npm run build` 通过，生成 16 个页面，Pagefind 搜索索引构建成功。
 - Playwright 计算样式验证：正文图片 light/dark 背景均为 `rgb(255, 255, 255)`；快速索引图片背景仍为原卡片背景。
 - 使用 `astro preview` + Playwright 抽查 `/`、`/transmission/gear/`、`/transmission/sprocket_chain/`、`/hardware/tube_plugs/`、`/hardware/bearing_shaft/`、`/structure/tube/`、`/structure/bumper/`、`/wheels/silicone-wheel/`、`/wheels/roller-system/`。
