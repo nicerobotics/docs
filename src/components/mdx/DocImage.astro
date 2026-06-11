@@ -1,4 +1,8 @@
 ---
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
+import sharp from 'sharp';
+
 interface Props {
 	src: string;
 	alt: string;
@@ -10,19 +14,39 @@ interface Props {
 const { src, alt, caption, width, variant = 'default' } = Astro.props;
 const imageWidth = variant === 'wide' ? 'w-full max-w-full' : 'max-w-[min(100%,23.4375rem)]';
 const background = variant === 'plain' ? 'bg-transparent' : 'bg-white';
+
+async function getLocalImageSize(src: string) {
+	if (!src.startsWith('/')) return;
+
+	const pathname = decodeURIComponent(src.split(/[?#]/, 1)[0]);
+	const filePath = join(process.cwd(), 'public', pathname);
+	if (!existsSync(filePath)) return;
+
+	const { width, height } = await sharp(filePath).metadata();
+	if (!width || !height) return;
+	return { width, height };
+}
+
+const size = await getLocalImageSize(src);
+const explicitWidth =
+	typeof width === 'number' ? width : typeof width === 'string' && /^\d+$/.test(width) ? Number(width) : undefined;
+const imageHeight =
+	size && explicitWidth ? Math.round((size.height / size.width) * explicitWidth) : size?.height;
+const imageWidthAttr = width ?? size?.width;
 ---
 
 <figure class="not-content my-5 grid justify-items-center">
 	<img
 		class:list={[
-			'block rounded border-0 object-contain',
+			'block h-auto rounded border-0 object-contain',
 			imageWidth,
 			background,
 			variant === 'plain' ? 'p-0' : 'p-0',
 		]}
 		src={src}
 		alt={alt}
-		width={width}
+		width={imageWidthAttr}
+		height={imageHeight}
 		loading="lazy"
 		decoding="async"
 	/>

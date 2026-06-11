@@ -283,6 +283,10 @@
 		line-height: 1.75;
 	}
 
+	.nice-two-column.has-toc .sl-markdown-content {
+		padding-block-end: max(14rem, calc(100vh - var(--sl-nav-height) - 9rem));
+	}
+
 	.sl-markdown-content :is(h2, h3, h4) {
 		color: var(--sl-color-white);
 	}
