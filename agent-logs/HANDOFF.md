@@ -1,6 +1,6 @@
 # Handoff
 
-更新时间：2026-06-15 23:23:34 +08:00
+更新时间：2026-06-15 23:55:40 +08:00
 
 ## 当前状态
 
@@ -13,6 +13,9 @@
 
 ## 本轮完成
 
+- 修正首页快速索引用的两张产品图资源：
+  - `public/assets/docs/wheels/silicone-tube.png` 去除白色不透明背景，保留透明 PNG，并裁到产品边界后补透明边距。
+  - `public/assets/docs/structure/ban-cai.png` 增加透明安全边距，避免板材左侧小角在卡片中贴边/被裁。
 - 移除 `/wheels/roller-system/` 配置卡片中直接展示的图片原始文件名：
   - `HUBonly.png`
   - `SinglePulley.png`
@@ -73,6 +76,11 @@
 
 ## 验证结果
 
+- 使用 `sharp` 检查图片 alpha：硅胶软管图白色不透明像素为 0，透明像素约 77 万；板材图产品 alpha 左边界从 0 改为 120px。
+- `npm run lint:content` 通过。
+- `npm run check` 通过，0 errors、0 warnings、0 hints。
+- `npm run build` 通过，生成 17 个页面，Pagefind 搜索索引构建成功。
+- 使用构建产物 + Playwright 截图检查暗色首页卡片：硅胶软管不再显示白底，板材左侧不再贴边。
 - `npm run lint:content` 通过。
 - `env ASTRO_TELEMETRY_DISABLED=1 npm run check` 通过，0 errors、0 warnings、0 hints。
 - `env ASTRO_TELEMETRY_DISABLED=1 npm run build` 通过，生成 17 个页面，Pagefind 搜索索引构建成功。
