@@ -1,6 +1,6 @@
 # Handoff
 
-更新时间：2026-06-15 23:10:15 +08:00
+更新时间：2026-06-15 23:23:34 +08:00
 
 ## 当前状态
 
@@ -18,6 +18,12 @@
   - `SinglePulley.png`
   - `DoublePulley.png`
 - 仅修改 `src/content/docs/wheels/roller-system.mdx` 中对应 `SubpageGallery` item 的 `subtitle` 字段；未改组件实现，首页快速索引的 SKU 副标题不受影响。
+- 使用用户提供的新产品图恢复首页快速索引中的“板材”和“硅胶软管”入口：
+  - 新增 `public/assets/docs/structure/ban-cai.png`。
+  - 新增 `public/assets/docs/wheels/silicone-tube.png`。
+  - `src/content/docs/index.mdx` 中加入“板材”和“硅胶软管”卡片。
+  - `src/content/docs/structure/ban-cai.mdx` 开头加入板材 `DocImage`。
+  - `src/content/docs/wheels/silicone-tube.mdx` 开头加入硅胶软管 `DocImage`。
 - 修复移动宽度下 footer 仍使用桌面绝对定位导致 NICE logo 与“联系我们”重叠的问题；footer 移动端堆叠断点改为 `50rem`，与移动导航断点对齐。
 - 将 `DocImage` 的 `wide` 变体调整为真正填满正文宽度，并把滚轴系统页面配置图设为 `variant="wide"`，避免高分辨率配置图显示过小。
 - 将滚轴系统页面三张配置卡片的链接从 `#` 改为对应安装指南锚点：单滚轴塞、滚轴塞+滚轴同步带轮、滚轴塞+双滚轴同步带轮。
@@ -73,6 +79,8 @@
 - 构建产物 `dist/wheels/roller-system/index.html` 中三张配置卡片只保留中文标题，未渲染图片文件名副标题。
 - 使用内置浏览器打开 `http://127.0.0.1:4321/wheels/roller-system/` 验证：桌面默认视口和 390px 移动视口下，三张配置卡片均只显示中文标题，页面可见文本不再包含 `HUBonly.png`、`SinglePulley.png`、`DoublePulley.png`。
 - 独立 Playwright 深色模式验证未执行成功：本机缺少 Playwright Chromium 二进制，未额外下载依赖；本轮改动只移除 MDX 文本字段，不涉及深色样式。
+- `rg` 确认首页快速索引和对应文档正文均已引用 `ban-cai.png` 与 `silicone-tube.png`。
+- 使用 Node 临时托管 `dist` 并用 Playwright 检查：首页已出现“板材 NICE-06-02”和“硅胶软管 NICE-07-04”卡片，两个卡片图片加载完成；`/structure/ban-cai/` 和 `/wheels/silicone-tube/` 正文首图加载完成。
 - 使用内置浏览器在 733px 宽度打开 `http://127.0.0.1:4321/wheels/roller-system/` 页底，确认 footer logo 与联系方式不再重叠。
 - 使用内置浏览器打开 `http://127.0.0.1:4321/wheels/roller-system/` 验证，滚轴系统配置图已按正文宽度展示。
 - 使用内置浏览器验证滚轴系统三张配置卡片的 `href` 均指向对应安装指南锚点，并确认三个锚点 URL 可直达对应小节。
