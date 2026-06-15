@@ -1,6 +1,6 @@
 # Handoff
 
-更新时间：2026-06-16 01:23:56 +08:00
+更新时间：2026-06-16 01:42:12 +08:00
 
 ## 当前状态
 
@@ -13,6 +13,10 @@
 
 ## 本轮完成
 
+- 按用户反馈重新调整 `public/assets/docs/wheels/silicone-tube.png`：
+  - 恢复上一版大斜向主体构图，不再使用缩小后的小段管材效果。
+  - 整体左移，并在透明画布右侧保留约 280px 安全边距，避免首页快速索引卡片右侧贴边。
+  - 保持 2400×1350 透明 PNG，无不透明白底。
 - 使用用户新提供的 SRPP/板材源图重生成 `public/assets/docs/structure/ban-cai.png`：
   - 将近白背景抠除为透明 PNG。
   - 统一放入 2400×1350 的 16:9 透明画布。
@@ -89,6 +93,11 @@
 
 ## 验证结果
 
+- `npm run lint:content` 通过。
+- `npm run check` 通过，0 errors、0 warnings、0 hints。
+- `npm run build` 通过，生成 17 个页面，Pagefind 搜索索引构建成功。
+- 使用内置浏览器打开 `http://127.0.0.1:4321/`，滚动到快速索引底部并等待懒加载图片绘制完成，确认“硅胶软管”卡片恢复大图构图，右侧留白正常，控制台无 error/warn。
+- 使用 `sharp` 检查 `silicone-tube.png`：自然尺寸 2400×1350，右侧透明边距约 280px，不含不透明白底像素。
 - `npm run lint:content` 通过。
 - `npm run check` 通过，0 errors、0 warnings、0 hints。
 - `npm run build` 通过，生成 17 个页面，Pagefind 搜索索引构建成功。
