@@ -1,6 +1,6 @@
 # Handoff
 
-更新时间：2026-06-12 01:08:15 +0800
+更新时间：2026-06-15 22:50:43 +08:00
 
 ## 当前状态
 
@@ -23,6 +23,9 @@
   - 将“滚轴系统”卡片配图从 `RollerSystem.png` 改为 `SinglePulley.png`。
 - 新增首页快捷展示规则：目标分类或页面必须有真实可用预览图；没有预览图时不允许放首页，也不要使用占位图或无关图片。
 - 已启动本地预览：`http://127.0.0.1:4321/`。
+- 修正 XPE 防撞条 SKU：
+  - 首页快速索引防撞条系列 SKU 从 `NICE-06-01` 改为 `NICE-06-09`。
+  - `src/content/docs/structure/bumper.mdx` 产品表单品 SKU 从 `NICE-06-01-001` 改为 `NICE-06-09-001`。
 - 将站点生产域名从 `doc.nicerobotics.hk` 更新为 `docs.nicerobotics.hk`：
   - `astro.config.mjs` 的 `site` 已更新，后续 canonical URL、Open Graph URL 和 sitemap 会使用新域名。
   - `README.md` 和 `AGENTS.md` 中的默认生产域名说明已同步更新。
@@ -67,6 +70,7 @@
 - `ASTRO_TELEMETRY_DISABLED=1 npm run check` 通过，0 errors、0 warnings、0 hints。
 - `ASTRO_TELEMETRY_DISABLED=1 npm run build` 通过。
 - 使用内置浏览器打开 `http://127.0.0.1:4321/` 验证：首页不再包含“板材”和“硅胶软管”卡片，“滚轴系统”卡片图片为 `/assets/docs/wheels/SinglePulley.png`。
+- `rg` 确认防撞条相关 XPE SKU 已显示为 `NICE-06-09` 和 `NICE-06-09-001`。
 - `npm run lint:content` 通过。
 - `npm run check` 通过，0 errors、0 warnings、0 hints。
 - `npm run build` 通过，生成 17 个页面，Pagefind 搜索索引构建成功。
