@@ -1,6 +1,6 @@
 # Handoff
 
-更新时间：2026-06-16 00:43:37 +08:00
+更新时间：2026-06-16 01:23:56 +08:00
 
 ## 当前状态
 
@@ -13,6 +13,14 @@
 
 ## 本轮完成
 
+- 使用用户新提供的 SRPP/板材源图重生成 `public/assets/docs/structure/ban-cai.png`：
+  - 将近白背景抠除为透明 PNG。
+  - 统一放入 2400×1350 的 16:9 透明画布。
+  - 同一张资源继续用于首页“板材”快速索引卡片和 `/structure/ban-cai/` 正文首图。
+- 使用用户补发的硅胶软管原图重生成 `public/assets/docs/wheels/silicone-tube.png`：
+  - 保持水平镜像后的管材/防撞条式摆法。
+  - 将主体高度从原先几乎贴满图片区域缩小到约 960px，避免首页卡片中显得比管材主体明显更大。
+  - 保持 2400×1350 透明 PNG，无白底。
 - 替换硅胶软管产品图：
   - 使用用户提供的新图重生成 `public/assets/docs/wheels/silicone-tube.png`。
   - 对新图做水平镜像，并按 16:9 透明画布裁切成类似管材/防撞条的摆法。
@@ -81,6 +89,14 @@
 
 ## 验证结果
 
+- `npm run lint:content` 通过。
+- `npm run check` 通过，0 errors、0 warnings、0 hints。
+- `npm run build` 通过，生成 17 个页面，Pagefind 搜索索引构建成功。
+- 使用内置浏览器打开 `http://127.0.0.1:4321/` 并滚动到快速索引底部，确认：
+  - “板材”卡片加载 `/assets/docs/structure/ban-cai.png`，自然尺寸为 2400×1350。
+  - “硅胶软管”卡片加载 `/assets/docs/wheels/silicone-tube.png`，自然尺寸为 2400×1350，主体比例比上一版更小且没有贴边。
+- 使用内置浏览器打开 `http://127.0.0.1:4321/structure/ban-cai/`，确认正文首图加载完成，图片背景为纯白承托，左侧角不再被切掉。
+- 使用 `sharp` 检查图片 alpha：两张新图均为带 alpha 的 PNG，且不含不透明白底像素。
 - `npm run lint:content` 通过。
 - `npm run check` 通过，0 errors、0 warnings、0 hints。
 - `npm run build` 通过，生成 17 个页面，Pagefind 搜索索引构建成功。
