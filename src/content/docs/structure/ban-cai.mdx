@@ -31,29 +31,28 @@ SRPP 属于聚丙烯基热塑性板材，具有较好的柔韧性和可变形能
 
 ### 加工方式
 
+<p class="text-center">参考加工参数</p>
+
 <Tabs>
 
 <TabItem label="激光切割">
 
-参考加工参数
-
 <ProductTable
   columns={[
-    { key: "c0", label: "激光类型" },
-    { key: "c1", label: "最大激光功率" },
-    { key: "c2", label: "切割功率" },
-    { key: "c3", label: "速度" }
+    { key: "c0", label: "激光规格" },
+    { key: "c1", label: "最大功率" },
+    { key: "c2", label: "最小功率" },
+    { key: "c3", label: "速度" },
+    { key: "c4", label: "切割次数" }
   ]}
   rows={[
-    { c0: "-", c1: "-", c2: "-", c3: "-" }
+    { c0: "80W", c1: "95%", c2: "90%", c3: "15mm/s", c4: "3次" }
   ]}
 />
 
 </TabItem>
 
 <TabItem label="数控铣削">
-
-参考加工参数
 
 <ProductTable
   columns={[

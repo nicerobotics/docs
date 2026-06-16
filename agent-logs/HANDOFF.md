@@ -1,6 +1,6 @@
 # Handoff
 
-更新时间：2026-06-16 01:42:12 +08:00
+更新时间：2026-06-16 17:17:31 +08:00
 
 ## 当前状态
 
@@ -33,6 +33,11 @@
 - 修正首页快速索引用的两张产品图资源：
   - `public/assets/docs/wheels/silicone-tube.png` 去除白色不透明背景，保留透明 PNG，并裁到产品边界后补透明边距。
   - `public/assets/docs/structure/ban-cai.png` 增加透明安全边距，避免板材左侧小角在卡片中贴边/被裁。
+- 更新 `src/content/docs/structure/ban-cai.mdx` 中“加工方式”区域：
+  - 激光切割参数表新增并填入 80W 激光切割参数：最大功率 `95%`、最小功率 `90%`、速度 `15mm/s`、切割次数 `3次`。
+  - 根据参数内容调整表格列：`激光规格`、`最大功率`、`最小功率`、`速度`、`切割次数`。
+  - 将“参考加工参数”从 tab 内容内移到 `Tabs` 组件上方，并使用 `class="text-center"` 居中；移除激光切割和数控铣削 tab 内重复说明文字。
+- 已启动本地预览并使用内置浏览器打开 `/structure/ban-cai/`，确认“参考加工参数”位于“激光切割 / 数控铣削”上方且居中。
 - 移除 `/wheels/roller-system/` 配置卡片中直接展示的图片原始文件名：
   - `HUBonly.png`
   - `SinglePulley.png`
@@ -115,6 +120,11 @@
 - `npm run check` 通过，0 errors、0 warnings、0 hints。
 - `npm run build` 通过，生成 17 个页面，Pagefind 搜索索引构建成功。
 - 使用构建产物 + Playwright 截图检查暗色首页卡片：硅胶软管不再显示白底，板材左侧不再贴边。
+- `ASTRO_TELEMETRY_DISABLED=1 npm run check` 通过，0 errors、0 warnings、0 hints。
+- `ASTRO_TELEMETRY_DISABLED=1 npm run build` 通过，生成 17 个页面，Pagefind 搜索索引构建成功。
+- 使用内置浏览器验证 `http://127.0.0.1:4321/structure/ban-cai/#加工方式`：
+  - 页面包含 `80W`、`95%`、`90%`、`15mm/s`、`3次`。
+  - “参考加工参数”在 `starlight-tabs` 之前，computed `text-align` 为 `center`。
 - `npm run lint:content` 通过。
 - `env ASTRO_TELEMETRY_DISABLED=1 npm run check` 通过，0 errors、0 warnings、0 hints。
 - `env ASTRO_TELEMETRY_DISABLED=1 npm run build` 通过，生成 17 个页面，Pagefind 搜索索引构建成功。
