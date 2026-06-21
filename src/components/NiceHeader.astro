@@ -65,7 +65,16 @@ const navItems: Array<{
 					rel="noreferrer"
 					aria-label="淘宝店铺"
 				>
-					<span class="nice-shop-icon" aria-hidden="true"></span>
+					<span class="nice-shop-icon nice-taobao-icon" aria-hidden="true"></span>
+				</a>
+				<a
+					class="nice-shop-link"
+					href="https://cad.onshape.com/documents/ba7820e266bf07d2040335fc/w/3a4be06c69e78ddc646b65a4/e/7f22433f4e3029512ffe8385"
+					target="_blank"
+					rel="noreferrer"
+					aria-label="Onshape 文档"
+				>
+					<span class="nice-shop-icon nice-onshape-icon" aria-hidden="true"></span>
 				</a>
 				{shouldRenderSearch && <Search />}
 			</div>
@@ -161,10 +170,20 @@ const navItems: Array<{
 		.nice-shop-icon {
 			width: 1.35rem;
 			height: 1.35rem;
-			border-radius: 0.1875rem;
 			background: currentColor;
+		}
+
+		.nice-taobao-icon {
+			border-radius: 0.1875rem;
 			-webkit-mask: url('/assets/ui/taobao.svg') center / contain no-repeat;
 			mask: url('/assets/ui/taobao.svg') center / contain no-repeat;
+		}
+
+		.nice-onshape-icon {
+			width: 1.5rem;
+			height: 1.5rem;
+			-webkit-mask: url('/assets/ui/onshape.png') center / contain no-repeat;
+			mask: url('/assets/ui/onshape.png') center / contain no-repeat;
 		}
 
 		.nice-shop-link:hover {
