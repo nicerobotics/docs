@@ -216,24 +216,27 @@
 		padding-inline-end: 0 !important;
 	}
 
-	.sl-markdown-content .sl-heading-wrapper:has(+ .nice-buy-button) {
+	.sl-markdown-content .sl-heading-wrapper:has(+ :is(.nice-buy-button, .nice-onshape-button)) {
 		display: inline-flex;
 		margin-inline-end: 0.55rem;
 		padding-inline-end: 0;
 		vertical-align: bottom;
 	}
 
-	.sl-markdown-content .sl-heading-wrapper:has(+ .nice-buy-button) > :first-child {
+	.sl-markdown-content .sl-heading-wrapper:has(+ :is(.nice-buy-button, .nice-onshape-button)) > :first-child {
 		margin-block-end: 0;
 	}
 
-	.sl-markdown-content .sl-heading-wrapper + .nice-buy-button {
+	.sl-markdown-content .sl-heading-wrapper + :is(.nice-buy-button, .nice-onshape-button) {
 		position: static;
 		margin: 0;
 		vertical-align: bottom;
 	}
 
-	.sl-markdown-content .sl-heading-wrapper:has(+ .nice-buy-button) + .nice-buy-button + :is(p, ul, ol) {
+	.sl-markdown-content
+		.sl-heading-wrapper:has(+ :is(.nice-buy-button, .nice-onshape-button))
+		+ :is(.nice-buy-button, .nice-onshape-button)
+		+ :is(p, ul, ol) {
 		margin-block-start: 1rem;
 	}
 
@@ -281,10 +284,6 @@
 		color: var(--sl-color-text);
 		font-size: 1rem;
 		line-height: 1.75;
-	}
-
-	.nice-two-column.has-toc .sl-markdown-content {
-		padding-block-end: max(14rem, calc(100vh - var(--sl-nav-height) - 9rem));
 	}
 
 	.sl-markdown-content :is(h2, h3, h4) {
