@@ -54,12 +54,15 @@ SRPP 属于聚丙烯基热塑性板材，具有较好的柔韧性和可变形能
 
 <TabItem label="数控铣削">
 
+适用刀具：D4 单刃铣刀
+
 <ProductTable
   columns={[
-    { key: "c0", label: "进给率" }
+    { key: "c0", label: "主轴转速" },
+    { key: "c1", label: "切削进给率" }
   ]}
   rows={[
-    { c0: "-" }
+    { c0: "24000 rpm", c1: "4000 mm/min" }
   ]}
 />
 

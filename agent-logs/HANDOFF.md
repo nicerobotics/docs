@@ -1,6 +1,6 @@
 # Handoff
 
-更新时间：2026-06-16 17:17:31 +08:00
+更新时间：2026-08-30 11:25:19 +08:00
 
 ## 当前状态
 
@@ -13,6 +13,10 @@
 
 ## 本轮完成
 
+- 更新 `src/content/docs/structure/ban-cai.mdx` 的“数控铣削”参考加工参数：
+  - 标明适用刀具为 `D4 单刃铣刀`。
+  - 参数表仅保留主轴转速 `24000 rpm`、切削进给率 `4000 mm/min`。
+  - 两项参数对应每齿进给量约 `0.167 mm`，与用户提供的 CAM 参数图一致。
 - 按用户反馈重新调整 `public/assets/docs/wheels/silicone-tube.png`：
   - 恢复上一版大斜向主体构图，不再使用缩小后的小段管材效果。
   - 整体左移，并在透明画布右侧保留约 280px 安全边距，避免首页快速索引卡片右侧贴边。
@@ -98,6 +102,10 @@
 
 ## 验证结果
 
+- `npm run lint:content` 通过。
+- `ASTRO_TELEMETRY_DISABLED=1 npm run check` 通过，0 errors、0 warnings、0 hints。
+- `ASTRO_TELEMETRY_DISABLED=1 npm run build` 通过，生成 17 个页面，Pagefind 搜索索引构建成功。
+- 本地构建产物浏览器验证通过：桌面 1440×900、移动 390×844 的浅色/深色模式均显示 D4 单刃铣刀、`24000 rpm` 和 `4000 mm/min`，页面横向溢出均为 0。
 - `npm run lint:content` 通过。
 - `npm run check` 通过，0 errors、0 warnings、0 hints。
 - `npm run build` 通过，生成 17 个页面，Pagefind 搜索索引构建成功。
