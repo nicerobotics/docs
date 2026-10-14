@@ -25,9 +25,12 @@ for (const [, prefix] of locales) for (const id of pages) {
 }
 const source = await sharp('public/assets/docs/team-nice/frc-2027/nice-gift.png').ensureAlpha().raw().toBuffer({ resolveWithObject: true });
 const logo = await sharp('public' + campaign.logo).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
-assert.deepEqual(logo.data, source.data, 'Use the original orange logo without recoloring');
-assert.ok(logo.data.some((channel, i) => i % 4 === 0 && channel > 200 && logo.data[i + 1] < 150 && logo.data[i + 3] === 255));
-console.log('All 51 content pages audited: 48 localized floating entries and 3 application-page exclusions; original orange logo preserved.');
+assert.equal(logo.data.length, source.data.length);
+for (let i = 0; i < logo.data.length; i += 4) {
+  assert.deepEqual([...logo.data.subarray(i, i + 3)], [255, 255, 255], 'Logo must be white');
+  assert.equal(logo.data[i + 3], source.data[i + 3], 'Logo shape and transparency must be preserved');
+}
+console.log('All 51 pages audited: 48 floating entries and 3 application exclusions; white logo retains original transparency.');
 
 const paths = ['/', '/transmission/gear/', '/hardware/tube-plugs/', '/structure/tube/', '/wheels/silicone-wheel/', '/team-nice/frc-2027/'];
 const browser = await chromium.launch({ channel: 'chrome', headless: true });
@@ -61,7 +64,11 @@ try {
       await widget.locator('img').evaluate((img) => img.decode());
       const box = await widget.boundingBox();
       assert.equal(await widget.evaluate((el) => getComputedStyle(el).position), 'fixed');
-      assert.equal(await widget.evaluate((el) => getComputedStyle(el).backgroundColor), 'rgb(255, 255, 255)');
+      assert.equal(await widget.evaluate((el) => getComputedStyle(el).backgroundColor), 'rgb(198, 66, 10)');
+      assert.match(await widget.evaluate((el) => getComputedStyle(el).backgroundImage), /linear-gradient/);
+      for (const selector of ['.sponsorship-brand', '.sponsorship-title', '.sponsorship-cta', '.sponsorship-toggle']) {
+        assert.equal(await widget.locator(selector).evaluate((el) => getComputedStyle(el).color), 'rgb(255, 255, 255)', 'All card copy must be white');
+      }
       assert.notEqual(await widget.evaluate((el) => getComputedStyle(el).boxShadow), 'none');
       assert.ok(Math.abs(width - box.x - box.width - (width < 800 ? 12 : 20)) < 2, 'Right edge is not viewport anchored');
       assert.ok(Math.abs(height - box.y - box.height - (width < 800 ? 12 : 20)) < 2, 'Bottom edge is not viewport anchored');
@@ -80,12 +87,13 @@ try {
         assert.ok(Math.abs(item.x + item.width / 2 - box.x - box.width / 2) < 1, 'Logo or copy is not centered');
       }
       assert.ok(logoBox.y + logoBox.height < titleBox.y && titleBox.y + titleBox.height < ctaBox.y, 'Logo and content should stack vertically');
-      const border = await widget.locator('.marquee-track').evaluate((el) => el.getBoundingClientRect().toJSON());
-      assert.ok(Math.abs(border.width - box.width + 3) < 1 && Math.abs(border.height - box.height + 3) < 1, 'Marquee must surround all four edges');
+      assert.equal(await widget.locator('.sponsorship-marquee, .marquee-runner').count(), 0, 'Marquee must be removed');
+      const surface = await widget.locator('.sponsorship-metal').boundingBox();
+      assert.ok(Math.abs(surface.width - box.width) < 1 && Math.abs(surface.height - box.height) < 1, 'Metallic surface must cover the card');
       assert.ok(await widget.evaluate((el) => {
         const animations = el.getAnimations({ subtree: true });
-        return animations.length === 2 && animations.every((a) => a.effect.getTiming().iterations === Infinity);
-      }), 'Perimeter marquee should loop');
+        return animations.length === 1 && animations.every((a) => a.effect.getTiming().iterations === Infinity);
+      }), 'Metallic sheen should loop');
       await page.evaluate(() => scrollTo(0, document.documentElement.scrollHeight));
       const scrolled = await widget.boundingBox();
       assert.ok(Math.abs(scrolled.y - box.y) < 1 && Math.abs(scrolled.x - box.x) < 1, 'Widget moved on scroll');
@@ -104,11 +112,11 @@ try {
       assert.equal(await widget.locator('a').isVisible(), false);
       assert.ok(await widget.evaluate((el) => {
         const animations = el.getAnimations({ subtree: true });
-        return animations.length === 2 && animations.every((a) => a.playState === 'running');
-      }), 'Collapsed marquee must keep running');
+        return animations.length === 1 && animations.every((a) => a.playState === 'running');
+      }), 'Collapsed metallic sheen must keep running');
       const compactBox = await widget.boundingBox();
-      const compactBorder = await widget.locator('.marquee-track').evaluate((el) => el.getBoundingClientRect().toJSON());
-      assert.ok(Math.abs(compactBorder.height - compactBox.height + 3) < 1, 'Marquee should follow the collapsed card');
+      const compactSurface = await widget.locator('.sponsorship-metal').boundingBox();
+      assert.ok(Math.abs(compactSurface.height - compactBox.height) < 1, 'Metallic surface should follow the collapsed card');
       assert.ok(await widget.evaluate((el) => el.scrollHeight === el.clientHeight && el.scrollWidth === el.clientWidth), 'Collapsed widget has internal scrolling');
       await widget.locator('summary').click();
       assert.equal(await widget.locator('a').isVisible(), true);
@@ -119,7 +127,7 @@ try {
     }
     await context.close();
   }
-  console.log('108 cases passed: portrait/centered layout, perimeter marquee, fixed position, no scrolling, collapse and application exclusions.');
+  console.log('108 cases passed: orange metallic surface, white logo/copy, no marquee, centered layout, fixed position, collapse and no scrolling.');
   for (const [locale, prefix] of locales) {
     const { context, page } = await setup(locale, { viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' });
     await page.goto(base + prefix + '/hardware/tube-plugs/');
@@ -151,11 +159,11 @@ try {
     await page.goto(base + '/en/structure/tube/');
     const widget = page.locator('[data-sponsorship-float]');
     const timing = await widget.evaluate((el) => el.getAnimations({ subtree: true }).map((a) => a.effect.getTiming()));
-    assert.equal(timing.length, 2);
-    assert.ok(timing.every((t) => t.iterations === Infinity && t.duration === 5000), 'CSS marquee works without JavaScript');
+    assert.equal(timing.length, 1);
+    assert.ok(timing.every((t) => t.iterations === Infinity && t.duration === 7000), 'CSS metallic sheen works without JavaScript');
     await widget.locator('summary').click();
     assert.equal(await widget.locator('a').isVisible(), false);
-    assert.equal(await widget.evaluate((el) => el.getAnimations({ subtree: true }).length), 2);
+    assert.equal(await widget.evaluate((el) => el.getAnimations({ subtree: true }).length), 1);
     await widget.locator('summary').click();
     await widget.locator('a').click();
     await page.waitForURL('**/en/team-nice/frc-2027/');
@@ -170,15 +178,15 @@ try {
     const header = await page.locator('.nice-header').boundingBox();
     assert.ok(box.y > header.y + header.height, 'Landscape widget overlaps header');
     assert.ok(box.y + box.height <= 375 && await widget.evaluate((el) => el.scrollHeight === el.clientHeight));
-    const runner = widget.locator('.marquee-runner').last();
-    const start = await runner.evaluate((el) => getComputedStyle(el).strokeDashoffset);
+    const sheen = widget.locator('.sponsorship-sheen');
+    const start = await sheen.evaluate((el) => getComputedStyle(el).transform);
     await page.waitForTimeout(150);
-    assert.notEqual(await runner.evaluate((el) => getComputedStyle(el).strokeDashoffset), start, 'Marquee does not move');
+    assert.notEqual(await sheen.evaluate((el) => getComputedStyle(el).transform), start, 'Metallic sheen does not move');
     await widget.locator('summary').click();
-    const collapsedStart = await runner.evaluate((el) => getComputedStyle(el).strokeDashoffset);
+    const collapsedStart = await sheen.evaluate((el) => getComputedStyle(el).transform);
     await page.waitForTimeout(150);
-    assert.notEqual(await runner.evaluate((el) => getComputedStyle(el).strokeDashoffset), collapsedStart, 'Collapsed marquee does not move');
+    assert.notEqual(await sheen.evaluate((el) => getComputedStyle(el).transform), collapsedStart, 'Collapsed metallic sheen does not move');
     await context.close();
   }
-  console.log('Reduced motion, menu/search, keyboard, print, landscape, live border movement and no-JavaScript fallback passed.');
+  console.log('Reduced motion, menu/search, keyboard, print, landscape, live metallic motion and no-JavaScript fallback passed.');
 } finally { await browser.close(); }
