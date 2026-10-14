@@ -1,10 +1,12 @@
 ---
 import NiceIcon from './NiceIcon.astro';
+import CampaignBanner from './CampaignBanner.astro';
 
-const { title, icon, titleAction } = Astro.locals.starlightRoute.entry.data;
+const { title, icon, titleAction, campaignBanner } = Astro.locals.starlightRoute.entry.data;
 const pageTitleId = '_top';
 ---
 
+{campaignBanner && <CampaignBanner {...campaignBanner} />}
 <div class:list={['nice-title-row', { 'has-action': titleAction }]}>
 	<h1 id={pageTitleId}>
 		{icon && <NiceIcon class="nice-title-icon" name={icon} size="3rem" strokeWidth="1.6" />}

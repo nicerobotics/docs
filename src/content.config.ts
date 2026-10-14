@@ -10,6 +10,11 @@ export const collections = {
 			extend: z.object({
 				icon: z.string().optional(),
 				titleAction: z.object({ label: z.string(), href: z.string() }).optional(),
+				campaignBanner: z.object({
+					eyebrow: z.string(), title: z.string(), description: z.string(),
+					label: z.string(), href: z.string(), logo: z.string(),
+					pauseLabel: z.string(), resumeLabel: z.string(),
+				}).optional(),
 			}),
 		}),
 	}),

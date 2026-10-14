@@ -147,10 +147,10 @@
     }
   },
   "index": {
-    "sourceHash": "ffe20af6990a28caa90e03e5d8a234c21429ffbbe410a146dd34a4edc563a5b3",
+    "sourceHash": "318675b22fba6fadad6a1907902c074332b27bdf407ecc5e9b569e074ff61c71",
     "translationHashes": {
-      "zh-Hant": "62a8e36054dcdccd5ee849542524bdfcd827bb621b9399efb797ffcfa400b0bd",
-      "en": "2e26df43137eb696a3d1d54f5150d36ca29dd5acb5ef151bab3c00434da3a516"
+      "zh-Hant": "98dfd542f2f5dccb64d334a1aec8a5f9c3f6eb75e11dff6d9180191d1765a4b7",
+      "en": "736d31892787bc3ef46b59238c8a9788b1560b4081177eb06e421170023884f2"
     },
     "anchors": {
       "zh-CN": [
