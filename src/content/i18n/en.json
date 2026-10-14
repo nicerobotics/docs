@@ -65,7 +65,7 @@
   "application.statusError": "The processing status could not be checked. Save your application ID and try again later.",
   "application.checkStatus": "Check submission status",
   "application.required": "Please answer this question.",
-  "application.review": "Review answers",
+  "application.review": "Review form entries",
   "application.submit": "Confirm submission",
   "application.submitNote": "Submitting an application does not guarantee sponsorship.",
   "application.label": "Application form",

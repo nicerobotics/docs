@@ -1,0 +1,12 @@
+---
+import PageFrame from '@astrojs/starlight/components/PageFrame.astro';
+import SponsorshipFloat from './SponsorshipFloat.astro';
+const showSponsorship = !Astro.locals.starlightRoute.entry.data.hideSponsorship;
+---
+
+<PageFrame>
+  <Fragment slot="header"><slot name="header" /></Fragment>
+  <Fragment slot="sidebar"><slot name="sidebar" /></Fragment>
+  <slot />
+</PageFrame>
+{showSponsorship && <SponsorshipFloat />}

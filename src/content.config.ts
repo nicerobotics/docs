@@ -9,12 +9,8 @@ export const collections = {
 		schema: docsSchema({
 			extend: z.object({
 				icon: z.string().optional(),
+				hideSponsorship: z.boolean().default(false),
 				titleAction: z.object({ label: z.string(), href: z.string() }).optional(),
-				campaignBanner: z.object({
-					eyebrow: z.string(), title: z.string(), description: z.string(),
-					label: z.string(), href: z.string(), logo: z.string(),
-					pauseLabel: z.string(), resumeLabel: z.string(),
-				}).optional(),
 			}),
 		}),
 	}),

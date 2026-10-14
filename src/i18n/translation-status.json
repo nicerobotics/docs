@@ -147,10 +147,10 @@
     }
   },
   "index": {
-    "sourceHash": "318675b22fba6fadad6a1907902c074332b27bdf407ecc5e9b569e074ff61c71",
+    "sourceHash": "5890d2cd11a569dd6bd086117f740504e6c082d9c03f7c1c8091ce02051b5fd8",
     "translationHashes": {
-      "zh-Hant": "98dfd542f2f5dccb64d334a1aec8a5f9c3f6eb75e11dff6d9180191d1765a4b7",
-      "en": "736d31892787bc3ef46b59238c8a9788b1560b4081177eb06e421170023884f2"
+      "zh-Hant": "93d32675132c220cec7e7128429ff012d4d26b34076f5e7bded0d6630cbe8a96",
+      "en": "b432b79d3eca4862354b20dc5ad519b1e62fdea980a67a41106fa569dab37272"
     },
     "anchors": {
       "zh-CN": [
@@ -462,10 +462,10 @@
     }
   },
   "team-nice/frc-2027": {
-    "sourceHash": "f5832a402c7846f67c5f862858a9b9667081f71bf399d279007fec464193dfa6",
+    "sourceHash": "8c9e5a23e6a04899e3d7d07d9815033a218de6862394031119379481b986fd7f",
     "translationHashes": {
-      "zh-Hant": "c0ad099398e2f56ab6a6e7c2cb631d68442782655e4bd44733111ca7dda408ba",
-      "en": "60af7ad31e35975c91a40d1391689db9c17c2cf3d6e41ec9d923012e572c21cc"
+      "zh-Hant": "c3c6bb571c902e6813ff62d5bdd61bf5c69dd19786c49cc85673c366f1706374",
+      "en": "3b684d9bb3f42780d3b979fe51b0a753a4b24952718ae347f370363dff4fdcd9"
     },
     "anchors": {
       "zh-CN": [],

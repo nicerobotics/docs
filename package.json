@@ -18,6 +18,7 @@
     "prebuild": "npm run lint:i18n",
     "test:browser": "node scripts/test-browser.mjs",
     "test:applications": "tsx --test tests/applications.test.mjs",
+    "test:sponsorship": "node tests/sponsorship-float.mjs",
     "test:application-browser": "node tests/application-browser.mjs"
   },
   "dependencies": {

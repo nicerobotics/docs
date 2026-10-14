@@ -49,6 +49,7 @@ export default defineConfig({
 			customCss: ['./src/styles/global.css'],
 			routeMiddleware: './src/starlightRouteData.ts',
 			components: {
+				PageFrame: './src/components/NicePageFrame.astro',
 				ThemeProvider: './src/components/NiceThemeProvider.astro',
 				Header: './src/components/NiceHeader.astro',
 				Footer: './src/components/NiceFooter.astro',

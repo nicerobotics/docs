@@ -12,7 +12,7 @@ import type { Locale } from '../i18n/locales';
 const root = document.querySelector<HTMLElement>('[data-application]');
 // Reviewed Taiwan UI wording replaces the library's machine-translated defaults used by this form.
 Object.assign(getLocaleStrings('zh-tw'), {
-  completeText: '確認送出', previewText: '核對答案', editText: '返回修改',
+  completeText: '確認送出', previewText: '核對選填內容', editText: '返回修改',
   progressText: '第 {0} 頁，共 {1} 頁', questionsProgressText: '已回答 {0} / {1} 題',
   requiredError: '請填寫此題。', numericError: '請輸入數字。', textMinLength: '請至少輸入 {0} 個字元。',
   textMaxLength: '請勿超過 {0} 個字元。', invalidEmail: '請輸入有效的電子郵件地址。',

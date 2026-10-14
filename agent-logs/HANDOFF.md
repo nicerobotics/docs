@@ -1,5 +1,18 @@
 # Handoff
 
+更新时间：2026-10-14 10:30:43 +02:00
+
+## 全站右下角赞助悬浮窗与问卷核对文案
+
+- 用户最终要求：赞助入口从首页大横幅移至设备视口右下角，各文档页面显示；三语申请页不显示；外观为**白底、原版橙色 Logo、阴影**，无动画暂停按钮。此前“橙底黑 Logo”的中间方案已被覆盖，未上线。
+- 通过 `NicePageFrame.astro` 包装 Starlight 原 PageFrame 并保留 header/sidebar/default slots，全站挂载 `SponsorshipFloat.astro`。文案与目标入口在 `src/content/docs/_data/sponsorship.json`；三语申请 MDX 用 `hideSponsorship: true` 明确排除，未通过 URL 片段猜测业务语义。原首页 `CampaignBanner.astro` 与 frontmatter 设置已替换，原橙色上传 Logo 保留使用。
+- 桌面右/下 20px，手机右/下 12px 并兼顾安全区；默认展开，原生 details 可收起为申请小入口，每次打开文档仍默认显示。全文滚动时保持固定，页尾留出阅读空间；移动菜单展开时让位，搜索对话框可正常使用，打印隐藏。无新增客户端脚本、存储依赖或动画库；仅一次 4 秒轻量光效，减少动态效果时静态显示。
+- 按用户指定将简体按钮“核对答案”改为“核对选填内容”；繁体“核對選填內容”、英文“Review form entries”。仅改按钮文本，仍核对全部已填写章节，不改变题目、必填、条件显隐、提交和飞书映射。
+- 验证通过：content/i18n lint、7 项语言单测、8 项申请单测、Astro check 0 errors/warnings/hints、build；51 页静态审计确认 48 页有入口、3 页申请排除；108 组语言/视口/主题/页面检查，固定位置、白底阴影、原橙色 Logo、滚动、收合、页尾访问、键盘、减少动态、无 JavaScript 与打印通过。原站点导航/产品/搜索回归通过；申请浏览器验证三语新按钮进入完整核对模式，提交/回执模拟流程仍通过。
+- 新增 `npm run test:sponsorship`；旧 `tests/home-application-button.mjs` 作为兼容入口转到新测试。截图输出目录使用 `NICE_SCREENSHOTS`，生产复核用 `NICE_TEST_URL`。未修改飞书数据或生产凭据；正在发布本轮代码，既有框架构建提示未变。
+
+---
+
 更新时间：2026-10-14 10:13:49 +02:00
 
 ## 首页动态彩带申请入口

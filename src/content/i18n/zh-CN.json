@@ -65,7 +65,7 @@
   "application.statusError": "暂时无法查询处理状态，请保存申请编号，稍后重试。",
   "application.checkStatus": "查询提交状态",
   "application.required": "请填写此题。",
-  "application.review": "核对答案",
+  "application.review": "核对选填内容",
   "application.submit": "确认提交",
   "application.submitNote": "提交申请不代表一定获得赞助。",
   "application.label": "申请表",

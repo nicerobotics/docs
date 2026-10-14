@@ -78,7 +78,7 @@
   "application.statusError": "暫時無法查詢申請處理進度。請保存申請編號，稍後再試。",
   "application.checkStatus": "查詢處理進度",
   "application.required": "請填寫此題。",
-  "application.review": "核對答案",
+  "application.review": "核對選填內容",
   "application.submit": "確認送出",
   "application.submitNote": "送出申請不代表一定獲得贊助。",
   "application.label": "申請表",

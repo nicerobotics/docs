@@ -48,6 +48,14 @@ try{
     await context.close();
   }
   console.log('Three languages × desktop/mobile × light/dark: render and overflow passed.');
+  for (const [prefix,review] of [['','核对选填内容'],['/zh-hant','核對選填內容'],['/en','Review form entries']]) {
+    const {context,page}=await setup({draft:{version,answers:fixture,page:7,savedAt:Date.now()}});
+    await page.goto(`${base}${prefix}/team-nice/frc-2027/`);
+    const reviewButton=page.getByRole('button',{name:review,exact:true});
+    await reviewButton.waitFor();await reviewButton.click();
+    assert.ok(await page.locator('.sd-question--preview').count()>10, 'Review must still include all filled sections');
+    await context.close();
+  }
   {
     const {context,page}=await setup();
     await page.goto(`${base}/en/team-nice/frc-2027/`);
@@ -86,7 +94,7 @@ try{
       return route.fulfill({status:202,json:{id:received.id,receipt:'a'.repeat(64),state:'pending'}});
     });
     await page.goto(`${base}/en/team-nice/frc-2027/`);await page.waitForSelector('.sd-question');
-    await page.getByRole('button',{name:'Review answers',exact:true}).click();
+    await page.getByRole('button',{name:'Review form entries',exact:true}).click();
     await page.getByRole('button',{name:'Confirm submission',exact:true}).click();
     await page.getByText(/Your application has been received/).waitFor();
     assert.equal(received.answers.q4,'是');assert.deepEqual(received.answers.q27,fixture.q27);assert.equal(received.locale,'en');
