@@ -1,5 +1,17 @@
 # Handoff
 
+更新时间：2026-10-14 09:28:28 +02:00
+
+## Team NICE 生产上线完成
+
+- PR [#4](https://github.com/nicerobotics/docs/pull/4) 已合并，应用提交 `4143c1b4dcca85e5b67d01723e9d7af267df0c6f`。Vercel Git 自动发布 `dpl_HKmjQGCxpUM7a9xhg3Za8JUyR4FA`（`docs-h8kdkxqzm-ni-corporate.vercel.app`）为 READY，正式域名 `https://docs.nicerobotics.hk` 已使用该版本。
+- 首页橙色“申请赞助”按钮位于“欢迎”标题右侧同一行；繁体及英文同步，分别进入对应语言申请页。正式域名的三语 × 320/390/1440px × 深浅色共 18 组按钮布局/颜色/链接检查全部通过。生产三语申请页 HTTP 200、问卷真实加载、FRC 条件分支正常、手机无横向溢出且没有浏览器运行错误。
+- 正式 `GET /api/applications` 返回 `open:true, preview:false`。生产数据库独立，五分钟 Cron 已在 Vercel 生产项目配置中启用。
+- 正式域名端到端测试申请 `beb57900-db5d-4cc0-8caa-cb4892f73e3c` 在生产数据库中为 `synced`、首次尝试成功，飞书记录 `reczz28NCwTtmFw6`，标记“【生产上线测试，请忽略】三语官网申请验证”。重复 POST 返回同一回执；鉴权状态查询为 `synced`，无凭证为 404；飞书按唯一标识筛选恰好一条且 `has_more:false`。该合成记录及原预览联调记录均保留供核对。
+- 未新增真实申请人的数据，未改变原飞书问卷。中国大陆、台湾及海外多地网络验收仍需要当地实际网络验证，本次浏览器测试不能代替全部地区的可达性测试。其余既有依赖审计/构建提示见下方历史记录。
+
+---
+
 更新时间：2026-10-14 09:23:34 +02:00
 
 ## 生产发布准备与首页申请按钮
