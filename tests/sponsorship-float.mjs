@@ -57,19 +57,35 @@ try {
         continue;
       }
       await widget.waitFor();
+      await page.evaluate(() => document.fonts.ready);
+      await widget.locator('img').evaluate((img) => img.decode());
       const box = await widget.boundingBox();
       assert.equal(await widget.evaluate((el) => getComputedStyle(el).position), 'fixed');
       assert.equal(await widget.evaluate((el) => getComputedStyle(el).backgroundColor), 'rgb(255, 255, 255)');
       assert.notEqual(await widget.evaluate((el) => getComputedStyle(el).boxShadow), 'none');
       assert.ok(Math.abs(width - box.x - box.width - (width < 800 ? 12 : 20)) < 2, 'Right edge is not viewport anchored');
       assert.ok(Math.abs(height - box.y - box.height - (width < 800 ? 12 : 20)) < 2, 'Bottom edge is not viewport anchored');
-      assert.ok(box.y > 0 && box.x >= 0 && box.height <= 180, 'Widget is too large');
+      assert.ok(box.y > 0 && box.x >= 0 && box.height <= 310, 'Widget is too large');
+      assert.ok(box.height > box.width, 'Expanded widget should be portrait');
       assert.equal(await widget.locator('details').getAttribute('open'), '');
       assert.ok(await widget.evaluate((el) => el.scrollHeight === el.clientHeight && el.scrollWidth === el.clientWidth), 'Widget has internal scrolling');
       assert.equal(await widget.locator('a').getAttribute('href'), prefix + campaign.path);
       assert.equal(await widget.locator('.sponsorship-title').innerText(), campaign.locales[locale].title);
       assert.equal(await widget.locator('button').count(), 0, 'Unwanted pause button');
       assert.ok(await widget.locator('img').evaluate((img) => img.complete && img.naturalWidth === 456));
+      const logoBox = await widget.locator('img').boundingBox();
+      const titleBox = await widget.locator('.sponsorship-title').boundingBox();
+      const ctaBox = await widget.locator('.sponsorship-cta').boundingBox();
+      for (const item of [logoBox, titleBox, ctaBox]) {
+        assert.ok(Math.abs(item.x + item.width / 2 - box.x - box.width / 2) < 1, 'Logo or copy is not centered');
+      }
+      assert.ok(logoBox.y + logoBox.height < titleBox.y && titleBox.y + titleBox.height < ctaBox.y, 'Logo and content should stack vertically');
+      const border = await widget.locator('.marquee-track').evaluate((el) => el.getBoundingClientRect().toJSON());
+      assert.ok(Math.abs(border.width - box.width + 3) < 1 && Math.abs(border.height - box.height + 3) < 1, 'Marquee must surround all four edges');
+      assert.ok(await widget.evaluate((el) => {
+        const animations = el.getAnimations({ subtree: true });
+        return animations.length === 2 && animations.every((a) => a.effect.getTiming().iterations === Infinity);
+      }), 'Perimeter marquee should loop');
       await page.evaluate(() => scrollTo(0, document.documentElement.scrollHeight));
       const scrolled = await widget.boundingBox();
       assert.ok(Math.abs(scrolled.y - box.y) < 1 && Math.abs(scrolled.x - box.x) < 1, 'Widget moved on scroll');
@@ -86,6 +102,7 @@ try {
       await widget.locator('summary').click();
       assert.ok((await widget.boundingBox()).height <= 50);
       assert.equal(await widget.locator('a').isVisible(), false);
+      assert.equal(await widget.evaluate((el) => el.getAnimations({ subtree: true }).length), 0, 'Collapse should stop the marquee');
       assert.ok(await widget.evaluate((el) => el.scrollHeight === el.clientHeight && el.scrollWidth === el.clientWidth), 'Collapsed widget has internal scrolling');
       await widget.locator('summary').click();
       assert.equal(await widget.locator('a').isVisible(), true);
@@ -96,7 +113,7 @@ try {
     }
     await context.close();
   }
-  console.log('108 language/device/theme/page cases: fixed bottom-right, no internal scrolling, working collapse arrow, footer access, links and layout passed.');
+  console.log('108 cases passed: portrait/centered layout, perimeter marquee, fixed position, no scrolling, collapse and application exclusions.');
   for (const [locale, prefix] of locales) {
     const { context, page } = await setup(locale, { viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' });
     await page.goto(base + prefix + '/hardware/tube-plugs/');
@@ -128,14 +145,30 @@ try {
     await page.goto(base + '/en/structure/tube/');
     const widget = page.locator('[data-sponsorship-float]');
     const timing = await widget.evaluate((el) => el.getAnimations({ subtree: true }).map((a) => a.effect.getTiming()));
-    assert.ok(timing.every((t) => t.iterations === 1 && t.duration <= 4000), 'Animation must end without a pause control');
+    assert.equal(timing.length, 2);
+    assert.ok(timing.every((t) => t.iterations === Infinity && t.duration === 5000), 'CSS marquee works without JavaScript');
     await widget.locator('summary').click();
     assert.equal(await widget.locator('a').isVisible(), false);
+    assert.equal(await widget.evaluate((el) => el.getAnimations({ subtree: true }).length), 0);
     await widget.locator('summary').click();
     await widget.locator('a').click();
     await page.waitForURL('**/en/team-nice/frc-2027/');
     await context.close();
   }
   assert.deepEqual(errors, []);
-  console.log('Reduced motion, menu/search, keyboard, print, finite animation and no-JavaScript fallback passed.');
+  for (const [locale, prefix] of locales) {
+    const { context, page } = await setup(locale, { viewport: { width: 667, height: 375 } });
+    await page.goto(base + prefix + '/transmission/gear/');
+    const widget = page.locator('[data-sponsorship-float]');
+    const box = await widget.boundingBox();
+    const header = await page.locator('.nice-header').boundingBox();
+    assert.ok(box.y > header.y + header.height, 'Landscape widget overlaps header');
+    assert.ok(box.y + box.height <= 375 && await widget.evaluate((el) => el.scrollHeight === el.clientHeight));
+    const runner = widget.locator('.marquee-runner').last();
+    const start = await runner.evaluate((el) => getComputedStyle(el).strokeDashoffset);
+    await page.waitForTimeout(150);
+    assert.notEqual(await runner.evaluate((el) => getComputedStyle(el).strokeDashoffset), start, 'Marquee does not move');
+    await context.close();
+  }
+  console.log('Reduced motion, menu/search, keyboard, print, landscape, live border movement and no-JavaScript fallback passed.');
 } finally { await browser.close(); }
