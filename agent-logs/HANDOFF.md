@@ -1,6 +1,6 @@
 # Handoff
 
-更新时间：2026-10-14 10:10:45 +02:00
+更新时间：2026-10-14 10:13:49 +02:00
 
 ## 首页动态彩带申请入口
 
@@ -8,7 +8,8 @@
 - Logo 来自用户上传的透明 PNG，仅去掉透明外边、等比缩放并压缩至 456×400（约 17 KB），没有重画或改变标识；资源为 `public/assets/docs/team-nice/frc-2027/nice-gift.png`。
 - 装饰使用纯 CSS transform 缓慢漂移与扫光，不移动正文。提供有本地化标签的暂停/播放按钮，sessionStorage 可选记忆暂停；尊重系统减少动态效果，关闭 JavaScript 时保持静态可点击。不引入动画依赖，不修改全局 CSS、产品内容、问卷逻辑或飞书接口。
 - 验证：content/i18n lint、7 项语言测试、8 项申请测试、Astro check 0 errors/warnings/hints、build；36 组语言 × 320/390/1440px × 深浅主题 × 动态偏好检查通过（320×568 首屏完整显示）；暂停帧冻结、刷新后偏好、运行时系统偏好、键盘跳转、存储禁用及无 JavaScript 均通过。51 页静态审计与三语产品/导航/搜索浏览器回归通过。
-- `tests/home-application-button.mjs` 保留旧命令名但已改为彩带验收，截图目录通过 `NICE_SCREENSHOTS` 配置，正式域名通过 `NICE_TEST_URL` 指定。三语翻译 hash 已记录。准备发布到既有 NI Corporate / docs 生产项目，发布后核对正式首页；既有构建提示未改变。
+- `tests/home-application-button.mjs` 保留旧命令名但已改为彩带验收，截图目录通过 `NICE_SCREENSHOTS` 配置，正式域名通过 `NICE_TEST_URL` 指定。三语翻译 hash 已记录；既有构建提示未改变。
+- 已推送应用提交 `81dcbf177136d732b1e9c575040c6d84fee5aacf`，生产部署 `dpl_5T5QWaFiZjYqeWKWXewVeZqSrEVZ`（`docs-pavwc8t3q-ni-corporate.vercel.app`）READY，正式域名 `https://docs.nicerobotics.hk` 已生效。正式域名重复通过全部 36 组彩带检查以及无障碍/降级场景；`GET /api/applications` 仍为 `open:true, preview:false`。本轮未新增测试申请或修改飞书数据。
 
 ---
 
