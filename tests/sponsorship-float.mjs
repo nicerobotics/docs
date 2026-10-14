@@ -64,7 +64,8 @@ try {
       assert.ok(Math.abs(width - box.x - box.width - (width < 800 ? 12 : 20)) < 2, 'Right edge is not viewport anchored');
       assert.ok(Math.abs(height - box.y - box.height - (width < 800 ? 12 : 20)) < 2, 'Bottom edge is not viewport anchored');
       assert.ok(box.y > 0 && box.x >= 0 && box.height <= 180, 'Widget is too large');
-      assert.equal(await widget.locator('details').getAttribute('open'), '');
+      assert.equal(await widget.locator('details,summary').count(), 0, 'No expand/collapse controls');
+      assert.ok(await widget.evaluate((el) => el.scrollHeight === el.clientHeight && el.scrollWidth === el.clientWidth), 'Widget has internal scrolling');
       assert.equal(await widget.locator('a').getAttribute('href'), prefix + campaign.path);
       assert.equal(await widget.locator('.sponsorship-title').innerText(), campaign.locales[locale].title);
       assert.equal(await widget.locator('button').count(), 0, 'Unwanted pause button');
@@ -82,10 +83,6 @@ try {
         return el.contains(document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2));
       }), 'Final contact link cannot be scrolled above the widget');
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
-      await widget.locator('summary').click();
-      assert.ok((await widget.boundingBox()).height <= 50);
-      assert.equal(await widget.locator('a').isVisible(), false);
-      await widget.locator('summary').click();
       assert.equal(await widget.locator('a').isVisible(), true);
       if (path === '/transmission/gear/' && width !== 320) {
         await page.evaluate(() => scrollTo(0, 0));
@@ -94,7 +91,7 @@ try {
     }
     await context.close();
   }
-  console.log('108 language/device/theme/page cases: fixed bottom-right, scrolling, collapse, footer access, links and layout passed.');
+  console.log('108 language/device/theme/page cases: fixed bottom-right, no internal scrolling or collapse controls, footer access, links and layout passed.');
   for (const [locale, prefix] of locales) {
     const { context, page } = await setup(locale, { viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' });
     await page.goto(base + prefix + '/hardware/tube-plugs/');
@@ -107,10 +104,6 @@ try {
     await page.locator('[data-open-modal]').click();
     assert.equal(await page.locator('dialog[open]').isVisible(), true);
     await page.keyboard.press('Escape');
-    await widget.locator('summary').focus();
-    await page.keyboard.press('Enter');
-    assert.equal(await widget.locator('details').getAttribute('open'), null);
-    await page.keyboard.press('Enter');
     await widget.locator('a').focus();
     assert.equal(await widget.locator('a').evaluate((el) => getComputedStyle(el).outlineStyle), 'solid');
     await page.keyboard.press('Enter');
@@ -127,9 +120,6 @@ try {
     const widget = page.locator('[data-sponsorship-float]');
     const timing = await widget.evaluate((el) => el.getAnimations({ subtree: true }).map((a) => a.effect.getTiming()));
     assert.ok(timing.every((t) => t.iterations === 1 && t.duration <= 4000), 'Animation must end without a pause control');
-    await widget.locator('summary').click();
-    assert.equal(await widget.locator('a').isVisible(), false);
-    await widget.locator('summary').click();
     await widget.locator('a').click();
     await page.waitForURL('**/en/team-nice/frc-2027/');
     await context.close();
