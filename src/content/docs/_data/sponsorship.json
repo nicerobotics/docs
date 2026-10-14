@@ -2,19 +2,24 @@
   "eyebrow": "TEAM NICE · 2027",
   "path": "/team-nice/frc-2027/",
   "logo": "/assets/docs/team-nice/frc-2027/nice-gift-white.png",
+  "deadline": "2026-11-30",
+  "deadlineDisplay": "2026.11.30",
   "locales": {
     "zh-CN": {
       "title": "FRC 队伍赞助计划",
+      "deadlineLabel": "申请截止日期：",
       "label": "申请赞助",
       "toggle": "展开或收起赞助入口"
     },
     "zh-Hant": {
       "title": "FRC 隊伍贊助計畫",
+      "deadlineLabel": "申請截止日期：",
       "label": "申請贊助",
       "toggle": "展開或收合贊助入口"
     },
     "en": {
       "title": "FRC Team Sponsorship",
+      "deadlineLabel": "Apply by ",
       "label": "Apply for sponsorship",
       "toggle": "Expand or collapse sponsorship"
     }

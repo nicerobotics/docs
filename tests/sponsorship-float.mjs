@@ -21,6 +21,7 @@ for (const [, prefix] of locales) for (const id of pages) {
   assert.equal((html.match(/data-sponsorship-float/g) ?? []).length, 1, path);
   assert.ok(html.includes(`href="${prefix}${campaign.path}"`), path);
   assert.ok(html.includes(campaign.logo), path);
+  assert.ok(html.includes('datetime="2026-11-30"') && html.includes('2026.11.30'), path);
   assert.ok(!html.includes('data-campaign-banner') && !html.includes('data-campaign-motion'), path);
 }
 const source = await sharp('public/assets/docs/team-nice/frc-2027/nice-gift.png').ensureAlpha().raw().toBuffer({ resolveWithObject: true });
@@ -66,7 +67,7 @@ try {
       assert.equal(await widget.evaluate((el) => getComputedStyle(el).position), 'fixed');
       assert.equal(await widget.evaluate((el) => getComputedStyle(el).backgroundColor), 'rgb(198, 66, 10)');
       assert.match(await widget.evaluate((el) => getComputedStyle(el).backgroundImage), /linear-gradient/);
-      for (const selector of ['.sponsorship-brand', '.sponsorship-title', '.sponsorship-cta', '.sponsorship-toggle']) {
+      for (const selector of ['.sponsorship-brand', '.sponsorship-title', '.sponsorship-deadline', '.sponsorship-cta', '.sponsorship-toggle']) {
         assert.equal(await widget.locator(selector).evaluate((el) => getComputedStyle(el).color), 'rgb(255, 255, 255)', 'All card copy must be white');
       }
       assert.notEqual(await widget.evaluate((el) => getComputedStyle(el).boxShadow), 'none');
@@ -78,15 +79,19 @@ try {
       assert.ok(await widget.evaluate((el) => el.scrollHeight === el.clientHeight && el.scrollWidth === el.clientWidth), 'Widget has internal scrolling');
       assert.equal(await widget.locator('a').getAttribute('href'), prefix + campaign.path);
       assert.equal(await widget.locator('.sponsorship-title').innerText(), campaign.locales[locale].title);
+      assert.equal(await widget.locator('.sponsorship-deadline').innerText(), campaign.locales[locale].deadlineLabel + '2026.11.30');
+      assert.equal(await widget.locator('time').getAttribute('datetime'), '2026-11-30');
+      assert.ok(await widget.locator('.sponsorship-deadline').evaluate(el => el.scrollWidth <= el.clientWidth), 'Deadline line overflows');
       assert.equal(await widget.locator('button').count(), 0, 'Unwanted pause button');
       assert.ok(await widget.locator('img').evaluate((img) => img.complete && img.naturalWidth === 456));
       const logoBox = await widget.locator('img').boundingBox();
       const titleBox = await widget.locator('.sponsorship-title').boundingBox();
+      const deadlineBox = await widget.locator('.sponsorship-deadline').boundingBox();
       const ctaBox = await widget.locator('.sponsorship-cta').boundingBox();
-      for (const item of [logoBox, titleBox, ctaBox]) {
+      for (const item of [logoBox, titleBox, deadlineBox, ctaBox]) {
         assert.ok(Math.abs(item.x + item.width / 2 - box.x - box.width / 2) < 1, 'Logo or copy is not centered');
       }
-      assert.ok(logoBox.y + logoBox.height < titleBox.y && titleBox.y + titleBox.height < ctaBox.y, 'Logo and content should stack vertically');
+      assert.ok(logoBox.y + logoBox.height < titleBox.y && titleBox.y + titleBox.height < deadlineBox.y && deadlineBox.y + deadlineBox.height < ctaBox.y, 'Deadline should sit below title and above CTA');
       assert.equal(await widget.locator('.sponsorship-marquee, .marquee-runner').count(), 0, 'Marquee must be removed');
       const surface = await widget.locator('.sponsorship-metal').boundingBox();
       assert.ok(Math.abs(surface.width - box.width) < 1 && Math.abs(surface.height - box.height) < 1, 'Metallic surface must cover the card');
