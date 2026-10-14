@@ -46,7 +46,7 @@ const text = campaign.locales[locale];
   .marquee-track { stroke: #ffe2d1; stroke-width: 2; }
   .marquee-runner { stroke: #f9612b; stroke-width: 2.5; stroke-linecap: round; stroke-dasharray: 12 38; }
   .marquee-glow { stroke-width: 6; opacity: .18; }
-  details[open] ~ .sponsorship-marquee .marquee-runner { animation: sponsorship-circuit 5s linear infinite; }
+  .sponsorship-marquee .marquee-runner { animation: sponsorship-circuit 5s linear infinite; }
   .sponsorship-toggle { padding: .7rem 1.7rem; min-height: 2.75rem; cursor: pointer; list-style: none; color: #000; text-align: center; }
   .sponsorship-toggle::-webkit-details-marker { display: none; }
   .sponsorship-toggle:hover { background: #fff4ee; }
@@ -83,6 +83,6 @@ const text = campaign.locales[locale];
     .sponsorship-title { font-size: .9rem; }
     .sponsorship-cta { margin-block-start: .4rem; padding-block: .3rem; }
   }
-  @media (prefers-reduced-motion: reduce) { details[open] ~ .sponsorship-marquee .marquee-runner { animation: none; } }
+  @media (prefers-reduced-motion: reduce) { .sponsorship-marquee .marquee-runner { animation: none; } }
   @media print { .sponsorship-float, .sponsorship-reading-space { display: none; } }
 </style>

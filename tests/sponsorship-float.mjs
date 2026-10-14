@@ -102,7 +102,13 @@ try {
       await widget.locator('summary').click();
       assert.ok((await widget.boundingBox()).height <= 50);
       assert.equal(await widget.locator('a').isVisible(), false);
-      assert.equal(await widget.evaluate((el) => el.getAnimations({ subtree: true }).length), 0, 'Collapse should stop the marquee');
+      assert.ok(await widget.evaluate((el) => {
+        const animations = el.getAnimations({ subtree: true });
+        return animations.length === 2 && animations.every((a) => a.playState === 'running');
+      }), 'Collapsed marquee must keep running');
+      const compactBox = await widget.boundingBox();
+      const compactBorder = await widget.locator('.marquee-track').evaluate((el) => el.getBoundingClientRect().toJSON());
+      assert.ok(Math.abs(compactBorder.height - compactBox.height + 3) < 1, 'Marquee should follow the collapsed card');
       assert.ok(await widget.evaluate((el) => el.scrollHeight === el.clientHeight && el.scrollWidth === el.clientWidth), 'Collapsed widget has internal scrolling');
       await widget.locator('summary').click();
       assert.equal(await widget.locator('a').isVisible(), true);
@@ -149,7 +155,7 @@ try {
     assert.ok(timing.every((t) => t.iterations === Infinity && t.duration === 5000), 'CSS marquee works without JavaScript');
     await widget.locator('summary').click();
     assert.equal(await widget.locator('a').isVisible(), false);
-    assert.equal(await widget.evaluate((el) => el.getAnimations({ subtree: true }).length), 0);
+    assert.equal(await widget.evaluate((el) => el.getAnimations({ subtree: true }).length), 2);
     await widget.locator('summary').click();
     await widget.locator('a').click();
     await page.waitForURL('**/en/team-nice/frc-2027/');
@@ -168,6 +174,10 @@ try {
     const start = await runner.evaluate((el) => getComputedStyle(el).strokeDashoffset);
     await page.waitForTimeout(150);
     assert.notEqual(await runner.evaluate((el) => getComputedStyle(el).strokeDashoffset), start, 'Marquee does not move');
+    await widget.locator('summary').click();
+    const collapsedStart = await runner.evaluate((el) => getComputedStyle(el).strokeDashoffset);
+    await page.waitForTimeout(150);
+    assert.notEqual(await runner.evaluate((el) => getComputedStyle(el).strokeDashoffset), collapsedStart, 'Collapsed marquee does not move');
     await context.close();
   }
   console.log('Reduced motion, menu/search, keyboard, print, landscape, live border movement and no-JavaScript fallback passed.');
