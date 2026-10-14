@@ -5,15 +5,18 @@
   "locales": {
     "zh-CN": {
       "title": "FRC 队伍赞助计划",
-      "label": "申请赞助"
+      "label": "申请赞助",
+      "toggle": "展开或收起赞助入口"
     },
     "zh-Hant": {
       "title": "FRC 隊伍贊助計畫",
-      "label": "申請贊助"
+      "label": "申請贊助",
+      "toggle": "展開或收合贊助入口"
     },
     "en": {
       "title": "FRC Team Sponsorship",
-      "label": "Apply for sponsorship"
+      "label": "Apply for sponsorship",
+      "toggle": "Expand or collapse sponsorship"
     }
   }
 }

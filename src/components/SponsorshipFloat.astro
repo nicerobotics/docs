@@ -7,9 +7,13 @@ const text = campaign.locales[locale];
 
 <aside class="sponsorship-float fixed overflow-clip rounded-xl" data-sponsorship-float aria-label={text.title} data-pagefind-ignore>
   <div class="sponsorship-decoration pointer-events-none absolute inset-0 overflow-clip" aria-hidden="true"></div>
-  <a class="sponsorship-link relative block no-underline" href={localizedPath(campaign.path, locale)} aria-label={`${text.label} — ${text.title}`}>
-    <span class="sponsorship-brand block font-bold">{campaign.eyebrow}</span>
-    <span class="sponsorship-body grid items-center gap-4">
+  <details open class="relative">
+    <summary class="sponsorship-toggle flex items-center justify-between gap-3" aria-label={text.toggle} title={text.toggle}>
+      <span class="sponsorship-brand font-bold">{campaign.eyebrow}</span>
+      <span class="sponsorship-compact font-semibold">{text.label}</span>
+      <svg class="sponsorship-chevron shrink-0" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m5 9 7 7 7-7" /></svg>
+    </summary>
+    <a class="sponsorship-link grid items-center gap-4 no-underline" href={localizedPath(campaign.path, locale)} aria-label={`${text.label} — ${text.title}`}>
       <img class="sponsorship-logo" src={campaign.logo} alt="" width="456" height="400" loading="eager" decoding="async" />
       <span class="min-w-0">
         <span class="sponsorship-title block font-bold">{text.title}</span>
@@ -18,8 +22,8 @@ const text = campaign.locales[locale];
           <svg class="shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 12h15M13 5l7 7-7 7" /></svg>
         </span>
       </span>
-    </span>
-  </a>
+    </a>
+  </details>
 </aside>
 <!-- Leave enough scroll room to lift the final content above the fixed entry. -->
 <div class="sponsorship-reading-space" aria-hidden="true"></div>
@@ -40,14 +44,19 @@ const text = campaign.locales[locale];
     transform: translateX(75%);
     animation: sponsorship-welcome 4s ease-out 1;
   }
-  .sponsorship-brand { font-size: .68rem; letter-spacing: .12em; line-height: 1.4; color: #76513f; margin-block-end: .75rem; }
-  .sponsorship-link { padding: 1rem; color: #000; }
-  .sponsorship-body { grid-template-columns: 4.25rem minmax(0, 1fr); }
+  .sponsorship-toggle { padding: .65rem 1rem; min-height: 2.75rem; cursor: pointer; list-style: none; color: #000; }
+  .sponsorship-toggle::-webkit-details-marker { display: none; }
+  .sponsorship-toggle:hover { background: #fff4ee; }
+  .sponsorship-brand { font-size: .68rem; letter-spacing: .12em; line-height: 1.4; color: #76513f; }
+  .sponsorship-compact { font-size: .8rem; line-height: 1.4; }
+  details[open] .sponsorship-compact, details:not([open]) .sponsorship-brand { display: none; }
+  details:not([open]) .sponsorship-chevron { transform: rotate(180deg); }
+  .sponsorship-link { grid-template-columns: 4.25rem minmax(0, 1fr); padding: .1rem 1rem 1rem; color: #000; }
   .sponsorship-logo { display: block; width: 100%; height: auto; }
   .sponsorship-title { color: #000; font-size: 1.15rem; line-height: 1.3; text-wrap: balance; }
   .sponsorship-cta { color: #b83d09; font-size: .8rem; line-height: 1.45; border-bottom: 1px solid currentColor; padding-block-end: .15rem; }
   .sponsorship-link:hover .sponsorship-cta { border-bottom-width: 2px; }
-  .sponsorship-link:focus-visible { outline: 2px solid #000; outline-offset: -4px; border-radius: .5rem; }
+  .sponsorship-toggle:focus-visible, .sponsorship-link:focus-visible { outline: 2px solid #000; outline-offset: -4px; border-radius: .5rem; }
   .sponsorship-reading-space { height: 13rem; }
   @keyframes sponsorship-welcome { from { transform: translateX(-75%); } to { transform: translateX(75%); } }
   @media (max-width: 50rem) {
@@ -56,8 +65,8 @@ const text = campaign.locales[locale];
       bottom: max(.75rem, env(safe-area-inset-bottom));
       width: 17rem; max-width: calc(100vw - 1.5rem);
     }
-    .sponsorship-link { padding: .85rem; }
-    .sponsorship-body { grid-template-columns: 3.25rem minmax(0, 1fr); gap: .75rem; }
+    .sponsorship-link { grid-template-columns: 3.25rem minmax(0, 1fr); gap: .75rem; padding: 0 .85rem .8rem; }
+    .sponsorship-toggle { padding-inline: .85rem; }
     .sponsorship-title { font-size: .98rem; }
     .sponsorship-cta { font-size: .75rem; margin-block-start: .5rem; }
     .sponsorship-reading-space { height: 10rem; }
