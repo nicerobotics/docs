@@ -438,10 +438,10 @@
     }
   },
   "wheels/silicone-wheel": {
-    "sourceHash": "de2f0f1ebc84942a1fb15c64ae58b38795bdf3b2655e566344dc46fb80c2cb82",
+    "sourceHash": "c90e4e14145fe91590413fd3ab3e1ecd8c0c1f71e9c3b9763b29592835b22869",
     "translationHashes": {
-      "zh-Hant": "b319c52e716f192ad59b7e85b43c0bde00426616bec3d02fc304497e385e9c32",
-      "en": "f02694e44eb7f102dbac0349a77e09284a5a30cb77e175d1cee9645f5e641d5d"
+      "zh-Hant": "14fc50b696e749339c4b1d898553a01faae1f791ba4e2637d141799e9e74bd08",
+      "en": "f7eb4eb91e9e1d44cdfff1fa3041764494285bb76ad6127416442281a357b1dc"
     },
     "anchors": {
       "zh-CN": [
