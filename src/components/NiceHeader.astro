@@ -296,25 +296,35 @@ const navItems: Array<{
 			color: var(--sl-color-text-accent);
 		}
 
-		@media (max-width: 50rem) {
+		@media (width < 50rem) {
 			.nice-brand-inner {
 				grid-template-columns: minmax(0, 1fr) auto;
-				gap: 0.75rem;
-				min-height: 3.5rem;
+				gap: 0.5rem;
+				min-height: var(--nice-mobile-brand-height);
+				padding: 0.5rem var(--nice-mobile-brand-edge);
 			}
 
 			:global(html[data-has-sidebar]) .nice-brand-inner {
-				padding-inline-start: calc(var(--nice-shell-edge) + var(--sl-menu-button-size) + 0.75rem);
+				padding-inline-start: calc(var(--nice-mobile-brand-edge) + var(--sl-menu-button-size) + 0.25rem);
+			}
+
+			.title-wrapper :global(.site-title) {
+				width: 5.75rem;
+				max-width: 100%;
 			}
 
 			.nice-actions {
-				gap: 0.5rem;
+				flex-wrap: nowrap;
+				gap: 0.1875rem;
+			}
+
+			.nice-social-icons:not(:has(a)) {
+				display: none;
 			}
 
 			.nice-shop-link {
-				width: 2.2rem;
-				height: 2.2rem;
-				font-size: 0.8125rem;
+				width: var(--nice-mobile-control-size);
+				height: var(--nice-mobile-control-size);
 			}
 
 			.nice-section-link {
@@ -332,17 +342,6 @@ const navItems: Array<{
 
 			.nice-section-link:first-child {
 				margin-inline-start: 0;
-			}
-
-		}
-		@media (max-width: 40rem) {
-			.nice-brand-inner { grid-template-columns: minmax(0, 1fr); gap: 0.25rem; }
-			.nice-actions { justify-self: stretch; justify-content: flex-start; gap: 0.4rem; }
-			:global(html[data-has-sidebar]) .nice-brand-inner {
-				padding-inline-start: var(--nice-shell-edge);
-			}
-			:global(html[data-has-sidebar]) .title-wrapper {
-				margin-inline-start: calc(var(--sl-menu-button-size) + 0.75rem);
 			}
 		}
 	}

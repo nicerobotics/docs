@@ -66,16 +66,16 @@
 	--sl-color-gray-3: #d8cecb;
 }
 
-@media (max-width: 50rem) {
+@media (width < 50rem) {
 	:root {
-		--sl-nav-height: 6.25rem;
 		--sl-sidebar-pad-x: 1.125rem;
 		--nice-shell-edge: 1rem;
+		--nice-mobile-brand-height: 3.5rem;
+		--nice-mobile-brand-edge: 0.75rem;
+		--nice-mobile-control-size: 2.25rem;
+		--sl-menu-button-size: var(--nice-mobile-control-size);
+		--sl-nav-height: 6.5rem;
 	}
-}
-
-@media (max-width: 40rem) {
-	:root { --sl-nav-height: 8.75rem; }
 }
 
 @layer starlight {
@@ -139,11 +139,11 @@
 	}
 
 	starlight-menu-button button {
-		inset-inline-start: var(--nice-shell-edge);
+		inset-inline-start: var(--nice-mobile-brand-edge);
 		inset-inline-end: auto;
-		top: 0.75rem;
+		top: calc((var(--nice-mobile-brand-height) - var(--sl-menu-button-size)) / 2);
 		border: 0;
-		border-radius: 0;
+		border-radius: 0.5rem;
 		background: transparent !important;
 		box-shadow: none !important;
 		color: white;
@@ -156,6 +156,13 @@
 	.nice-brand-row .site-title img {
 		height: 2.05rem;
 		filter: brightness(0) invert(1);
+	}
+
+	@media (width < 50rem) {
+		.nice-brand-row .site-title img {
+			width: 100%;
+			height: auto;
+		}
 	}
 
 	.nice-brand-row button[data-open-modal] {
@@ -521,10 +528,6 @@
 	}
 
 	@media (max-width: 42rem) {
-		.nice-brand-row .site-title img {
-			height: 1.65rem;
-		}
-
 		.sl-markdown-content figure img,
 		.sl-markdown-content > img {
 			max-width: 100%;

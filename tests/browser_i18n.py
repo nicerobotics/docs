@@ -139,9 +139,11 @@ with sync_playwright() as p:
 
     paths=['/', '/transmission/gear/', '/hardware/tube-plugs/', '/structure/tube/', '/wheels/silicone-wheel/', '/wheels/roller-system/']
     for lang, prefix in PREFIX.items():
-        for width, height in [(1440,900),(390,844)]:
+        for width, height in [(1440,900),(390,844),(320,568)]:
+            mobile = width < 800
             for theme in ['light','dark']:
-                ctx=context(['zh-CN'], saved=lang, viewport={'width':width,'height':height}, color_scheme=theme)
+                ctx=context(['zh-CN'], saved=lang, viewport={'width':width,'height':height},
+                            color_scheme=theme, is_mobile=mobile, has_touch=mobile)
                 ctx.add_init_script('try { localStorage.setItem("starlight-theme", '+json.dumps(theme)+'); } catch {}')
                 page=ctx.new_page()
                 for path in paths:
@@ -153,12 +155,27 @@ with sync_playwright() as p:
                       header:document.querySelector('.nice-header').getBoundingClientRect().bottom,
                       title:document.querySelector('h1').getBoundingClientRect().top})""")
                     assert layout['overflow']<=1 and layout['title']>=layout['header'], (lang,width,theme,path,layout)
+                    if mobile:
+                        assert page.locator('.site-title img').bounding_box()['width'] >= 54, (lang,width,theme,path)
+                        controls = '.nice-language-control, nice-theme-toggle button, .nice-shop-link, button[data-open-modal]'
+                        if path != '/':
+                            controls += ', starlight-menu-button button'
+                        boxes = page.locator(f'.site-title img, {controls}').evaluate_all(
+                            '(elements) => elements.map(element => element.getBoundingClientRect().toJSON())'
+                        )
+                        boxes.sort(key=lambda box: box['left'])
+                        assert boxes[0]['left'] >= 0 and boxes[-1]['right'] <= width
+                        for left, right in zip(boxes, boxes[1:]):
+                            assert left['right'] <= right['left'], (lang,width,theme,path,boxes)
+                            assert abs(left['y'] + left['height']/2 - right['y'] - right['height']/2) <= 1, (
+                                lang,width,theme,path,boxes
+                            )
                     for href in page.locator('.nice-section-nav a').evaluate_all('(els)=>els.map(a=>a.getAttribute("href"))'):
                         assert href.startswith(prefix+'/')
                     if path=='/':
                         assert not page.locator('html').get_attribute('data-has-sidebar')
                         if width==1440:page.screenshot(path=str(OUT/f'{lang}-{width}-{theme}-home.png'))
-                    elif width==390:
+                    elif mobile:
                         page.locator('starlight-menu-button button').click()
                         assert page.locator('starlight-menu-button').get_attribute('aria-expanded')=='true'
                         for href in page.locator('#starlight__sidebar a').evaluate_all('(els)=>els.map(a=>a.getAttribute("href"))'):

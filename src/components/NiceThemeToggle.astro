@@ -61,6 +61,16 @@ import NiceIcon from './NiceIcon.astro';
 			color: white;
 		}
 
+		@media (width < 50rem) {
+			nice-theme-toggle button {
+				width: var(--nice-mobile-control-size);
+				height: var(--nice-mobile-control-size);
+				border: 1px solid rgb(255 255 255 / 48%);
+				border-radius: 0.5rem;
+				background: rgb(255 255 255 / 16%);
+			}
+		}
+
 		:root[data-theme='light'] nice-theme-toggle :global(.nice-icon) {
 			fill: currentColor;
 		}
