@@ -17,7 +17,7 @@ test('other supported languages follow browser order; generic Chinese defaults t
 });
 test('geolocation is only a coarse fallback', async () => {
   for (const [country, locale] of [['CN', 'zh-CN'], ['TW', 'zh-Hant'], ['HK', 'zh-Hant'], ['MO', 'zh-Hant'], ['MY', 'en'], ['US', 'en'], ['SG', 'en'], ['', null], ['unknown', null], ['XX', null], ['ZZ', null]]) {
-    const headers = country ? { 'x-vercel-ip-country': country } : {};
+    const headers = country ? { 'cf-ipcountry': country } : {};
     assert.deepEqual(await GET(new Request('https://example.test/api/locale', { headers })).json(), { locale });
   }
 });
@@ -40,8 +40,8 @@ test('translated anchors preserve the equivalent section or fall back to page to
 });
 test('geolocation endpoint returns only locale and is never cached', async () => {
   for (const [country, locale] of [['CN', 'zh-CN'], ['TW', 'zh-Hant'], ['US', 'en'], ['MY', 'en'], ['', null]]) {
-    const response = GET(new Request('https://example.test/api/locale', { headers: { 'x-vercel-ip-country': country } }));
+    const response = GET(new Request('https://example.test/api/locale', { headers: { 'cf-ipcountry': country } }));
     assert.deepEqual(await response.json(), { locale });
-    for (const name of ['Cache-Control', 'CDN-Cache-Control', 'Vercel-CDN-Cache-Control']) assert.match(response.headers.get(name), /no-store/);
+    for (const name of ['Cache-Control', 'CDN-Cache-Control', 'Cloudflare-CDN-Cache-Control']) assert.match(response.headers.get(name), /no-store/);
   }
 });

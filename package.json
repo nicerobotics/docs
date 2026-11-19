@@ -17,15 +17,16 @@
     "test:i18n": "node --experimental-strip-types --test tests/locale.test.mjs",
     "prebuild": "npm run lint:i18n",
     "test:browser": "node scripts/test-browser.mjs",
-    "test:applications": "tsx --test tests/applications.test.mjs",
+    "test:applications": "tsx --test tests/applications.test.mjs tests/d1-store.test.mjs",
     "test:sponsorship": "node tests/sponsorship-float.mjs",
-    "test:application-browser": "node tests/application-browser.mjs"
+    "test:application-browser": "node tests/application-browser.mjs",
+    "dev:worker": "wrangler dev",
+    "deploy": "npm run build && wrangler deploy"
   },
   "dependencies": {
     "@astrojs/starlight": "^0.39.3",
     "@astrojs/starlight-tailwind": "^5.0.0",
     "@lucide/astro": "^1.17.0",
-    "@neondatabase/serverless": "^1.2.0",
     "@tailwindcss/vite": "4.2.1",
     "astro": "^6.4.4",
     "katex": "^0.17.0",
@@ -41,6 +42,7 @@
     "github-slugger": "^2.0.0",
     "playwright": "^1.60.0",
     "tsx": "^4.23.15",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "wrangler": "^4.161.0"
   }
 }

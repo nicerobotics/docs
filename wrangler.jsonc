@@ -1,0 +1,33 @@
+{
+  // Cloudflare Worker for docs.nicerobotics.hk: static site + application API + retry cron.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "ni-docs",
+  "account_id": "2ca8df5c9754fb7e3f37d08c597535e0",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-11-14",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": false,
+  "preview_urls": false,
+  // docs.nicerobotics.hk is a custom hostname on the rockyxrq.com zone; its DNS stays at Aliyun
+  // as a CNAME to saas-target.rockyxrq.com.
+  "routes": [{ "pattern": "docs.nicerobotics.hk/*", "zone_id": "b343160c5815edaf0a51025849ee526a" }],
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page",
+    // Only the API reaches the Worker; pages and downloads are served directly from the edge.
+    "run_worker_first": ["/api/*"]
+  },
+  "d1_databases": [
+    { "binding": "DB", "database_name": "ni-docs", "database_id": "4fd0fe46-a358-4471-b21b-17d22b23b329" }
+  ],
+  "triggers": { "crons": ["*/5 * * * *"] },
+  "vars": {
+    // Set to "false" to stop accepting new applications. Existing receipts keep working.
+    "APPLICATIONS_OPEN": "true"
+  },
+  "observability": { "enabled": true }
+  // Secrets (set once with `wrangler secret put`, kept across deploys): FEISHU_APP_ID, FEISHU_APP_SECRET,
+  // FEISHU_BASE_TOKEN, FEISHU_TABLE_ID, FEISHU_SUBMISSION_ID_FIELD, RECEIPT_SIGNING_SECRET, CRON_SECRET.
+}

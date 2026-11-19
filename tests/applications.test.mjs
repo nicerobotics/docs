@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
 import { Model } from 'survey-core';
 import { questions, schema, supportedLocales, validateAnswers, visible, version, copy } from '../src/forms/frc.ts';
-import { authentic, configured, isOpen, mapFields, payloadHash, processSubmission, receipt, submit } from '../server/applications.ts';
+import { authentic, configured, isOpen, mapFields, payloadHash, processSubmission, receipt, submit, useDatabase } from '../server/applications.ts';
 
 function valid() {
   const answers = Object.fromEntries(questions.filter(q => q.required).map(q => [q.id, q.type === 'number' ? 2020 : q.type === 'checkbox' || q.type === 'ranking' ? q.choices.map(c => c.value) : q.type === 'radiogroup' ? q.choices[0].value : 'Example answer']));
@@ -67,7 +67,7 @@ class MemoryStore {
   async done(id,record_id){Object.assign(this.rows.get(id),{state:'synced',record_id});}
   async fail(id,code,blocked){Object.assign(this.rows.get(id),{state:blocked?'blocked':'pending',last_error:code});}
 }
-function env(){Object.assign(process.env,{DATABASE_URL:'postgresql://test:test@example.test/test',FEISHU_APP_ID:'test',FEISHU_APP_SECRET:'test',FEISHU_BASE_TOKEN:'test',FEISHU_TABLE_ID:'test',FEISHU_SUBMISSION_ID_FIELD:'fld_submission',RECEIPT_SIGNING_SECRET:'a'.repeat(64),CRON_SECRET:'b'.repeat(64),APPLICATIONS_OPEN:'true',APPLICATION_DEADLINE:''});}
+function env(){useDatabase({});Object.assign(process.env,{FEISHU_APP_ID:'test',FEISHU_APP_SECRET:'test',FEISHU_BASE_TOKEN:'test',FEISHU_TABLE_ID:'test',FEISHU_SUBMISSION_ID_FIELD:'fld_submission',RECEIPT_SIGNING_SECRET:'a'.repeat(64),CRON_SECRET:'b'.repeat(64),APPLICATIONS_OPEN:'true',APPLICATION_DEADLINE:''});}
 function request(body,origin='https://example.test'){return new Request('https://example.test/api/applications',{method:'POST',headers:{'Content-Type':'application/json',Origin:origin},body:JSON.stringify(body)});}
 test('durable submission, concurrent duplicate, receipt after closing, conflict and origin protection', async()=>{
   env(); const store=new MemoryStore(); let writes=0;

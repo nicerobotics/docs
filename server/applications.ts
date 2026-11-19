@@ -1,19 +1,30 @@
 import { createHash, createHmac, timingSafeEqual } from 'node:crypto';
-import { neon } from '@neondatabase/serverless';
 import { questions, supportedLocales, validateAnswers, version } from '../src/forms/frc.js';
 import type { Answers } from '../src/forms/frc.js';
 
 export const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 type Payload = { version: string; locale: string; answers: Answers };
 export type Submission = { id: string; hash: string; payload: Payload | null; state: string; record_id: string | null; attempts: number; created_at: string };
-const requiredEnv = ['DATABASE_URL', 'FEISHU_APP_ID', 'FEISHU_APP_SECRET', 'FEISHU_BASE_TOKEN', 'FEISHU_TABLE_ID', 'FEISHU_SUBMISSION_ID_FIELD', 'RECEIPT_SIGNING_SECRET', 'CRON_SECRET'];
-export function configured() { return requiredEnv.every((key) => !!process.env[key]) && (process.env.RECEIPT_SIGNING_SECRET?.length ?? 0) >= 32; }
+const requiredEnv = ['FEISHU_APP_ID', 'FEISHU_APP_SECRET', 'FEISHU_BASE_TOKEN', 'FEISHU_TABLE_ID', 'FEISHU_SUBMISSION_ID_FIELD', 'RECEIPT_SIGNING_SECRET', 'CRON_SECRET'];
+
+// Structural subset of the Cloudflare D1 binding, so this module also loads under plain Node for tests.
+export interface D1Statement {
+  bind(...values: (string | number | null)[]): D1Statement;
+  first<T = Record<string, unknown>>(): Promise<T | null>;
+  all<T = Record<string, unknown>>(): Promise<{ results: T[] }>;
+  run(): Promise<unknown>;
+}
+export interface D1Database { prepare(sql: string): D1Statement; batch(statements: D1Statement[]): Promise<unknown>; }
+let database: D1Database | undefined;
+/** The Worker entry passes its D1 binding here before handling a request or a scheduled run. */
+export function useDatabase(db: D1Database | undefined) { database = db; }
+export function configured() { return !!database && requiredEnv.every((key) => !!process.env[key]) && (process.env.RECEIPT_SIGNING_SECRET?.length ?? 0) >= 32; }
 export function isOpen(now = Date.now()) {
   const deadline = process.env.APPLICATION_DEADLINE;
   return configured() && process.env.APPLICATIONS_OPEN === 'true' && (!deadline || (Number.isFinite(Date.parse(deadline)) && now < Date.parse(deadline)));
 }
 export function response(data: unknown, status = 200) {
-  return Response.json(data, { status, headers: { 'Cache-Control': 'private, no-store', 'CDN-Cache-Control': 'no-store', 'Vercel-CDN-Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' } });
+  return Response.json(data, { status, headers: { 'Cache-Control': 'private, no-store', 'CDN-Cache-Control': 'no-store', 'Cloudflare-CDN-Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' } });
 }
 export function receipt(id: string) {
   if (!process.env.RECEIPT_SIGNING_SECRET) throw new Error('configuration');
@@ -25,31 +36,59 @@ export function authentic(id: string, supplied: string) {
 }
 export function payloadHash(payload: Payload) { return createHash('sha256').update(JSON.stringify(payload)).digest('hex'); }
 
+// D1 stores timestamps as UTC text with microseconds (YYYY-MM-DDTHH:MM:SS.ffffffZ), so they compare correctly as strings.
+const now = "(strftime('%Y-%m-%dT%H:%M:%f','now') || '000Z')";
+const later = (modifier: string) => `(strftime('%Y-%m-%dT%H:%M:%f','now',${modifier}) || '000Z')`;
+type Row = Omit<Submission, 'payload'> & { payload: string | null };
+function decode(row: Row | null | undefined): Submission | undefined {
+  return row ? { ...row, payload: row.payload === null ? null : JSON.parse(row.payload) } : undefined;
+}
+
 export class Store {
-  sql = neon(process.env.DATABASE_URL!);
-  async get(id: string): Promise<Submission | undefined> { return (await this.sql`SELECT * FROM nice_applications WHERE id=${id}`)[0] as Submission | undefined; }
+  private readonly db: D1Database;
+  constructor(db: D1Database | undefined = database) {
+    if (!db) throw new Error('configuration');
+    this.db = db;
+  }
+  async get(id: string): Promise<Submission | undefined> {
+    return decode(await this.db.prepare('SELECT * FROM nice_applications WHERE id=?').bind(id.toLowerCase()).first<Row>());
+  }
   async stage(id: string, payload: Payload): Promise<Submission> {
-    await this.sql`INSERT INTO nice_applications (id, hash, payload) VALUES (${id}, ${payloadHash(payload)}, ${JSON.stringify(payload)}::jsonb) ON CONFLICT (id) DO NOTHING`;
+    await this.db.prepare('INSERT INTO nice_applications (id,hash,payload) VALUES (?,?,?) ON CONFLICT (id) DO NOTHING')
+      .bind(id.toLowerCase(), payloadHash(payload), JSON.stringify(payload)).run();
     return (await this.get(id))!;
   }
+  // One conditional UPDATE ... RETURNING is the atomic 60-second lease.
   async claim(id: string) {
-    return (await this.sql`UPDATE nice_applications SET state='syncing', lease_until=now()+interval '60 seconds', attempts=attempts+1 WHERE id=${id} AND payload IS NOT NULL AND ((state='pending' AND retry_at<=now()) OR (state='syncing' AND lease_until<now())) RETURNING *`)[0] as Submission | undefined;
+    return decode(await this.db.prepare(`UPDATE nice_applications SET state='syncing', lease_until=${later("'+60 seconds'")}, attempts=attempts+1
+      WHERE id=? AND payload IS NOT NULL AND ((state='pending' AND retry_at<=${now}) OR (state='syncing' AND lease_until<${now})) RETURNING *`)
+      .bind(id.toLowerCase()).first<Row>());
   }
-  async done(id: string, recordId: string) { await this.sql`UPDATE nice_applications SET state='synced', record_id=${recordId}, synced_at=now(), lease_until=NULL, last_error=NULL WHERE id=${id}`; }
+  async done(id: string, recordId: string) {
+    await this.db.prepare(`UPDATE nice_applications SET state='synced', record_id=?, synced_at=${now}, lease_until=NULL, last_error=NULL WHERE id=?`)
+      .bind(recordId, id.toLowerCase()).run();
+  }
   async fail(id: string, code: string, blocked: boolean, attempts: number) {
     const delay = Math.min(3600, 30 * 2 ** Math.min(attempts, 7)) + Math.floor(Math.random() * 20);
-    await this.sql`UPDATE nice_applications SET state=${blocked ? 'blocked' : 'pending'}, lease_until=NULL, last_error=${code}, retry_at=now()+(${delay} * interval '1 second') WHERE id=${id} AND state!='synced'`;
+    await this.db.prepare(`UPDATE nice_applications SET state=?, lease_until=NULL, last_error=?, retry_at=${later('?')} WHERE id=? AND state!='synced'`)
+      .bind(blocked ? 'blocked' : 'pending', code, `+${delay} seconds`, id.toLowerCase()).run();
   }
-  async due() { return await this.sql`SELECT id FROM nice_applications WHERE (state='pending' AND retry_at<=now()) OR (state='syncing' AND lease_until<now()) ORDER BY created_at LIMIT 5`; }
+  async due() {
+    return (await this.db.prepare(`SELECT id FROM nice_applications WHERE (state='pending' AND retry_at<=${now}) OR (state='syncing' AND lease_until<${now}) ORDER BY created_at LIMIT 5`)
+      .all<{ id: string }>()).results;
+  }
   async cleanup() {
-    await this.sql`UPDATE nice_applications SET payload=NULL WHERE state='synced' AND synced_at<now()-interval '24 hours' AND payload IS NOT NULL`;
-    await this.sql`DELETE FROM nice_application_rate WHERE bucket<floor(extract(epoch from now())/600)-2`;
+    await this.db.batch([
+      this.db.prepare(`UPDATE nice_applications SET payload=NULL WHERE state='synced' AND synced_at<${later("'-24 hours'")} AND payload IS NOT NULL`),
+      this.db.prepare("DELETE FROM nice_application_rate WHERE bucket<CAST(strftime('%s','now') AS INTEGER)/600-2"),
+    ]);
   }
   async allow(ip: string) {
     const key = createHmac('sha256', process.env.RECEIPT_SIGNING_SECRET!).update(ip).digest('hex');
     const bucket = Math.floor(Date.now() / 600000);
-    const rows = await this.sql`INSERT INTO nice_application_rate (key,bucket,count) VALUES (${key},${bucket},1) ON CONFLICT (key,bucket) DO UPDATE SET count=nice_application_rate.count+1 RETURNING count`;
-    return Number(rows[0]?.count) <= 20;
+    const row = await this.db.prepare('INSERT INTO nice_application_rate (key,bucket,count) VALUES (?,?,1) ON CONFLICT (key,bucket) DO UPDATE SET count=nice_application_rate.count+1 RETURNING count')
+      .bind(key, bucket).first<{ count: number }>();
+    return Number(row?.count) <= 20;
   }
 }
 
@@ -134,8 +173,8 @@ export async function submit(request: Request, store = new Store(), write = sync
   if (!configured()) return response({ code: 'closed' }, 503);
   const origin = request.headers.get('origin');
   if (!origin || origin !== new URL(request.url).origin) return response({ code: 'forbidden' }, 403);
-  // Vercel overwrites this header; raw forwarding headers are not trusted.
-  if (!(await store.allow(request.headers.get('x-vercel-forwarded-for') ?? 'local'))) return response({ code: 'rate_limited' }, 429);
+  // Cloudflare sets CF-Connecting-IP at its edge and overwrites any client-supplied value.
+  if (!(await store.allow(request.headers.get('cf-connecting-ip') ?? 'local'))) return response({ code: 'rate_limited' }, 429);
   const reader = request.body?.getReader(); let size = 0; const chunks: Uint8Array[] = [];
   if (!reader) return response({ code: 'invalid' }, 400);
   while (true) { const { done, value } = await reader.read(); if (done) break; size += value.byteLength; if (size > 100000) { await reader.cancel(); return response({ code: 'length' }, 413); } chunks.push(value); }
