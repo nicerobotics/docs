@@ -1,6 +1,6 @@
 # Team NICE 三语申请页部署与维护
 
-网站沿用 Astro + Starlight 静态输出，问卷由 SurveyJS Form Library 渲染。独立 Node.js Vercel Functions 校验答案、暂存提交并写入飞书；没有引入 Astro SSR adapter。
+网站沿用 Astro + Starlight 静态输出，问卷由 SurveyJS Form Library 渲染。Cloudflare Worker（`worker/index.ts`）校验答案、暂存提交到 D1 并写入飞书；没有引入 Astro SSR adapter。
 
 ## 页面与内容
 
@@ -18,12 +18,12 @@
 
 ## 正式收集前配置
 
-Vercel 项目：NI Corporate / docs。默认生产域名保持 `docs.nicerobotics.hk`。Preview 与 Production 使用分开的数据库和回执/定时任务密钥。日常 Preview 关闭真实提交；如需重新开启联调，应使用独立飞书测试表，或取得明确授权后仅写入带显著测试标记的合成记录。所有操作先在预览环境验收。
+Cloudflare Worker：`ni-docs`（账户 Cloudflare@team8214.com）。生产域名保持 `docs.nicerobotics.hk`，DNS 仍在阿里云，CNAME 指向 `saas-target.rockyxrq.com`。如需预览环境，应使用独立的 Worker、D1 数据库和回执/定时任务密钥。日常 Preview 关闭真实提交；如需重新开启联调，应使用独立飞书测试表，或取得明确授权后仅写入带显著测试标记的合成记录。所有操作先在预览环境验收。
 
-1. 准备支持 Neon HTTP driver 的 PostgreSQL 连接（推荐 Neon），执行 `db/applications.sql`。本实现使用 `@neondatabase/serverless`，不能把任意 PostgreSQL TCP 地址直接当作已兼容。
+1. 数据库是 Cloudflare D1 `ni-docs`（绑定名 `DB`，见 `wrangler.jsonc`）。新建数据库时执行 `npx wrangler d1 execute <名称> --remote --file db/schema.sql`。
 2. 飞书企业自建应用需要应用身份权限 `base:record:create`、`base:record:retrieve`、`base:field:read`，并获得目标多维表格的必要文档权限。启用高级权限时须确认可管理/搜索范围，避免查询已有提交时返回不完整记录。
 3. 目标数据表已由用户增加文本字段“网站提交唯一标识”，ID 为 `fldAVl0ahk`，配置 `FEISHU_SUBMISSION_ID_FIELD`。该字段不复用任何问卷答案字段。
-4. 依 `.env.example` 在 Vercel 中配置机密和非机密环境变量。机密不要填写到 Git 仓库、MDX、公开变量或日志中。`RECEIPT_SIGNING_SECRET`、`CRON_SECRET` 使用不同的随机值，至少 32 字符。
+4. 机密用 `npx wrangler secret put <名称>` 配置在 Worker 上（名称见 `.env.example`），部署不会覆盖；非机密变量写在 `wrangler.jsonc` 的 `vars`。机密不要填写到 Git 仓库、MDX、公开变量或日志中。`RECEIPT_SIGNING_SECRET`、`CRON_SECRET` 使用不同的随机值，至少 32 字符。
 5. 设置明确时区的 `APPLICATION_DEADLINE`，例如 ISO 8601 带 `+08:00` 或 `Z` 的时间；为空表示不设置截止。`APPLICATIONS_OPEN` 默认关闭，只有完整接入验收后设为 `true`。
 6. 在测试表实际提交三语申请，验证相同字段、相同选项、多选存储、重复点击、飞书暂时故障恢复和截止后已有回执查询。
 7. 确认原文内容和部署环境后发布生产版本。不要通过网页“提交成功”的字样代替飞书真实记录核对。
@@ -36,12 +36,12 @@ Vercel 项目：NI Corporate / docs。默认生产域名保持 `docs.nicerobotic
 
 | 接口 | 作用 |
 |---|---|
-| `GET /api/applications` | 返回是否开放；Vercel Preview 未开放时允许只读演示填写流程 |
+| `GET /api/applications` | 返回是否开放；预览环境（`APP_ENV=preview`）未开放时允许只读演示填写流程 |
 | `POST /api/applications` | 同源校验、持久化限流、100 KB 请求限制、服务端资格/必填/选项校验、提交幂等、飞书写入 |
 | `GET /api/application-status?id=…` | 必须携带回执 Bearer 凭证，只返回该申请状态 |
-| `GET /api/retry-applications` | 使用 `CRON_SECRET` 鉴权的定时任务；每次最多 5 个待处理申请 |
+| `GET /api/retry-applications` | 使用 `CRON_SECRET` 鉴权的手动触发入口；与定时任务执行同一逻辑，每次最多 5 个待处理申请 |
 
-Vercel Cron 每 5 分钟执行一次，需支持该频率的套餐；Hobby 每天一次的限制不适用本配置。预览部署不运行生产 Cron。
+Cloudflare Cron Trigger（`*/5 * * * *`，见 `wrangler.jsonc`）每 5 分钟直接调用 Worker 的 `scheduled` 处理函数，不经过公网接口。
 
 提交先写入数据库，再尝试写入飞书。飞书临时故障返回 HTTP 202 和“已接收，处理中”，没有可靠暂存则不返回成功。仅飞书响应 `code=0` 且有 `record_id` 才标记 `synced`。
 
@@ -86,6 +86,6 @@ npm run test:browser
 
 `test:application-browser` 使用已安装 Chrome，对本地 API 进行模拟，覆盖三语 × 桌面/手机 × 深浅主题、原问卷显示分支、恢复和完整提交；这不等于真实数据库/飞书联调。`test:browser` 的 Python 环境按 README 配置。
 
-Vercel Preview 页面明确显示“预览版本”，提交按钮不会发送申请；服务端也保持收集关闭。生产环境缺少配置时只显示未开放提示。不得为了演示开启生产收集或使用真实个人信息作为测试数据。
+预览环境页面明确显示“预览版本”，提交按钮不会发送申请；服务端也保持收集关闭。生产环境缺少配置时只显示未开放提示。不得为了演示开启生产收集或使用真实个人信息作为测试数据。
 
-首次验收还必须覆盖中国大陆、台湾地区及海外网络下的页面与提交接口。`vercel deploy` 预览成功不代表这些地区都已测试。
+首次验收还必须覆盖中国大陆、台湾地区及海外网络下的页面与提交接口。部署成功不代表这些地区都已测试。

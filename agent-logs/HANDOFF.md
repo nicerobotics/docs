@@ -1,5 +1,18 @@
 # Handoff
 
+更新时间：2026-11-19 17:40:00 +08:00
+
+## 站点与申请接口迁移到 Cloudflare
+
+- 正式域名 `docs.nicerobotics.hk` 自 2026-11-19 17:23（UTC+8）起由 Cloudflare Worker `ni-docs` 提供服务：页面走 Workers Static Assets，`/api/*` 走 `worker/index.ts`，申请暂存在 D1 数据库 `ni-docs`，重试由 Cron Trigger 每 5 分钟执行。原 Vercel Functions、Vercel Cron 和 Neon 暂存库不再使用。
+- `server/applications.ts` 的 `Store` 改为 D1 实现，语义与原 PostgreSQL 版本一致（60 秒租约、退避、24 小时后清除答案、每地址每 10 分钟 20 次）。限流地址取 `CF-Connecting-IP`，地区取 Cloudflare 请求元数据。
+- 数据：原生产库的 3 条申请逐列核对后导入 D1（时间保留微秒）；切换前后原库均无待同步记录。7 个机密沿用原生产值，已有回执继续有效。
+- 验证：`npm run test:applications` 16 项（含真实 SQLite 引擎上的 D1 语句和定时重试到飞书的完整路径）、`test:i18n` 7 项、`astro check` 0 错误、52 页构建；正式域桌面/手机浏览器抽查 9 页无失败请求；正式域真实提交一条带显著测试标记的申请，一次写入飞书，随后已从飞书和 D1 删除该测试记录。
+- 已知差异：静态文件的 Range 请求返回完整文件（200），不再返回 206。
+- 发布：推送 `main` 触发 `.github/workflows/deploy.yml`（测试、构建、`wrangler deploy`）。回退方法：把阿里云 `docs` 的 CNAME 改回原 Vercel 值；Vercel 项目和 Neon 库保留到确认稳定后再清理。
+
+---
+
 更新时间：2026-10-14 11:23:00 +02:00
 
 ## 浮窗三语申请截止日期

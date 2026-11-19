@@ -23,7 +23,7 @@
 - 用 Astro 和 Starlight 维护 NICE Robotics 官方产品文档网站。
 - 保持现有 UI/UX 视觉体验稳定，不把重构变成重新设计。
 - 后续维护者只通过新增或修改 MDX、图片和下载资源更新文档。
-- 默认部署到 NI Corporate Vercel，默认生产域名为 `docs.nicerobotics.hk`。
+- 部署到 Cloudflare Workers（Worker `ni-docs`），生产域名为 `docs.nicerobotics.hk`；推送 `main` 后由 GitHub Actions 自动发布。
 
 ## 技术栈约束
 
@@ -36,7 +36,7 @@
 - 组件样式优先写在组件内。
 - 全局 CSS 只保留主题变量、Starlight 必要覆盖和基础 Markdown 样式。
 - 搜索使用 Starlight 内建 Pagefind。
-- 默认不引入 Supabase、SSR、Edge Runtime 或额外 Vercel adapter。
+- 默认不引入 SSR 或 Astro 服务端适配器；服务端只有 `worker/`、`api/`、`server/` 中的申请接口。
 - 只有存在明确性能、权限、缓存或服务端集成收益时，才重新评估额外服务。
 
 ## 内容维护规则

@@ -3,7 +3,7 @@
 ![NICE Robotics](https://img.shields.io/badge/NICE-Robotics-F9612B?labelColor=555555&style=flat)
 ![Lang zh-CN](https://img.shields.io/badge/Lang-zh--CN-2DBA4E?labelColor=555555&style=flat)
 
-本仓库是 NICE Robotics 官方产品文档网站，使用 Astro + Starlight 构建并部署到 NI Corporate Vercel。
+本仓库是 NICE Robotics 官方产品文档网站，使用 Astro + Starlight 构建并部署到 Cloudflare Workers。
 
 ## 用途
 
@@ -21,13 +21,13 @@
 - Tailwind CSS 4
 - Starlight Pagefind 搜索
 - 静态输出
-- NI Corporate Vercel
+- Cloudflare Workers（Static Assets + D1 + Cron Triggers）
 
-默认不引入 Supabase、SSR、Edge Runtime 或额外 Vercel adapter。只有存在明确性能、权限、缓存或服务端集成收益时，才重新评估。
+默认不引入 SSR 或 Astro 服务端适配器。只有存在明确性能、权限、缓存或服务端集成收益时，才重新评估。
 
-语言 IP 兜底使用独立的 `api/locale.ts` Node.js Vercel Function，所有文档仍静态构建，不需要 Astro 服务端适配器。
+页面由 Workers Static Assets 直接从边缘返回；只有 `/api/*` 进入 `worker/index.ts`。语言 IP 兜底使用 `api/locale.ts`，地区来自 Cloudflare 的请求元数据。
 
-Team NICE 三语申请页复用静态站，使用 SurveyJS 和独立 Vercel Functions 将答案写入同一飞书数据表。提交可靠性需要专用 Neon 暂存数据库；数据库仅用于申请功能。配置、权限、测试和上线步骤见 [申请页部署与维护](agent-logs/APPLICATIONS.md)。未完成配置时不开放正式收集。
+Team NICE 三语申请页复用静态站，使用 SurveyJS 和同一个 Worker 将答案写入同一飞书数据表。提交先暂存到 Cloudflare D1 数据库 `ni-docs`，每 5 分钟的 Cron Trigger 重试未写入飞书的申请；数据库仅用于申请功能。配置、权限、测试和上线步骤见 [申请页部署与维护](agent-logs/APPLICATIONS.md)。未完成配置时不开放正式收集。
 
 ## 三语内容维护
 
@@ -49,7 +49,7 @@ IP 兜底：CN→简体；TW/HK/MO→繁体；其他已知地区→英文；未�
 
 手动偏好存于本机 `nice-language`，有效期 365 天；自动结果不持久化。禁用浏览器存储不影响手动切换。开代理但浏览器列表含简体的用户仍使用简体；没有中文语言信号时不推断真实所在地。
 
-地区请求头只在 Vercel 部署环境可用；`astro preview` 的地区分支由浏览器测试模拟，发布前还需在 Vercel 预览检查真实 `/api/locale`。不要将预览环境的地区检测当作覆盖所有国家的真实网络测试。
+地区信息只在 Cloudflare 上可用；`astro preview` 的地区分支由浏览器测试模拟，`npm run dev:worker`（先 `npm run build`）可在本地用 workerd 运行完整站点和接口。不要将预览环境的地区检测当作覆盖所有国家的真实网络测试。
 
 ## 目录
 
@@ -176,7 +176,7 @@ npm run build
 - Node.js 和 npm
 - Git
 - Astro/Starlight
-- Vercel CLI
+- Wrangler（`npx wrangler`，已在 devDependencies）
 - Playwright
 
 ## 给人看的使用方法
