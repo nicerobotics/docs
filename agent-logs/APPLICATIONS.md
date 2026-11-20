@@ -18,7 +18,7 @@
 
 ## 正式收集前配置
 
-Cloudflare Worker：`ni-docs`（账户 Cloudflare@team8214.com）。生产域名保持 `docs.nicerobotics.hk`，DNS 仍在阿里云，CNAME 指向 `saas-target.rockyxrq.com`。如需预览环境，应使用独立的 Worker、D1 数据库和回执/定时任务密钥。日常 Preview 关闭真实提交；如需重新开启联调，应使用独立飞书测试表，或取得明确授权后仅写入带显著测试标记的合成记录。所有操作先在预览环境验收。
+Cloudflare Worker：`ni-docs`（账户 Cloudflare@team8214.com）。生产域名保持 `docs.nicerobotics.hk`，路由 `docs.nicerobotics.hk/*` 声明在域名自己的 Cloudflare zone `nicerobotics.hk` 上（见 `wrangler.jsonc`）；DNS 自 2026-11-20 起在 Cloudflare。如需预览环境，应使用独立的 Worker、D1 数据库和回执/定时任务密钥。日常 Preview 关闭真实提交；如需重新开启联调，应使用独立飞书测试表，或取得明确授权后仅写入带显著测试标记的合成记录。所有操作先在预览环境验收。
 
 1. 数据库是 Cloudflare D1 `ni-docs-hk`（主库在香港；绑定名 `DB`，见 `wrangler.jsonc`）。新建数据库时执行 `npx wrangler d1 execute <名称> --remote --file db/schema.sql`。
 2. 飞书企业自建应用需要应用身份权限 `base:record:create`、`base:record:retrieve`、`base:field:read`，并获得目标多维表格的必要文档权限。启用高级权限时须确认可管理/搜索范围，避免查询已有提交时返回不完整记录。

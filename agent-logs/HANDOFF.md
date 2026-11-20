@@ -1,5 +1,17 @@
 # Handoff
 
+更新时间：2026-11-20 17:16:55 +08:00
+
+## 路由改到域名自己的 Cloudflare zone（`nicerobotics.hk`）
+
+- 仅本地修改和提交；未推送、未部署。须在下一条（绑定 `ni-docs-hk`）之后单独发布。
+- 原安排：`docs.nicerobotics.hk` 是辅助 zone `rockyxrq.com` 上的 Cloudflare for SaaS 自定义主机名，DNS 在阿里云（CNAME 到 `saas-target.rockyxrq.com`），Worker 路由按 `zone_id` 声明在 `rockyxrq.com`。新安排：`nicerobotics.hk` 是普通 Cloudflare zone，DNS 自 2026-11-20 起在 Cloudflare，路由声明在域名自己的 zone 上。
+- `wrangler.jsonc` 的路由由 `zone_id`（`rockyxrq.com`）改为 `"zone_name": "nicerobotics.hk"`；路由模式 `docs.nicerobotics.hk/*` 不变，没有改用 custom domain。`APPLICATIONS.md` 同步。
+- 验证：`lint:content` 通过、`test:i18n` 7 项、`test:applications` 16 项、`astro check` 0 错误、52 页构建；`wrangler deploy --dry-run`（不上传、未使用凭证）可解析新配置。真实的路由上传未执行。
+- 风险：发布凭证 `CLOUDFLARE_DOCS_PUBLISH_TOKEN` 需要对 zone `nicerobotics.hk` 有 Workers Routes 写入权限。凭证若只授权部分 zone，wrangler 会改用逐 zone 接口：此时按 `zone_name` 查找 zone 还需要该 zone 的读取权限，且不会删除 `rockyxrq.com` 上的旧路由，需手动清理。下方 2026-11-19 条目里的回退方法（改阿里云 CNAME）在 DNS 迁到 Cloudflare 后不再适用。
+
+---
+
 更新时间：2026-11-20 17:15:52 +08:00
 
 ## D1 数据库迁到香港：绑定 `ni-docs-hk`
@@ -8,7 +20,7 @@
 - `wrangler.jsonc` 的 `DB` 绑定由 D1 `ni-docs`（`4fd0fe46-a358-4471-b21b-17d22b23b329`，主库在东京）改为 `ni-docs-hk`（`91febcff-818f-4a31-a594-2f48215a4b4b`，主库在香港）。新库已建好且为空；切换时由协调方导入旧库的完整导出（结构 + 全部行）并核对后再发布本提交。README 和 `APPLICATIONS.md` 同步为新库名。
 - Worker 运行时不校验数据库身份：只通过 `DB` 绑定访问，库里没有保存数据库 id 的行，导入后不需要补 SQL。
 - 切换期间除公网 `POST /api/applications` 外，Cron（`*/5 * * * *`）也会写库（领取/标记申请、清除 24 小时前的答案正文、清理限流行）并写飞书；导出旧库前必须先停掉 Cron，并确认没有 `syncing` 状态的行。
-- 验证：`lint:content` 通过、`test:i18n` 7 项、`test:applications` 16 项、`astro check` 0 错误、52 页构建；`wrangler deploy --dry-run`（不联网）显示 `env.DB (ni-docs-hk)`。
+- 验证：`lint:content` 通过、`test:i18n` 7 项、`test:applications` 16 项、`astro check` 0 错误、52 页构建；`wrangler deploy --dry-run`（不上传、未使用凭证）显示 `env.DB (ni-docs-hk)`。
 - 风险：本提交发布时新库必须已有完整数据，否则已有回执查询返回 404、未同步的申请不会再重试。旧库 `ni-docs` 在确认前保留。
 
 ---

@@ -8,9 +8,9 @@
   "compatibility_flags": ["nodejs_compat"],
   "workers_dev": false,
   "preview_urls": false,
-  // docs.nicerobotics.hk is a custom hostname on the rockyxrq.com zone; its DNS stays at Aliyun
-  // as a CNAME to saas-target.rockyxrq.com.
-  "routes": [{ "pattern": "docs.nicerobotics.hk/*", "zone_id": "b343160c5815edaf0a51025849ee526a" }],
+  // The route is declared on the host's own zone on Cloudflare (nicerobotics.hk); DNS is at Cloudflare
+  // since 2026-11-20.
+  "routes": [{ "pattern": "docs.nicerobotics.hk/*", "zone_name": "nicerobotics.hk" }],
   "assets": {
     "directory": "./dist",
     "binding": "ASSETS",
