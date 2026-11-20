@@ -20,7 +20,8 @@
     "run_worker_first": ["/api/*"]
   },
   "d1_databases": [
-    { "binding": "DB", "database_name": "ni-docs", "database_id": "4fd0fe46-a358-4471-b21b-17d22b23b329" }
+    // Primary in Hong Kong since 2026-11-20; a full copy of the earlier database `ni-docs`.
+    { "binding": "DB", "database_name": "ni-docs-hk", "database_id": "91febcff-818f-4a31-a594-2f48215a4b4b" }
   ],
   "triggers": { "crons": ["*/5 * * * *"] },
   "vars": {

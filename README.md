@@ -27,7 +27,7 @@
 
 页面由 Workers Static Assets 直接从边缘返回；只有 `/api/*` 进入 `worker/index.ts`。语言 IP 兜底使用 `api/locale.ts`，地区来自 Cloudflare 的请求元数据。
 
-Team NICE 三语申请页复用静态站，使用 SurveyJS 和同一个 Worker 将答案写入同一飞书数据表。提交先暂存到 Cloudflare D1 数据库 `ni-docs`，每 5 分钟的 Cron Trigger 重试未写入飞书的申请；数据库仅用于申请功能。配置、权限、测试和上线步骤见 [申请页部署与维护](agent-logs/APPLICATIONS.md)。未完成配置时不开放正式收集。
+Team NICE 三语申请页复用静态站，使用 SurveyJS 和同一个 Worker 将答案写入同一飞书数据表。提交先暂存到 Cloudflare D1 数据库 `ni-docs-hk`（主库在香港），每 5 分钟的 Cron Trigger 重试未写入飞书的申请；数据库仅用于申请功能。配置、权限、测试和上线步骤见 [申请页部署与维护](agent-logs/APPLICATIONS.md)。未完成配置时不开放正式收集。
 
 ## 三语内容维护
 
