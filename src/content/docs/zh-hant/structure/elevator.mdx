@@ -1,0 +1,43 @@
+---
+title: "升降機構"
+description: "用於機器人升降機構的滑塊與管內滑輪座。"
+icon: "box"
+sidebar:
+  order: 40
+---
+
+import { DocImage, ProductTable } from '~/components/mdx';
+
+## 升降滑塊（BB）
+
+<DocImage src="/assets/docs/structure/elevator/bearing-block.webp" alt="升降滑塊（BB）的 CAD 模型畫面" width={375} />
+
+<ProductTable
+  columns={[
+    { key: "sku", label: "SKU" },
+    { key: "weight", label: "重量" },
+    { key: "size", label: "規格" },
+    { key: "model", label: "模型", type: "step" },
+    { key: "drawing", label: "圖面", type: "pdf" },
+    { key: "onshape", label: "Onshape", type: "onshape", align: "center" }
+  ]}
+  rows={[{ size: "25 × 25" }]}
+/>
+
+## 管內滑輪座
+
+<DocImage src="/assets/docs/structure/elevator/pulley-block.webp" alt="管內滑輪座的 CAD 模型畫面" width={375} />
+
+<ProductTable
+  columns={[
+    { key: "sku", label: "SKU" },
+    { key: "weight", label: "重量" },
+    { key: "size", label: "規格" },
+    { key: "model", label: "模型", type: "step" },
+    { key: "drawing", label: "圖面", type: "pdf" },
+    { key: "onshape", label: "Onshape", type: "onshape", align: "center" }
+  ]}
+  rows={[{ size: "46 × 21 × 50" }]}
+/>
+
+## 範例

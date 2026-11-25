@@ -1,0 +1,97 @@
+---
+title: "時規皮帶輪"
+description: "了解時規皮帶的傳動原理、傳動比與中心距，並依齒數和軸孔規格選用 NICE HTD 5M 時規皮帶輪。"
+icon: "circle-0"
+sidebar:
+  order: 30
+---
+
+import { DocImage, MathBlock, ProductTable } from '~/components/mdx';
+
+時規皮帶的齒與皮帶輪的齒槽嚙合，將動力從一根軸傳到另一根軸。皮帶維持嚙合時，兩軸的轉速比由皮帶輪的齒數決定。
+
+在 FRC 機器人上，時規皮帶可讓馬達裝在滾筒旁邊，也能帶動同向轉動的取物滾筒，或在相隔較遠的兩軸之間傳遞動力。設計時要預留皮帶通過及調整張力的空間。
+
+## 時規皮帶輪參數
+
+<DocImage
+  src="/assets/docs/transmission/timing-pulley/5m-pulley-dimensions.webp"
+  localized
+  alt="NICE 24T HTD 5M 時規皮帶輪的正視圖與側視圖，標示 1/2 英吋六角孔、節圓直徑（PD）、擋邊外徑位置、12 mm 齒寬與 16 mm 總寬"
+  variant="wide"
+/>
+
+<ProductTable
+  wrap
+  columns={[
+    { key: "parameter", label: "參數" },
+    { key: "meaning", label: "說明" },
+  ]}
+  rows={[
+    { parameter: "齒形與節距", meaning: "HTD 採用曲線齒形，5M 表示沿節線量測的相鄰齒距為 5 mm。T5 的節距同樣是 5 mm，採用梯形齒。皮帶與皮帶輪的齒形、節距都要相符。" },
+    { parameter: "齒數（z）", meaning: "12T 表示皮帶輪有 12 齒。齒數可用來計算傳動比與節圓直徑。" },
+    { parameter: "節圓直徑（PD）", meaning: "皮帶繞過皮帶輪時，皮帶的節線形成一個理論圓。其直徑等於節距乘以齒數，再除以 π。" },
+    { parameter: "齒頂外徑（OD）", meaning: "皮帶輪齒頂形成的實際外徑。檢查組裝干涉時，也要確認擋邊的最大外徑。" },
+    { parameter: "齒寬", meaning: "沿軸向量測的齒部寬度，範圍為兩側擋邊內緣之間。" },
+    { parameter: "總寬", meaning: "從一側擋邊外緣到另一側擋邊外緣的軸向寬度。" },
+    { parameter: "節線長度（PL）", meaning: "環形時規皮帶沿節線的周長，等於皮帶齒數乘以節距。" },
+  ]}
+/>
+
+## 傳動比與轉向
+
+轉速比的算法是**從動輪轉速 ÷ 主動輪轉速 = 主動輪齒數 ÷ 從動輪齒數**。
+
+- **減速**。18T 主動輪帶動 36T 從動輪，輸出轉速減半。忽略傳動損失時，輸出扭力是輸入的 2 倍。
+- **加速**。36T 主動輪帶動 18T 從動輪，輸出轉速是輸入的 2 倍。忽略傳動損失時，輸出扭力減半。
+- **同步連動**。兩輪齒數相同時，轉速比為 1:1。若要讓滾筒的表面速度也相同，滾筒直徑必須一致。
+
+在常見的雙輪開式傳動中，兩軸互相平行，皮帶不交叉，主動輪與從動輪會同向轉動。若需要反向轉動，設計機構時就要另行規劃傳動路徑。
+
+## 中心距與帶長
+
+中心距是兩根軸的中心線之間的距離。在 CAD 中規劃傳動時，先決定兩輪齒數和大致的中心距，估算所需皮帶長度。選定可取得的皮帶規格後，再用皮帶的齒數反算中心距。下式適用於兩軸平行、皮帶不交叉且無惰輪的雙輪配置。
+
+<MathBlock expression={String.raw`L_p \approx 2C + \frac{\pi}{2}(D+d) + \frac{(D-d)^2}{4C}`} />
+
+Lₚ 是皮帶的節線長度，C 是中心距，D 和 d 分別是大輪和小輪的節圓直徑，單位皆為 mm。以一條 60 齒、節線長度 300 mm 的 HTD 5M 皮帶搭配 18T 和 36T 皮帶輪為例，幾何中心距約為 81.2 mm。定案前可用精確計算或 CAD 再確認，並預留裝帶和調整張力所需的行程。
+
+挑選皮帶時，可用 [ReCalc 時規皮帶試算工具](https://reca.lc/belts)。選擇 HTD（5 mm），輸入兩個皮帶輪的齒數與目標中心距，即可比較不同皮帶規格的齒數、對應中心距和嚙合齒數。
+
+:::note[小皮帶輪的包角]
+包角是皮帶包覆皮帶輪的接觸圓弧所對應的角度。中心距相同時，兩輪的尺寸差越大，小輪的包角越小。可用「小輪齒數 × 包角 ÷ 360°」估算同時嚙合的齒數。若選用齒數較少的皮帶輪，或機構會承受衝擊負載，請依皮帶原廠資料確認最小輪徑、嚙合齒數與額定負載。
+:::
+
+## NICE HTD 5M 金屬時規皮帶輪
+
+全系列採用 **HTD 5M 齒形**，兩側皆有擋邊，**齒寬 12 mm，總寬 16 mm**。擋邊可限制皮帶沿軸向移動。選用時先確認軸端適用 **1/2 英吋六角孔**或 **SplineXS 花鍵孔**，再依所需傳動比與安裝空間選擇齒數。18T 提供兩種軸孔。挑選皮帶時，請確認齒形和節距符合 HTD 5M，並確認皮帶寬度與安裝空間。
+
+<DocImage
+  src="/assets/docs/transmission/timing-pulley/metal-timing-pulleys.webp"
+  alt="六款 NICE HTD 5M 金屬時規皮帶輪，具有六角孔或 SplineXS 花鍵孔"
+  variant="wide"
+/>
+
+### 規格
+
+<ProductTable
+  columns={[
+    { key: "sku", label: "SKU" },
+    { key: "weight", label: "重量" },
+    { key: "bore", label: "軸孔" },
+    { key: "teeth", label: "齒數", type: "link" },
+    { key: "faceWidth", label: "齒寬" },
+    { key: "overallWidth", label: "總寬" },
+    { key: "drawing", label: "圖面", type: "pdf" },
+    { key: "model", label: "模型", type: "step" },
+    { key: "onshape", label: "Onshape", type: "onshape", align: "center" },
+  ]}
+  rows={[
+    { bore: "1/2 英吋六角孔", teeth: { label: "18T", href: "/assets/docs/transmission/timing-pulley/5m-18t-hex.webp" }, faceWidth: "12 mm", overallWidth: "16 mm" },
+    { bore: "1/2 英吋六角孔", teeth: { label: "24T", href: "/assets/docs/transmission/timing-pulley/5m-24t-hex.webp" }, faceWidth: "12 mm", overallWidth: "16 mm" },
+    { bore: "1/2 英吋六角孔", teeth: { label: "36T", href: "/assets/docs/transmission/timing-pulley/5m-36t-hex.webp" }, faceWidth: "12 mm", overallWidth: "16 mm" },
+    { bore: "SplineXS 花鍵孔", teeth: { label: "12T", href: "/assets/docs/transmission/timing-pulley/5m-12t-splinexs.webp" }, faceWidth: "12 mm", overallWidth: "16 mm" },
+    { bore: "SplineXS 花鍵孔", teeth: { label: "15T", href: "/assets/docs/transmission/timing-pulley/5m-15t-splinexs.webp" }, faceWidth: "12 mm", overallWidth: "16 mm" },
+    { bore: "SplineXS 花鍵孔", teeth: { label: "18T", href: "/assets/docs/transmission/timing-pulley/5m-18t-splinexs.webp" }, faceWidth: "12 mm", overallWidth: "16 mm" },
+  ]}
+/>

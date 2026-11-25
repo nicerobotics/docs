@@ -52,13 +52,13 @@ import { BuyButton, DocImage, MathBlock, ProductTable } from '~/components/mdx';
     c0: "面宽 (Face Width)",
     c1: "FW",
     c2: "齿轮齿的宽度",
-    c3: "统一9.5mm"
+    c3: "20DP 铝制系列：9.5 mm"
   },
   {
     c0: "总宽 (Overall Width)",
     c1: "OW",
     c2: "齿轮的整体宽度",
-    c3: "统一12.5mm"
+    c3: "20DP 铝制系列：12.5 mm"
   },
   {
     c0: "齿顶圆直径 (Outer Diameter)",
@@ -214,11 +214,49 @@ import { BuyButton, DocImage, MathBlock, ProductTable } from '~/components/mdx';
 
 上面两组齿轮的中心距完全相同 (都是50.8mm)，但齿轮比不同。
 
+## 10DP 铝制齿轮
+
+<DocImage src="/assets/docs/transmission/gear/10dp-10t-aluminum-hex.webp" alt="10DP 10T 铝制齿轮，1/2″ 六角孔" width={375} />
+
+<ProductTable
+  columns={[
+    { key: "bore", label: "轴孔" },
+    { key: "pitch", label: "径节" },
+    { key: "teeth", label: "齿数" },
+    { key: "model", label: "模型", type: "step" },
+    { key: "drawing", label: "图纸", type: "pdf" },
+    { key: "onshape", label: "Onshape", type: "onshape", align: "center" },
+  ]}
+  rows={[
+    { bore: "1/2″ 六角孔", pitch: "10DP", teeth: "10T" },
+  ]}
+/>
+
+## 20DP 钢制齿轮
+
+<DocImage src="/assets/docs/transmission/gear/20dp-16t-steel-hex.webp" alt="20DP 16T 钢制齿轮，1/2″ 六角孔" width={375} />
+
+<ProductTable
+  columns={[
+    { key: "bore", label: "轴孔" },
+    { key: "pitch", label: "径节" },
+    { key: "teeth", label: "齿数" },
+    { key: "model", label: "模型", type: "step" },
+    { key: "drawing", label: "图纸", type: "pdf" },
+    { key: "onshape", label: "Onshape", type: "onshape", align: "center" },
+  ]}
+  rows={[
+    { bore: "SplineXS", pitch: "20DP", teeth: "12T" },
+    { bore: "1/2″ 六角孔", pitch: "20DP", teeth: "16T" },
+    { bore: "1/2″ 六角孔", pitch: "20DP", teeth: "18T" },
+  ]}
+/>
+
 ## NICE 铝制齿轮
 
 <BuyButton href="https://item.taobao.com/item.htm?id=1008715504499&mi_id=0000PiXYrnKGOqLR31zYdTL_g8kbIzI5KpOxVPvvSTnKGYY&spm=a21xtw.29178619.0.0" />
 
-我们的所有齿轮使用统一标准：
+以下非镂空和镂空铝制齿轮采用这些规格：
 
 * **径节**：20DP
 * **压力角：** 14.5°
@@ -228,7 +266,7 @@ import { BuyButton, DocImage, MathBlock, ProductTable } from '~/components/mdx';
 
 ### 非镂空齿轮
 
-<DocImage src="/assets/docs/transmission/20dp.png" alt="齿轮 5" width={375} />
+<DocImage src="/assets/docs/transmission/gear/20dp-24t-aluminum-solid-web-hex.webp" alt="20DP 24T 非镂空铝制齿轮，1/2″ 六角孔" width={375} />
 
 * ½″ 六角孔，兼容标准½"六角轴及圆六角轴
 * 7075-T6 铝合金材质，黑色硬质阳极氧化处理
@@ -432,7 +470,7 @@ import { BuyButton, DocImage, MathBlock, ProductTable } from '~/components/mdx';
 
 ### 镂空齿轮
 
-<DocImage src="/assets/docs/transmission/20dp_pocketed.png" alt="齿轮 6" width={375} />
+<DocImage src="/assets/docs/transmission/gear/20dp-52t-aluminum-pocketed-hex.webp" alt="20DP 52T 镂空铝制齿轮，1/2″ 六角孔" width={375} />
 
 对于40齿以上的大齿轮，我们提供镂空减重版本，在保证强度的同时减轻重量。
 

@@ -52,13 +52,13 @@ Gear drives are especially useful when:
     c0: "Face width",
     c1: "FW",
     c2: "Width of the toothed portion",
-    c3: "9.5mm across the range"
+    c3: "20 DP aluminum gears: 9.5 mm"
   },
   {
     c0: "Overall width",
     c1: "OW",
     c2: "Total width of the gear",
-    c3: "12.5mm across the range"
+    c3: "20 DP aluminum gears: 12.5 mm"
   },
   {
     c0: "Outside diameter",
@@ -216,11 +216,49 @@ For example:
 
 Both gear pairs above have the same center distance (50.8mm), but different ratios.
 
+## 10 DP Aluminum Gears
+
+<DocImage src="/assets/docs/transmission/gear/10dp-10t-aluminum-hex.webp" alt="10-tooth aluminum gear with 10 DP teeth and a 1/2 in. hex bore" width={375} />
+
+<ProductTable
+  columns={[
+    { key: "bore", label: "Bore" },
+    { key: "pitch", label: "Diametral pitch" },
+    { key: "teeth", label: "Tooth count" },
+    { key: "model", label: "CAD model", type: "step" },
+    { key: "drawing", label: "Drawing", type: "pdf" },
+    { key: "onshape", label: "Onshape", type: "onshape", align: "center" },
+  ]}
+  rows={[
+    { bore: "1/2 in. hex", pitch: "10DP", teeth: "10T" },
+  ]}
+/>
+
+## 20 DP Steel Gears
+
+<DocImage src="/assets/docs/transmission/gear/20dp-16t-steel-hex.webp" alt="16-tooth steel gear with 20 DP teeth and a 1/2 in. hex bore" width={375} />
+
+<ProductTable
+  columns={[
+    { key: "bore", label: "Bore" },
+    { key: "pitch", label: "Diametral pitch" },
+    { key: "teeth", label: "Tooth count" },
+    { key: "model", label: "CAD model", type: "step" },
+    { key: "drawing", label: "Drawing", type: "pdf" },
+    { key: "onshape", label: "Onshape", type: "onshape", align: "center" },
+  ]}
+  rows={[
+    { bore: "SplineXS", pitch: "20DP", teeth: "12T" },
+    { bore: "1/2 in. hex", pitch: "20DP", teeth: "16T" },
+    { bore: "1/2 in. hex", pitch: "20DP", teeth: "18T" },
+  ]}
+/>
+
 ## NICE Aluminum Gears
 
 <BuyButton href="https://item.taobao.com/item.htm?id=1008715504499&mi_id=0000PiXYrnKGOqLR31zYdTL_g8kbIzI5KpOxVPvvSTnKGYY&spm=a21xtw.29178619.0.0" />
 
-All NICE gears share these specifications:
+These specs apply to both the solid-web and pocketed aluminum gears below.
 
 * **Diametral pitch:** 20DP
 * **Pressure angle:** 14.5°
@@ -230,7 +268,7 @@ This makes it easy to change gear combinations to tune performance. Keep the tot
 
 ### Solid-Web Gears
 
-<DocImage src="/assets/docs/transmission/20dp.png" alt="NICE solid-web aluminum gear" width={375} />
+<DocImage src="/assets/docs/transmission/gear/20dp-24t-aluminum-solid-web-hex.webp" alt="24-tooth, 20 DP solid-web aluminum gear with a 1/2 in. hex bore" width={375} />
 
 * ½″ hex bore, compatible with standard ½" hex and rounded-hex shafts
 * 7075-T6 aluminum alloy with black hard anodizing
@@ -434,7 +472,7 @@ This makes it easy to change gear combinations to tune performance. Keep the tot
 
 ### Pocketed Gears
 
-<DocImage src="/assets/docs/transmission/20dp_pocketed.png" alt="NICE pocketed aluminum gear" width={375} />
+<DocImage src="/assets/docs/transmission/gear/20dp-52t-aluminum-pocketed-hex.webp" alt="52-tooth, 20 DP pocketed aluminum gear with a 1/2 in. hex bore" width={375} />
 
 Pocketed versions are available for larger gears with 40 teeth and above, reducing weight while retaining strength.
 
