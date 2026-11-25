@@ -93,7 +93,12 @@ import { BuyButton, DocImage, MathBlock, ProductTable } from '~/components/mdx';
 
 ### 減速：降低轉速、增加扭力
 
-<DocImage src="/assets/docs/transmission/reduction_ratio.png" alt="20 齒小齒輪帶動 60 齒大齒輪" width={375} />
+<DocImage
+  src="/assets/docs/transmission/gear/speed-reduction.png"
+  alt="20 齒主動齒輪帶動 60 齒從動齒輪。齒數比為 1:3，輸出轉速為輸入的三分之一，理想輸出扭力為輸入的三倍。"
+  localized
+  width={375}
+/>
 
 **適用時機：** 機構需要更大的扭力。
 
@@ -107,7 +112,12 @@ import { BuyButton, DocImage, MathBlock, ProductTable } from '~/components/mdx';
 
 ### 增速：提高轉速、降低扭力
 
-<DocImage src="/assets/docs/transmission/accel_ratio.png" alt="40 齒大齒輪帶動 20 齒小齒輪" width={375} />
+<DocImage
+  src="/assets/docs/transmission/gear/speed-increase.png"
+  alt="40 齒主動齒輪帶動 20 齒從動齒輪。齒數比為 2:1，輸出轉速為輸入的兩倍，理想輸出扭力為輸入的一半。"
+  localized
+  width={375}
+/>
 
 **適用時機：** 機構需要更高的最高轉速。
 
@@ -123,7 +133,11 @@ import { BuyButton, DocImage, MathBlock, ProductTable } from '~/components/mdx';
 
 齒輪也能改變旋轉方向。
 
-<DocImage src="/assets/docs/transmission/direction.png" alt="兩個與三個齒輪的旋轉方向" width={375} />
+<DocImage
+  src="/assets/docs/transmission/gear/rotation-direction.png"
+  alt="30 齒、38 齒、30 齒的三個齒輪依序嚙合，分別順時針、逆時針、順時針旋轉。"
+  width={375}
+/>
 
 * **兩個齒輪：** 輸入與輸出方向相反，一個順時針，另一個逆時針。
 * **三個齒輪：** 輸入與輸出方向相同。

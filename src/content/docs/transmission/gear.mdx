@@ -93,7 +93,12 @@ import { BuyButton, DocImage, MathBlock, ProductTable } from '~/components/mdx';
 
 ### 减速比 - 降低转速，增加扭矩
 
-<DocImage src="/assets/docs/transmission/reduction_ratio.png" alt="齿轮 2" width={375} />
+<DocImage
+  src="/assets/docs/transmission/gear/speed-reduction.png"
+  alt="20 齿驱动齿轮带动 60 齿从动齿轮。齿数比为 1:3，输出转速为输入的三分之一，理想输出扭矩为输入的三倍。"
+  localized
+  width={375}
+/>
 
 **什么时候用：** 需要更大的力量
 
@@ -107,7 +112,12 @@ import { BuyButton, DocImage, MathBlock, ProductTable } from '~/components/mdx';
 
 ### 加速比 - 提高转速，减少扭矩
 
-<DocImage src="/assets/docs/transmission/accel_ratio.png" alt="齿轮 3" width={375} />
+<DocImage
+  src="/assets/docs/transmission/gear/speed-increase.png"
+  alt="40 齿驱动齿轮带动 20 齿从动齿轮。齿数比为 2:1，输出转速为输入的两倍，理想输出扭矩为输入的一半。"
+  localized
+  width={375}
+/>
 
 **什么时候用：** 需要更高的最大速度
 
@@ -123,7 +133,11 @@ import { BuyButton, DocImage, MathBlock, ProductTable } from '~/components/mdx';
 
 齿轮还有一个重要作用：改变旋转方向。
 
-<DocImage src="/assets/docs/transmission/direction.png" alt="齿轮 4" width={375} />
+<DocImage
+  src="/assets/docs/transmission/gear/rotation-direction.png"
+  alt="30 齿、38 齿、30 齿的三个齿轮依次啮合，分别顺时针、逆时针、顺时针转动。"
+  width={375}
+/>
 
 * **两个齿轮：** 输入和输出方向相反 (一个顺时针，另一个就逆时针)
 * **三个齿轮：** 输入和输出方向相同

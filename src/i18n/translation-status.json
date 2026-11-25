@@ -246,10 +246,10 @@
     }
   },
   "transmission/gear": {
-    "sourceHash": "2ec01c70a86625c877524918fa1cfb08d1a40ac7ec68e07fdb746f6c8e6930dd",
+    "sourceHash": "67b9519017bea7fa8fcfb9c91acb03eb95b790caf523076297833571e6eda0c4",
     "translationHashes": {
-      "zh-Hant": "6cb2faa8a0be52d1184bdd2086f45123c6a209cd4bb5b420a75ff18f1febf337",
-      "en": "0f1349291357ec6f941ae1e05b0bc5c129bbe53b57fa2458551945766cd22fbc"
+      "zh-Hant": "332debc42b09658d12eff7b64572dc9765c01c5a684cc557781149c384e677b4",
+      "en": "f9ae565cd0c046c29cb59bf6d9ab9daf27f2697174b14c88c5418a994ba3cc85"
     },
     "anchors": {
       "zh-CN": [
