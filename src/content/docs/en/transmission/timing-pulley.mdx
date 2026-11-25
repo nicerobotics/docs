@@ -1,0 +1,97 @@
+---
+title: "Timing Pulleys"
+description: "Learn how timing belt drives work, calculate speed ratio and center distance, and select a NICE HTD 5M timing pulley by tooth count and bore."
+icon: "circle-0"
+sidebar:
+  order: 30
+---
+
+import { DocImage, MathBlock, ProductTable } from '~/components/mdx';
+
+A timing belt transfers rotation from one shaft to another as its teeth engage the grooves in the pulleys. While the teeth stay engaged, the pulley tooth counts determine the speed ratio between the shafts.
+
+On an FRC robot, a timing belt lets you mount a motor beside a roller, link intake rollers that turn in the same direction, or transmit power between shafts spaced farther apart. Leave room for the belt path and tension adjustment when laying out the drive.
+
+## Timing Pulley Dimensions and Terms
+
+<DocImage
+  src="/assets/docs/transmission/timing-pulley/5m-pulley-dimensions.webp"
+  localized
+  alt="Front and side views of the NICE 24T HTD 5M pulley, marking the 1/2 in. hex bore, pitch diameter (PD), flange outside diameter, 12 mm face width, and 16 mm overall width."
+  variant="wide"
+/>
+
+<ProductTable
+  wrap
+  columns={[
+    { key: "parameter", label: "Parameter" },
+    { key: "meaning", label: "Description" },
+  ]}
+  rows={[
+    { parameter: "Tooth profile and pitch", meaning: "HTD is a curvilinear tooth profile. 5M means adjacent teeth are spaced 5 mm apart along the pitch line. Trapezoidal T5 belts also have a 5 mm pitch. Match both the tooth profile and pitch when pairing a belt with a pulley." },
+    { parameter: "Tooth count (z)", meaning: "A 12T pulley has 12 teeth. Use the tooth counts to determine the speed ratio and pitch diameters." },
+    { parameter: "Pitch diameter (PD)", meaning: "The diameter of the theoretical circle traced by the belt's pitch line around the pulley. Multiply the pitch by the tooth count and divide by π." },
+    { parameter: "Outside diameter (OD)", meaning: "The actual diameter at the tops of the pulley teeth. Check the maximum flange diameter separately when checking assembly clearance." },
+    { parameter: "Face Width", meaning: "The axial width of the toothed section between the two flanges." },
+    { parameter: "Overall Width", meaning: "The axial width across the outside edges of the two flanges." },
+    { parameter: "Pitch length (PL)", meaning: "The circumference of an endless timing belt measured along its pitch line. Multiply the belt tooth count by the pitch." },
+  ]}
+/>
+
+## Speed Ratio and Direction of Rotation
+
+Calculate the speed ratio as **driven pulley speed ÷ driving pulley speed = driving pulley tooth count ÷ driven pulley tooth count**.
+
+- **Speed reduction.** A driving 18T pulley and a driven 36T pulley halve the output speed and double the output torque if losses are ignored.
+- **Speed increase.** A driving 36T pulley and a driven 18T pulley double the output speed and halve the output torque if losses are ignored.
+- **Synchronized rotation.** Equal pulley tooth counts give a 1:1 speed ratio. Match the roller diameters as well if the rollers need to have the same surface speed.
+
+In a typical open drive with two pulleys, the shafts are parallel and the belt runs without crossing. Both pulleys rotate in the same direction. If the shafts need to rotate in opposite directions, choose a different drive layout.
+
+## Center Distance and Belt Length
+
+The center distance is the distance between the two shaft axes. When laying out the drive in CAD, choose the two pulley tooth counts and a target center distance. Estimate the belt length, then calculate the center distance for an available belt with a whole number of teeth. The following formula applies to an open drive with two pulleys, parallel shafts, and no idler.
+
+<MathBlock expression={String.raw`L_p \approx 2C + \frac{\pi}{2}(D+d) + \frac{(D-d)^2}{4C}`} />
+
+Here, Lₚ is the belt pitch length, C is the center distance, and D and d are the large and small pulley pitch diameters. All lengths are in mm. A 60-tooth HTD 5M belt has a pitch length of 300 mm. For example, using this belt with 18T and 36T pulleys gives a geometric center distance of approximately 81.2 mm. Verify the final center distance with an exact calculation or in CAD, and allow enough travel to fit and tension the belt.
+
+For belt selection, use the [ReCalc Belt Calculator](https://reca.lc/belts). Select HTD (5 mm) and enter both pulley tooth counts and the target center distance to compare candidate belt tooth counts, center distances, and teeth in mesh.
+
+:::note[Wrap Angle on the Small Pulley]
+The wrap angle is the angle subtended by the arc where the belt contacts the pulley. At the same center distance, a larger difference in pulley size reduces the wrap angle on the small pulley. Estimate the number of teeth in mesh as the small pulley tooth count × wrap angle ÷ 360°. For small pulleys or shock loads, check the belt manufacturer's minimum pulley diameter, teeth-in-mesh requirements, and load ratings.
+:::
+
+## NICE HTD 5M Metal Timing Pulleys
+
+All variants use the **HTD 5M tooth profile** and have flanges on both sides, a **12 mm face width**, and a **16 mm overall width**. The flanges limit axial belt movement. Choose a **1/2 in. hex bore** or a **SplineXS bore** to fit the shaft, then select the tooth count for the desired ratio and available space. Both bores are available in 18T. Check the HTD 5M profile, pitch, belt width, and installation clearance when selecting the belt.
+
+<DocImage
+  src="/assets/docs/transmission/timing-pulley/metal-timing-pulleys.webp"
+  alt="Six NICE HTD 5M metal timing pulleys with hex or SplineXS bores"
+  variant="wide"
+/>
+
+### Specifications
+
+<ProductTable
+  columns={[
+    { key: "sku", label: "SKU" },
+    { key: "weight", label: "Weight" },
+    { key: "bore", label: "Bore" },
+    { key: "teeth", label: "Tooth count", type: "link" },
+    { key: "faceWidth", label: "Face Width" },
+    { key: "overallWidth", label: "Overall Width" },
+    { key: "drawing", label: "Drawing", type: "pdf" },
+    { key: "model", label: "CAD model", type: "step" },
+    { key: "onshape", label: "Onshape", type: "onshape", align: "center" },
+  ]}
+  rows={[
+    { bore: "1/2 in. hex", teeth: { label: "18T", href: "/assets/docs/transmission/timing-pulley/5m-18t-hex.webp" }, faceWidth: "12 mm", overallWidth: "16 mm" },
+    { bore: "1/2 in. hex", teeth: { label: "24T", href: "/assets/docs/transmission/timing-pulley/5m-24t-hex.webp" }, faceWidth: "12 mm", overallWidth: "16 mm" },
+    { bore: "1/2 in. hex", teeth: { label: "36T", href: "/assets/docs/transmission/timing-pulley/5m-36t-hex.webp" }, faceWidth: "12 mm", overallWidth: "16 mm" },
+    { bore: "SplineXS", teeth: { label: "12T", href: "/assets/docs/transmission/timing-pulley/5m-12t-splinexs.webp" }, faceWidth: "12 mm", overallWidth: "16 mm" },
+    { bore: "SplineXS", teeth: { label: "15T", href: "/assets/docs/transmission/timing-pulley/5m-15t-splinexs.webp" }, faceWidth: "12 mm", overallWidth: "16 mm" },
+    { bore: "SplineXS", teeth: { label: "18T", href: "/assets/docs/transmission/timing-pulley/5m-18t-splinexs.webp" }, faceWidth: "12 mm", overallWidth: "16 mm" },
+  ]}
+/>

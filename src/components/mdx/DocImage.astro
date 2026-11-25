@@ -2,6 +2,7 @@
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import sharp from 'sharp';
+import { prefixes, splitPath } from '../../i18n/locales';
 
 interface Props {
 	src: string;
@@ -9,9 +10,15 @@ interface Props {
 	caption?: string;
 	width?: number | string;
 	variant?: 'default' | 'wide' | 'plain';
+	localized?: boolean;
 }
 
-const { src, alt, caption, width, variant = 'default' } = Astro.props;
+const { src, alt, caption, width, variant = 'default', localized = false } = Astro.props;
+const localeDirectory = localized ? prefixes[splitPath(Astro.url.pathname).locale] : '';
+const filenameStart = src.split(/[?#]/, 1)[0].lastIndexOf('/');
+const imageSrc = localeDirectory
+	? `${src.slice(0, filenameStart)}${localeDirectory}${src.slice(filenameStart)}`
+	: src;
 const imageWidth = variant === 'wide' ? 'w-full max-w-full' : 'max-w-[min(100%,23.4375rem)]';
 const background = variant === 'plain' ? 'bg-transparent' : 'bg-white';
 
@@ -27,7 +34,8 @@ async function getLocalImageSize(src: string) {
 	return { width, height };
 }
 
-const size = await getLocalImageSize(src);
+const size = await getLocalImageSize(imageSrc);
+if (localized && !size) throw new Error(`Localized DocImage is missing or has no dimensions: ${imageSrc}`);
 const explicitWidth =
 	typeof width === 'number' ? width : typeof width === 'string' && /^\d+$/.test(width) ? Number(width) : undefined;
 const imageHeight =
@@ -43,7 +51,7 @@ const imageWidthAttr = width ?? size?.width;
 			background,
 			variant === 'plain' ? 'p-0' : 'p-0',
 		]}
-		src={src}
+		src={imageSrc}
 		alt={alt}
 		width={imageWidthAttr}
 		height={imageHeight}

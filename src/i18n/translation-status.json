@@ -18,10 +18,10 @@
     }
   },
   "hardware/bearing-shaft": {
-    "sourceHash": "aec80945b7f860020506a5962ce127bd45cdfc621f75f2f6fdcb2f35c22448c3",
+    "sourceHash": "7941e337ce8294c81184ba856fbce8534518bd7a14ba4b9855a8006d79938f08",
     "translationHashes": {
-      "zh-Hant": "2a7eee516f990193939bc37f9c7b952ba2d1854ea12050be6edcc6f8d1ea5036",
-      "en": "bd14c723cd868610ab58cfb8224af5d788e2a34479739ec720a346e339153faa"
+      "zh-Hant": "6e206979650d0e26740ec8882a70128257e230f0fb90d93649563c9fb41e6118",
+      "en": "aaa498d06828fee4bbd14236f3f3e6b53ae78cede5cae97e7d0f480d643b5bf0"
     },
     "anchors": {
       "zh-CN": [
@@ -147,10 +147,10 @@
     }
   },
   "index": {
-    "sourceHash": "5890d2cd11a569dd6bd086117f740504e6c082d9c03f7c1c8091ce02051b5fd8",
+    "sourceHash": "ccb587c7704d557275e229d0900db750c1838082c9652191b327b6e77777e6b5",
     "translationHashes": {
-      "zh-Hant": "93d32675132c220cec7e7128429ff012d4d26b34076f5e7bded0d6630cbe8a96",
-      "en": "b432b79d3eca4862354b20dc5ad519b1e62fdea980a67a41106fa569dab37272"
+      "zh-Hant": "4a73b436b37e2f3ff6874621cd52527c2567ca60b4dfc95fe7bcd6f8e2dbc2a9",
+      "en": "93205fced7485a7e6fe0b109a60a0bfb9f172740d169b23e19984638c6721cab"
     },
     "anchors": {
       "zh-CN": [
@@ -246,10 +246,10 @@
     }
   },
   "transmission/gear": {
-    "sourceHash": "2ec01c70a86625c877524918fa1cfb08d1a40ac7ec68e07fdb746f6c8e6930dd",
+    "sourceHash": "db5b67391d9da495501c17ed105e22a8e11b7e7649629c9f7fb37617d3452618",
     "translationHashes": {
-      "zh-Hant": "6cb2faa8a0be52d1184bdd2086f45123c6a209cd4bb5b420a75ff18f1febf337",
-      "en": "0f1349291357ec6f941ae1e05b0bc5c129bbe53b57fa2458551945766cd22fbc"
+      "zh-Hant": "7840141332b302eac615ea7d57e01854ff42033d6f936d90755f233ed474616c",
+      "en": "d8724869a509531ce05cf4de8b9929e5fb1a6a0242132491e3087bc27eb05d94"
     },
     "anchors": {
       "zh-CN": [
@@ -260,6 +260,8 @@
         "中心距",
         "余量",
         "齿间距",
+        "10dp-铝制齿轮",
+        "20dp-钢制齿轮",
         "nice-铝制齿轮",
         "非镂空齿轮",
         "镂空齿轮"
@@ -272,6 +274,8 @@
         "中心距",
         "中心距餘量",
         "固定中心距下調整齒輪比",
+        "10dp-鋁合金齒輪",
+        "20dp-鋼製齒輪",
         "nice-鋁合金齒輪",
         "實心腹板齒輪",
         "減重凹槽齒輪"
@@ -284,6 +288,8 @@
         "center-distance",
         "center-distance-allowance",
         "changing-ratios-at-a-fixed-center-distance",
+        "10dp-aluminum-gears",
+        "20dp-steel-gears",
         "nice-aluminum-gears",
         "solid-web-gears",
         "pocketed-gears"
@@ -471,6 +477,60 @@
       "zh-CN": [],
       "zh-Hant": [],
       "en": []
+    }
+  },
+  "structure/elevator": {
+    "sourceHash": "4bea82f8a2184eb1e516ea8aeb4d2f7e10c96d09084fdeedca3bfda5ca5cf3e7",
+    "translationHashes": {
+      "zh-Hant": "67dd53a15f4ddecdbb6ce198e52ef22a9b3cb272eafa307cd3e931335c0b6e1b",
+      "en": "97cb5592b3c1719d93e747ba8962e8fc98d35599ef556711ae7e9351e886773c"
+    },
+    "anchors": {
+      "zh-CN": [
+        "电梯滑块bb",
+        "管内滑轮座",
+        "示例"
+      ],
+      "zh-Hant": [
+        "升降滑塊bb",
+        "管內滑輪座",
+        "範例"
+      ],
+      "en": [
+        "bearing-block-bb",
+        "pulley-block",
+        "examples"
+      ]
+    }
+  },
+  "transmission/timing-pulley": {
+    "sourceHash": "b617ac4bf65714fbaa0b26778c44733f9be83ce7af18121435771dac82ef8c8d",
+    "translationHashes": {
+      "zh-Hant": "6169e9692a9a0f31ae0810a004288dd37debabc470c774b867004f2f9bbe0e63",
+      "en": "20e804813db33a98489c7bfd0ed8bfa588c55fe90db397b5e220dd7c802f4a0e"
+    },
+    "anchors": {
+      "zh-CN": [
+        "同步带轮参数",
+        "传动比和转向",
+        "中心距与带长",
+        "nice-htd-5m-金属同步带轮",
+        "规格"
+      ],
+      "zh-Hant": [
+        "時規皮帶輪參數",
+        "傳動比與轉向",
+        "中心距與帶長",
+        "nice-htd-5m-金屬時規皮帶輪",
+        "規格"
+      ],
+      "en": [
+        "timing-pulley-dimensions-and-terms",
+        "speed-ratio-and-direction-of-rotation",
+        "center-distance-and-belt-length",
+        "nice-htd-5m-metal-timing-pulleys",
+        "specifications"
+      ]
     }
   }
 }

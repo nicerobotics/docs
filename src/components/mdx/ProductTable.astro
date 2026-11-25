@@ -34,9 +34,10 @@ interface NormalizedCell {
 interface Props {
 	columns: Column[];
 	rows: Record<string, CellValue>[];
+	wrap?: boolean;
 }
 
-const { columns, rows } = Astro.props;
+const { columns, rows, wrap = false } = Astro.props;
 
 function cellObject(value: CellValue): NormalizedCell {
 	return typeof value === 'object' && value !== null ? value : { value };
@@ -51,7 +52,10 @@ function alignClass(align?: Align) {
 
 <div class="nice-product-table-frame not-content my-5 max-w-full overflow-hidden rounded-lg border border-[var(--sl-color-gray-5)] bg-[var(--nice-content-bg)]">
 	<div class="max-w-full overflow-x-auto">
-	<table class="nice-product-table m-0 w-max min-w-full border-0 bg-transparent text-sm whitespace-nowrap">
+	<table class:list={[
+		'nice-product-table m-0 border-0 bg-transparent text-sm',
+		wrap ? 'w-full whitespace-normal' : 'w-max min-w-full whitespace-nowrap',
+	]}>
 		<thead class="bg-[#786b67]/[0.08]">
 			<tr>
 				{

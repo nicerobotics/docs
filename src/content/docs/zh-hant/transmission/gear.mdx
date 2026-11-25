@@ -52,13 +52,13 @@ import { BuyButton, DocImage, MathBlock, ProductTable } from '~/components/mdx';
     c0: "齒寬（Face Width）",
     c1: "FW",
     c2: "齒部的寬度",
-    c3: "統一為 9.5mm"
+    c3: "20DP 鋁合金系列：9.5 mm"
   },
   {
     c0: "總寬（Overall Width）",
     c1: "OW",
     c2: "齒輪的整體寬度",
-    c3: "統一為 12.5mm"
+    c3: "20DP 鋁合金系列：12.5 mm"
   },
   {
     c0: "齒頂圓直徑（Outside Diameter）",
@@ -202,11 +202,49 @@ import { BuyButton, DocImage, MathBlock, ProductTable } from '~/components/mdx';
 
 上面兩組齒輪的中心距同為 50.8mm，但齒輪比不同。
 
+## 10DP 鋁合金齒輪
+
+<DocImage src="/assets/docs/transmission/gear/10dp-10t-aluminum-hex.webp" alt="10DP 10T 鋁合金齒輪，1/2″ 六角孔" width={375} />
+
+<ProductTable
+  columns={[
+    { key: "bore", label: "軸孔" },
+    { key: "pitch", label: "徑節" },
+    { key: "teeth", label: "齒數" },
+    { key: "model", label: "模型", type: "step" },
+    { key: "drawing", label: "圖面", type: "pdf" },
+    { key: "onshape", label: "Onshape", type: "onshape", align: "center" },
+  ]}
+  rows={[
+    { bore: "1/2″ 六角孔", pitch: "10DP", teeth: "10T" },
+  ]}
+/>
+
+## 20DP 鋼製齒輪
+
+<DocImage src="/assets/docs/transmission/gear/20dp-16t-steel-hex.webp" alt="20DP 16T 鋼製齒輪，1/2″ 六角孔" width={375} />
+
+<ProductTable
+  columns={[
+    { key: "bore", label: "軸孔" },
+    { key: "pitch", label: "徑節" },
+    { key: "teeth", label: "齒數" },
+    { key: "model", label: "模型", type: "step" },
+    { key: "drawing", label: "圖面", type: "pdf" },
+    { key: "onshape", label: "Onshape", type: "onshape", align: "center" },
+  ]}
+  rows={[
+    { bore: "SplineXS", pitch: "20DP", teeth: "12T" },
+    { bore: "1/2″ 六角孔", pitch: "20DP", teeth: "16T" },
+    { bore: "1/2″ 六角孔", pitch: "20DP", teeth: "18T" },
+  ]}
+/>
+
 ## NICE 鋁合金齒輪
 
 <BuyButton href="https://item.taobao.com/item.htm?id=1008715504499&mi_id=0000PiXYrnKGOqLR31zYdTL_g8kbIzI5KpOxVPvvSTnKGYY&spm=a21xtw.29178619.0.0" />
 
-NICE 齒輪採用以下統一規格：
+以下實心腹板和減重凹槽鋁合金齒輪採用這些規格：
 
 * **徑節：** 20DP
 * **壓力角：** 14.5°
@@ -216,7 +254,7 @@ NICE 齒輪採用以下統一規格：
 
 ### 實心腹板齒輪
 
-<DocImage src="/assets/docs/transmission/20dp.png" alt="NICE 實心腹板鋁合金齒輪" width={375} />
+<DocImage src="/assets/docs/transmission/gear/20dp-24t-aluminum-solid-web-hex.webp" alt="20DP 24T 實心腹板鋁合金齒輪，1/2″ 六角孔" width={375} />
 
 * ½″ 六角孔，相容標準 ½" 六角軸與圓角六角軸
 * 7075-T6 鋁合金，黑色硬質陽極處理
@@ -420,7 +458,7 @@ NICE 齒輪採用以下統一規格：
 
 ### 減重凹槽齒輪
 
-<DocImage src="/assets/docs/transmission/20dp_pocketed.png" alt="NICE 減重凹槽鋁合金齒輪" width={375} />
+<DocImage src="/assets/docs/transmission/gear/20dp-52t-aluminum-pocketed-hex.webp" alt="20DP 52T 減重凹槽鋁合金齒輪，1/2″ 六角孔" width={375} />
 
 40 齒以上的大齒輪另有減重凹槽版本，可在維持強度的同時減輕重量。
 
