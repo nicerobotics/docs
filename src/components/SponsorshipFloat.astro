@@ -28,7 +28,7 @@ const text = campaign.locales[locale];
     </a>
   </details>
 </aside>
-<!-- Leave enough scroll room to lift the final content above the fixed entry. -->
+<!-- Leave room on narrower layouts where the fixed card overlaps the content column. -->
 <div class="sponsorship-reading-space" aria-hidden="true"></div>
 
 <style>
@@ -67,6 +67,9 @@ const text = campaign.locales[locale];
   .sponsorship-toggle:focus-visible, .sponsorship-link:focus-visible { outline: 2px solid #fff; outline-offset: -4px; border-radius: .5rem; }
   .sponsorship-reading-space { height: 20rem; }
   @keyframes sponsorship-polish { to { transform: translateX(70%); } }
+  @media (min-width: 80rem) {
+    .sponsorship-reading-space { display: none; }
+  }
   @media (max-width: 50rem) {
     .sponsorship-float {
       right: max(.75rem, env(safe-area-inset-right));

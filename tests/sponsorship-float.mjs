@@ -100,6 +100,11 @@ try {
         return animations.length === 1 && animations.every((a) => a.effect.getTiming().iterations === Infinity);
       }), 'Metallic sheen should loop');
       await page.evaluate(() => scrollTo(0, document.documentElement.scrollHeight));
+      if (width >= 1280) {
+        assert.ok(await page.locator('.page').evaluate((el) => (
+          Math.abs(el.getBoundingClientRect().bottom - innerHeight) <= 1
+        )), 'Wide pages should stop scrolling at the end of the page frame');
+      }
       const scrolled = await widget.boundingBox();
       assert.ok(Math.abs(scrolled.y - box.y) < 1 && Math.abs(scrolled.x - box.x) < 1, 'Widget moved on scroll');
       assert.ok(await widget.evaluate((el) => {
