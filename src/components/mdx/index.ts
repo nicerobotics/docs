@@ -8,3 +8,4 @@ export { default as ProductTable } from './ProductTable.astro';
 export { default as ResourceLink } from './ResourceLink.astro';
 export { default as SpecList } from './SpecList.astro';
 export { default as SubpageGallery } from './SubpageGallery.astro';
+export { default as ProductConfigurator } from './ProductConfigurator.astro';

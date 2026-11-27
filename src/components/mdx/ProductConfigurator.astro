@@ -1,0 +1,218 @@
+---
+import { ArrowDown, ChevronDown } from '@lucide/astro';
+import { splitPath } from '../../i18n/locales';
+import type { ConfigurationSet } from './configuration';
+
+interface Props { model: ConfigurationSet }
+const { groups, configurations, initial } = Astro.props.model;
+const { locale } = splitPath(Astro.url.pathname);
+const copy = {
+  'zh-CN': { parts: '所需配件', hardware: '轴承与紧固件', guide: '查看此配置的安装步骤' },
+  'zh-Hant': { parts: '所需零件', hardware: '軸承與扣件', guide: '查看此配置的組裝步驟' },
+  en: { parts: 'Required parts', hardware: 'Bearings & fasteners', guide: 'View assembly steps' },
+}[locale];
+---
+<product-configurator class="not-content block" data-configurations={JSON.stringify(configurations)}>
+  <div class="panel">
+    <div class="setup">
+      <div class="stage">
+        <div class="assembly" role="img" aria-label={initial.title}>
+          {configurations.map(c => <img src={c.image} draggable="false" alt="" aria-hidden="true" width="466" height="422" loading="lazy" class:list={{ visible: c === initial }} />)}
+        </div>
+        <strong data-title>{initial.title}</strong>
+      </div>
+      <form class="controls">
+        {groups.map((group, index) => (
+          <fieldset>
+            <legend>{group.label}</legend>
+            <div class="segments">
+              {group.options.map(option => <label>
+                <input type="radio" name={`group-${index}`} value={option.value} checked={option.value === initial.choices[index]} />
+                <span>{option.label}</span>
+              </label>)}
+            </div>
+            {index === 0 && <p data-fit>{initial.fit}</p>}
+          </fieldset>
+        ))}
+        <a data-guide href={initial.guide}>{copy.guide}<ArrowDown size={14} aria-hidden="true" /></a>
+      </form>
+    </div>
+    <div class="bill">
+      <strong class="bill-heading">{copy.parts}</strong>
+      <ul class="parts">
+        {initial.parts.map(line => <li data-slot={line.slot}>
+          <div class="part-image">
+            <span class="part-thumbnail"><img src={line.image} alt="" width="76" height="60" loading="lazy" /></span>
+            <b data-qty>×{line.quantity}</b>
+          </div>
+          <div class="part-name"><strong>{line.name}</strong><span data-detail>{line.detail}</span></div>
+          <span class="sku" data-part>{line.part}</span>
+        </li>)}
+      </ul>
+      <details>
+        <summary>{copy.hardware}<ChevronDown size={16} aria-hidden="true" /></summary>
+        <ul class="hardware">
+          {initial.hardware.map(line => <li data-slot={line.slot}>
+            <span>{line.name}</span><span data-detail>{line.detail || '—'}</span><b data-qty>×{line.quantity}</b>
+          </li>)}
+        </ul>
+      </details>
+    </div>
+  </div>
+  <span class="sr-only" role="status" aria-live="polite" aria-atomic="true" data-announcement></span>
+  <noscript>
+    <style>product-configurator .panel { display: none; }</style>
+    <ul>{configurations.map(c => <li><a href={c.guide}>{c.title}</a> · {c.fit}<br />{c.parts.filter(p => p.quantity).map(p => `${p.name} ${p.part} ×${p.quantity}`).join(' · ')}</li>)}</ul>
+  </noscript>
+</product-configurator>
+
+<script>
+  import type { AssemblyConfiguration } from './configuration';
+
+  class ProductConfigurator extends HTMLElement {
+    connectedCallback() {
+      if (this.dataset.ready) return;
+      const form = this.querySelector('form')!;
+      const configs: AssemblyConfiguration[] = JSON.parse(this.dataset.configurations!);
+      const selection = () => {
+        const values = Array.from(new FormData(form).values());
+        return configs.find(c => c.choices.every((value, i) => value === values[i]))!;
+      };
+      const pictures = this.querySelectorAll<HTMLImageElement>('.assembly img');
+      let current = configs.find((_, i) => pictures[i].classList.contains('visible'))!;
+      const update = () => {
+        const next = selection();
+        if (next === current) return;
+        pictures.forEach((img, i) => img.classList.toggle('visible', configs[i] === next));
+        this.querySelector('.assembly')!.setAttribute('aria-label', next.title);
+        this.querySelector('[data-title]')!.textContent = next.title;
+        this.querySelector('[data-fit]')!.textContent = next.fit;
+        this.querySelector('a[data-guide]')!.setAttribute('href', next.guide);
+        const announcement = [next.title];
+        for (const group of ['parts', 'hardware'] as const) {
+          for (const line of next[group]) {
+            const old = current[group].find(item => item.slot === line.slot)!;
+            const row = this.querySelector<HTMLElement>(`[data-slot="${line.slot}"]`)!;
+            row.dataset.changed = String(old.part !== line.part || old.quantity !== line.quantity);
+            row.querySelector('[data-detail]')!.textContent = line.detail || '—';
+            row.querySelector('[data-qty]')!.textContent = `×${line.quantity}`;
+            if (group === 'parts') {
+              row.querySelector('[data-part]')!.textContent = line.part;
+              if (old.image !== line.image) row.querySelector('img')!.src = line.image!;
+              announcement.push(`${line.name} ${line.part} ×${line.quantity}`);
+            }
+          }
+        }
+        this.querySelector('[data-announcement]')!.textContent = announcement.join(' · ');
+        current = next;
+      };
+      form.addEventListener('change', update);
+      update();
+      this.dataset.ready = 'true';
+    }
+  }
+  if (!customElements.get('product-configurator')) customElements.define('product-configurator', ProductConfigurator);
+</script>
+
+<style>
+  product-configurator {
+    --ink: var(--sl-color-white);
+    --muted: var(--color-gray-600);
+    --line: var(--color-gray-300);
+    --soft: #f6f4f2;
+    --accent: #a73708;
+    --tint: #fff0e7;
+    container-type: inline-size;
+    margin-block: 1rem;
+    line-height: 1.45;
+    color: var(--ink);
+  }
+  :global([data-theme='dark']) product-configurator {
+    --muted: #c6bfba; --line: #494442; --soft: #292725; --accent: #ffac87; --tint: #452c21;
+  }
+  .panel { border: 1px solid var(--line); border-radius: .6rem; overflow: hidden; background: var(--nice-content-bg); }
+  .setup { display: grid; grid-template-columns: 1.08fr 1fr; }
+  .stage {
+    position: relative; isolation: isolate; display: grid; grid-template-rows: 1fr auto; margin: 0; padding: 1rem 1.2rem;
+    background: radial-gradient(ellipse at 48% 44%, #fcfaf7 0%, #eeeae5 80%);
+    color: #332f2c; border-inline-end: 1px solid var(--line);
+  }
+  :global([data-theme='dark']) .stage {
+    background: radial-gradient(ellipse at 48% 44%, #67635e 0%, #403d39 84%); color: #f7f4f0;
+  }
+  .assembly { position: relative; width: 100%; height: 13.3rem; align-self: center; isolation: isolate; -webkit-user-select: none; user-select: none; }
+  .assembly img {
+    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; opacity: 0; mix-blend-mode: plus-lighter;
+    pointer-events: none; -webkit-user-drag: none; transition: opacity 260ms ease-in-out;
+  }
+  .assembly .visible { opacity: 1; }
+  [data-title] { font-size: 1rem; letter-spacing: -.015em; }
+  .controls { display: grid; align-content: center; gap: 1.1rem; padding: 1.25rem clamp(1rem, 3cqi, 1.65rem); }
+  fieldset { margin: 0; padding: 0; min-width: 0; border: 0; }
+  legend, .bill-heading { padding: 0; font-size: .95rem; font-weight: 650; }
+  .segments { display: flex; padding: 3px; margin-top: .4rem; border-radius: .44rem; background: var(--soft); border: 1px solid var(--line); }
+  .segments label { position: relative; flex: 1; min-width: 0; cursor: pointer; }
+  .segments input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .segments span {
+    display: grid; place-items: center; min-height: 2.15rem; padding-inline: .3rem; font-size: .9rem; font-weight: 550;
+    border: 1px solid transparent; border-radius: .28rem; transition: background 160ms ease, color 160ms ease;
+  }
+  .segments label:hover span { background: var(--nice-content-bg); }
+  .segments input:checked + span { background: var(--tint); border-color: var(--sl-color-accent); color: var(--accent); font-weight: 700; }
+  .segments :focus-visible + span, summary:focus-visible, a:focus-visible { outline: 2px solid var(--sl-color-accent); outline-offset: 2px; }
+  [data-fit] { margin: .38rem 0 0; font-size: .78rem; color: var(--muted); }
+  [data-guide] { display: inline-flex; width: fit-content; align-items: center; gap: .35rem; color: var(--accent); font-size: .83rem; font-weight: 600; text-decoration: none; }
+  [data-guide]:hover { text-decoration: underline; }
+  .bill { border-top: 1px solid var(--line); padding: 1rem 1.2rem 0; }
+  .parts, .hardware { list-style: none; margin: 0; padding: 0; }
+  .parts { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); margin-block: .8rem 1rem; }
+  .parts li { display: flex; flex-direction: column; align-items: start; padding-inline: .9rem; }
+  .parts li:first-child { padding-inline-start: 0; }
+  .parts li + li { border-inline-start: 1px solid var(--line); }
+  .part-image { display: flex; align-items: center; gap: .8rem; margin-bottom: .3rem; }
+  .part-thumbnail { display: block; width: 4.2rem; height: 3.3rem; padding: .2rem; border-radius: .32rem; background: var(--soft); }
+  .part-thumbnail img { display: block; width: 100%; height: 100%; object-fit: contain; }
+  :global([data-theme='dark']) .part-thumbnail { background: #514d48; }
+  [data-qty] { font-size: .8rem; font-variant-numeric: tabular-nums; }
+  .part-name { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: .35rem; }
+  .part-name strong { font-size: .88rem; }
+  [data-detail], .sku { font-size: .75rem; color: var(--muted); }
+  .sku { font-family: var(--sl-font-mono, monospace); margin-block: .15rem; }
+  [data-changed='true'] [data-qty] { color: var(--accent); }
+  details { border-top: 1px solid var(--line); }
+  summary { display: flex; align-items: center; justify-content: space-between; cursor: pointer; padding-block: .72rem; list-style: none; font-size: .85rem; font-weight: 600; }
+  summary::-webkit-details-marker { display: none; }
+  details[open] summary svg { transform: rotate(180deg); }
+  .hardware { padding-bottom: .7rem; }
+  .hardware li { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: center; text-align: center; font-size: .8rem; padding: .26rem 0; }
+  @container (max-width: 34rem) {
+    .setup { grid-template-columns: 1fr; }
+    .stage { border-inline-end: 0; border-bottom: 1px solid var(--line); padding: .8rem 1rem; }
+    .assembly { height: 10.75rem; }
+    .controls { grid-template-columns: 1.15fr 1fr; align-items: start; gap: .7rem; padding: .9rem 1rem; }
+    [data-guide] { grid-column: 1 / -1; }
+    .bill { padding: .9rem 1rem 0; }
+    .parts { display: block; margin-block: .3rem .65rem; }
+    .parts li, .parts li:first-child {
+      display: grid; grid-template-columns: 2.65rem minmax(0,1fr); align-items: center;
+      gap: 0 .65rem; position: relative; padding: .48rem 2.4rem .48rem 0;
+    }
+    .parts li + li { border-inline-start: 0; border-top: 1px solid var(--line); }
+    .part-image { grid-row: 1 / 3; margin: 0; }
+    .part-thumbnail { width: 2.65rem; height: 2.5rem; }
+    .part-image [data-qty] { position: absolute; right: 0; }
+    .part-name { grid-column: 2; }
+    .sku { grid-column: 2; white-space: nowrap; font-size: .7rem; }
+  }
+  @container (max-width: 20rem) {
+    .controls { grid-template-columns: 1fr; }
+    .parts li, .parts li:first-child { grid-template-columns: 2.3rem 1fr; }
+  }
+  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    .assembly { transition: transform 220ms ease-out; }
+    .assembly:hover { transform: scale(1.06); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .assembly img, .segments span { transition: none; }
+  }
+</style>

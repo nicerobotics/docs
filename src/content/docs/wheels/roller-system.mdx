@@ -7,7 +7,9 @@ sidebar:
 ---
 
 
-import { BuyButton, DocImage, ProductTable, SubpageGallery } from '~/components/mdx';
+import { BuyButton, DocImage, ProductTable, ProductConfigurator } from '~/components/mdx';
+
+import { rollerConfigurations } from '~/content/docs/_data/roller-configurations';
 
 import { Tabs, TabItem } from '@astrojs/starlight/components';
 
@@ -31,29 +33,7 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 ### 配置
 
-<DocImage src="/assets/docs/wheels/RollerSystem.png" alt="滚轴系统 13" variant="wide" />
-
-滚轴塞适配两种规格的滚筒，_**Φ35mm\*Φ31mm**_（NICE-07-05-001）、_**Φ50mm\*Φ46mm**_（NICE-07-05-002）。滚轴皮带轮统一为22T，并可根据设计需要选择堆叠数量。
-
-<SubpageGallery
-  items={[
-  {
-    href: "/wheels/roller-system/#%E5%8D%95%E6%BB%9A%E8%BD%B4%E5%A1%9E",
-    image: "/assets/docs/wheels/HUBonly.png",
-    title: "单滚轴塞"
-  },
-  {
-    href: "/wheels/roller-system/#%E6%BB%9A%E8%BD%B4%E5%A1%9E%E6%BB%9A%E8%BD%B4%E5%90%8C%E6%AD%A5%E5%B8%A6%E8%BD%AE",
-    image: "/assets/docs/wheels/SinglePulley.png",
-    title: "滚轴塞+滚轴同步带轮"
-  },
-  {
-    href: "/wheels/roller-system/#%E6%BB%9A%E8%BD%B4%E5%A1%9E%E5%8F%8C%E6%BB%9A%E8%BD%B4%E5%90%8C%E6%AD%A5%E5%B8%A6%E8%BD%AE",
-    image: "/assets/docs/wheels/DoublePulley.png",
-    title: "滚轴塞+双滚轴同步带轮"
-  }
-]}
-/>
+<ProductConfigurator model={rollerConfigurations("zh-CN")} />
 
 ### 组件清单
 
@@ -90,12 +70,12 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
     c2: "2"
   },
   {
-    c0: "M322 圆头内六角螺丝",
+    c0: "M3*22 圆头内六角螺丝",
     c1: "单滚轴皮带轮用",
     c2: "4"
   },
   {
-    c0: "M335 圆头内六角螺丝",
+    c0: "M3*35 圆头内六角螺丝",
     c1: "双滚轴皮带轮用",
     c2: "4"
   }
@@ -133,12 +113,12 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
     c2: "2"
   },
   {
-    c0: "M322 圆头内六角螺丝",
+    c0: "M3*22 圆头内六角螺丝",
     c1: "单滚轴皮带轮用",
     c2: "4"
   },
   {
-    c0: "M335 圆头内六角螺丝",
+    c0: "M3*35 圆头内六角螺丝",
     c1: "双滚轴皮带轮用",
     c2: "4"
   }
@@ -203,7 +183,7 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
     c2: "1"
   },
   {
-    c0: "M545 圆头内六角螺丝",
+    c0: "M5*45 圆头内六角螺丝",
     c1: "适用单滚轴塞",
     c2: "1"
   },
@@ -246,7 +226,7 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
     c2: "1"
   },
   {
-    c0: "M560 杯头内六角螺丝",
+    c0: "M5*60 杯头内六角螺丝",
     c1: "适用 滚轴塞+单滚轴同步带轮",
     c2: "1"
   },
@@ -289,7 +269,7 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
     c2: "1"
   },
   {
-    c0: "M580 杯头内六角螺丝",
+    c0: "M5*80 杯头内六角螺丝",
     c1: "适用 滚轴塞+双滚轴同步带轮",
     c2: "1"
   },

@@ -50,6 +50,46 @@ for page_id, status in STATUS.items():
                     assert unquote(parsed.fragment) in target_ids, (path, href, 'broken section link')
 print(f'Static audit: all {len(STATUS) * len(PREFIX)} pages, resources, internal links, anchors, canonical and hreflang passed.', flush=True)
 
+def check_roller_configurator(page):
+    panel = page.locator('product-configurator')
+    groups = panel.get_by_role('group')
+    previous_diameter = 31
+    for diameter, count in [(31, 0), (46, 0), (46, 2), (31, 2), (31, 1), (46, 1), (46, 2), (46, 1)]:
+        group = groups.nth(0 if diameter != previous_diameter else 1)
+        value = diameter if diameter != previous_diameter else count
+        group.locator(f'label:has(input[value="{value}"])').click()
+        picture = panel.locator('.assembly .visible')
+        assert picture.get_attribute('src').endswith(f'/assembly-{diameter}-{count}.webp')
+        picture.evaluate('(image) => image.decode()')
+        assert picture.evaluate('(image) => image.draggable') is False
+        tube_od = 35 if diameter == 31 else 50
+        fit = panel.locator('[data-fit]').inner_text()
+        assert f'{tube_od} mm' in fit and '2 mm' in fit and ('壁厚' in fit or 'wall' in fit)
+        plug_code = '001' if diameter == 31 else '002'
+        for slot, code, qty in [('plug', plug_code, 1), ('pulley', '003', count), ('shaft', f'{count+4:03d}', 1)]:
+            row = panel.locator(f'[data-slot="{slot}"]')
+            assert row.locator('[data-part]').inner_text() == 'NICE-07-05-' + code
+            assert row.locator('[data-qty]').inner_text() == f'×{qty}'
+        if count == 0:
+            tiles = panel.locator('.part-thumbnail').evaluate_all(
+                """els => els.map(el => [getComputedStyle(el).backgroundColor, getComputedStyle(el).opacity,
+                    getComputedStyle(el.querySelector('img')).opacity])"""
+            )
+            assert len(tiles) == 3 and tiles[0] == tiles[1] == tiles[2]
+            assert tiles[0][0] != 'rgba(0, 0, 0, 0)' and tiles[0][1:] == ['1', '1']
+        changed = {'plug'} if diameter != previous_diameter else {'pulley', 'shaft', 'shaft-screw', 'mounting-screws'}
+        assert set(panel.locator('[data-changed="true"]').evaluate_all('(rows) => rows.map(r => r.dataset.slot)')) == changed
+        bill = panel.locator('.bill').text_content()
+        for label in ('移除', '更换', '更換', '未使用', '增加', '新增', '沿用', 'Remove', 'Replace', 'Not used', 'Add', 'Keep'):
+            assert label not in bill, (diameter, count, label)
+        screws = panel.locator('[data-slot="mounting-screws"]')
+        assert screws.locator('[data-detail]').text_content() == ['—', 'M3*22', 'M3*35'][count]
+        assert screws.locator('[data-qty]').text_content() == ('×4' if count else '×0')
+        assert panel.locator('[data-slot="shaft-screw"] [data-detail]').text_content() == ['M5*45', 'M5*60', 'M5*80'][count]
+        anchor = panel.locator('[data-guide]').get_attribute('href')[1:]
+        assert page.locator('h4').evaluate_all('(els, id) => els.some(el => el.id === id)', anchor)
+        previous_diameter = diameter
+
 with sync_playwright() as p:
     browser = p.chromium.launch(channel=os.environ.get('NICE_BROWSER_CHANNEL', 'chrome'), headless=True)
     page_errors = []
@@ -181,6 +221,8 @@ with sync_playwright() as p:
                         for href in page.locator('#starlight__sidebar a').evaluate_all('(els)=>els.map(a=>a.getAttribute("href"))'):
                             assert href.startswith(prefix+'/'+path.strip('/').split('/')[0]+'/'), (lang,path,href)
                         page.locator('starlight-menu-button button').click()
+                    if path=='/wheels/roller-system/' and width==1440 and theme=='light':
+                        check_roller_configurator(page)
                     if path=='/wheels/roller-system/' and width==390:
                         assert '**' not in page.locator('.sl-markdown-content').inner_text(), 'unparsed Markdown emphasis'
                         page.screenshot(path=str(OUT/f'{lang}-{width}-{theme}-roller.png'))

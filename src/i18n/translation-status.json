@@ -363,10 +363,10 @@
     }
   },
   "wheels/roller-system": {
-    "sourceHash": "fe00a4b4563f790a3ee7425a5615462f4d7ecfeebee8e6412fa39c4d9ef10176",
+    "sourceHash": "7a8ec1d8dc82645691581856af940dc33a41539a77b54c8a1611cd512a6fd95b",
     "translationHashes": {
-      "zh-Hant": "3c1ab3a13a7db9f776930a33004d874da5cf3e0974ce003702926874fdd58062",
-      "en": "4e5d8e8d8045fbc3bd81e81eb2d7e409c4b64d511d85ffe80379b707c90c6809"
+      "zh-Hant": "75e66ebac79c39d6809b1581da0038d2e61a042f35e6dd8c6447f57657d712a7",
+      "en": "99ef85ef58a0529bf4f8cfe4668b5e6b6a7f29141ff39608ef588be1acd5aa91"
     },
     "anchors": {
       "zh-CN": [

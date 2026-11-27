@@ -7,7 +7,9 @@ sidebar:
 ---
 
 
-import { BuyButton, DocImage, ProductTable, SubpageGallery } from '~/components/mdx';
+import { BuyButton, DocImage, ProductTable, ProductConfigurator } from '~/components/mdx';
+
+import { rollerConfigurations } from '~/content/docs/_data/roller-configurations';
 
 import { Tabs, TabItem } from '@astrojs/starlight/components';
 
@@ -31,29 +33,7 @@ The NICE Roller System is a modular solution for FRC intakes, indexers, and shoo
 
 ### Configurations
 
-<DocImage src="/assets/docs/wheels/RollerSystem.png" alt="Roller system configurations" variant="wide" />
-
-End plugs fit two roller tube sizes: _**Φ35mm\*Φ31mm**_ (NICE-07-05-001) and _**Φ50mm\*Φ46mm**_ (NICE-07-05-002). All roller pulleys have 22T and can be stacked to suit the drive layout.
-
-<SubpageGallery
-  items={[
-  {
-    href: "/wheels/roller-system/#end-plug-only",
-    image: "/assets/docs/wheels/HUBonly.png",
-    title: "End Plug Only"
-  },
-  {
-    href: "/wheels/roller-system/#end-plug--one-timing-pulley",
-    image: "/assets/docs/wheels/SinglePulley.png",
-    title: "End Plug + One Timing Pulley"
-  },
-  {
-    href: "/wheels/roller-system/#end-plug--two-timing-pulleys",
-    image: "/assets/docs/wheels/DoublePulley.png",
-    title: "End Plug + Two Timing Pulleys"
-  }
-]}
-/>
+<ProductConfigurator model={rollerConfigurations("en")} />
 
 ### Components
 
@@ -90,12 +70,12 @@ End plugs fit two roller tube sizes: _**Φ35mm\*Φ31mm**_ (NICE-07-05-001) and _
     c2: "2"
   },
   {
-    c0: "M322 button head hex socket screw",
+    c0: "M3*22 button head hex socket screw",
     c1: "For a single roller pulley",
     c2: "4"
   },
   {
-    c0: "M335 button head hex socket screw",
+    c0: "M3*35 button head hex socket screw",
     c1: "For two roller pulleys",
     c2: "4"
   }
@@ -133,12 +113,12 @@ End plugs fit two roller tube sizes: _**Φ35mm\*Φ31mm**_ (NICE-07-05-001) and _
     c2: "2"
   },
   {
-    c0: "M322 button head hex socket screw",
+    c0: "M3*22 button head hex socket screw",
     c1: "For a single roller pulley",
     c2: "4"
   },
   {
-    c0: "M335 button head hex socket screw",
+    c0: "M3*35 button head hex socket screw",
     c1: "For two roller pulleys",
     c2: "4"
   }
@@ -203,7 +183,7 @@ End plugs fit two roller tube sizes: _**Φ35mm\*Φ31mm**_ (NICE-07-05-001) and _
     c2: "1"
   },
   {
-    c0: "M545 button head hex socket screw",
+    c0: "M5*45 button head hex socket screw",
     c1: "For end plug only",
     c2: "1"
   },
@@ -246,7 +226,7 @@ End plugs fit two roller tube sizes: _**Φ35mm\*Φ31mm**_ (NICE-07-05-001) and _
     c2: "1"
   },
   {
-    c0: "M560 socket head cap screw",
+    c0: "M5*60 socket head cap screw",
     c1: "For end plug + one timing pulley",
     c2: "1"
   },
@@ -289,7 +269,7 @@ End plugs fit two roller tube sizes: _**Φ35mm\*Φ31mm**_ (NICE-07-05-001) and _
     c2: "1"
   },
   {
-    c0: "M580 socket head cap screw",
+    c0: "M5*80 socket head cap screw",
     c1: "For end plug + two timing pulleys",
     c2: "1"
   },
